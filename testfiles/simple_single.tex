@@ -1,0 +1,142 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage{ucs}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{listings}
+
+\usepackage[german]{babel}
+\usepackage[T1]{fontenc}
+
+\lstset{language=bash, title=[CODEAUSSCHNITT], numbers=left, basicstyle=\footnotesize}
+
+\newcommand{\doppelt}[2]{\textit{\textbf{#1}} \texttt{#2}}
+
+
+\author{Olaf Radicke}
+\title{Einfaches LaTeX-Dokument}
+
+
+\begin{document}
+
+\maketitle
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Vorwort mit Index}
+
+In der Mathematik drücken Klammern unter anderem einen Vorrang einer
+auszuführenden Rechenoperation vor anderen in der Rechenreihenfolge aus. Zum
+Beispiel ist das Ergebnis\index{Ergebnis} von 10 − (6 − 1) gleich 5, da
+die Rechnung innerhalb\index{innerhalb}
+der Klammer zuerst ausgeführt wird, 10 − 6 − 1 ist dagegen gleich 3, da in
+diesem Fall von links nach rechts vorgegangen wird.
+
+\begin{lstlisting}
+    # set fstyp-handler
+    echo '[ -e $NEWROOT/proc ]' > $hookdir/initqueue/finished/osrroot.sh
+
+    # Handler
+    inst_simple "$moddir/osr-detect-root.sh" "/sbin/osrroot"
+\end{lstlisting}
+
+
+In der höheren Mathematik
+dienen Klammern auch noch vielen anderen Zwecken, vor allem der Bezeichnung
+von Argumenten einer Funktion. Geschweifte, eckige und spitze Klammern haben
+in der Mathematik meist eine spezielle Bedeutung.
+
+\section{Hauptteil mit Quwerverweiß}
+
+In der Mathematik werden Klammern ebenfalls meist paarig eingesetzt, wobei
+öffnende und schließende Klammer jeweils zueinander spiegelsymmetrisch sind.
+Es existieren jedoch Ausnahmen, etwa bei Intervallklammern und auch einzelne,
+nicht paarige Klammern werden bisweilen verwendet.
+
+Siehe auch: Kapitel \ref{sec:quell} Seite \pageref{sec:quell}
+
+\subsection{Funktionsargumente mit Auflistung}
+
+Normalerweise werden Argumente von Funktionen in runde Klammern gesetzt,
+gelegentlich auch in spitze, um eine bessere Unterscheidbarkeit zu
+gruppierenden Klammern zu ermöglichen (f ist eine Funktion, g eine Variable):
+
+\begin{itemize}
+ \item \verb|<|moddir\verb|>| /issue nach /etc
+ \item \verb|<|moddir\verb|>|/shinit.sh nach /sbin
+ \item \verb|<|moddir\verb|>|/lib/boot-lib.sh nach /lib/osr
+ \item \verb|<|moddir\verb|>|/lib/defaults.sh nach /lib/osr
+ \item \verb|<|moddir\verb|>|/lib/repository-lib.sh nach /lib/osr
+ \item \verb|<|moddir\verb|>|/lib/rootfs-lib.sh nach /lib/osr
+ \item \verb|<|moddir\verb|>|/lib/shinit.sh nach /lib/osr
+ \item \verb|<|moddir\verb|>|/lib/std-lib.sh nach /lib/osr
+\end{itemize}
+
+\subsection{Satzzeichen nit Tabelle}
+
+Die durch die Satzzeichen bewirkte Strukturierung hilft, den gewünschten
+Sprech- oder Atemrhythmus der gesprochenen Rede auf Papier festzuhalten,
+ohne den das Gesprochene wie eine schlechte Automatenstimme klingen würde.
+
+\begin{tabular}{|l|l|l|}
+ \hline
+\textbf{Hook} & \textbf{Priorität} & \textbf{Script} \\ \hline
+netroot  & 11 & osr-detect-chroot.sh \\ \hline
+netroot  & 50 & osr-mount-chroot.sh \\ \hline
+pre-udev & 51 & osr-move-chroot.sh \\ \hline
+\end{tabular}
+
+\subsection{Definition}
+
+
+\begin{description}
+\item[Hook:] emergency
+\item[Priorität:] 1
+\end{description}
+
+\section{Nachwort mit eigenen Komando}
+
+Beginnent mit \doppelt{eins}{zwei} und endent mit Drei....
+
+Die heutigen Satzzeichen gehen im Wesentlichen auf den venezianischen Drucker
+Aldus Manutius den Älteren (1450–1515) zurück. Der Erfinder der Kursivschrift
+(ihrer Herkunft wegen im Englischen als Italics bezeichnet) druckte in Pietro
+Bembos 1494 erschienenem Werk De Aetna das erste Semikolon und standardisierte,
+gefolgt von seinem gleichnamigen Enkel, die Satzzeichen: Die Virgel begann
+damals so auszusehen wie das heutige Komma. Hatte die Zeichensetzung bis dahin
+den Zweck, für das Vorlesen aus Büchern Hinweise auf Tonfall und Atempausen zu
+geben, so hielt Aldus Manutius der Jüngere 1566 fest, Zweck der Interpunktion
+sei hauptsächlich, Klarheit in die Syntax zu bringen.
+
+
+Die Setzung von Satzzeichen ist oft auch für die Vermittlung des gewünschten
+Inhalts wichtig. Die nachfolgende frei erfundene Anekdote verdeutlicht dies:
+Vor langer langer Zeit gab es einen Bösewicht, der hingerichtet werden sollte.
+Man schickte nach dem König. Er hatte das Recht inne, den Delinquenten zu
+begnadigen. Ein Bote kam vom König mit folgender Botschaft zurück: „Ich
+komme nicht köpfen!“. Nur, wo sollte man das Komma setzen? „Ich komme, nicht
+köpfen!“ oder „Ich komme nicht, köpfen!“? Sogar ohne Komma ergibt der Satz
+einen Sinn, auch wenn ein König damit sicher den Befehl an seinen Henker
+gemeint hätte.
+
+
+\section{Quellen- und Literaturangaben}
+\label{sec:quell}
+
+\begin{itemize}
+ \item fedora-Projekt: \url{http://fedoraproject.org/wiki/Dracut}
+ \item Projektseite: \url{https://dracut.wiki.kernel.org/}
+ \item News: \url{http://git.kernel.org/?p=boot/dracut/dracut.git;a=blob_plain;f=NEWS}
+\end{itemize}
+
+
+
+\end{document}

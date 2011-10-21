@@ -69,6 +69,7 @@ clean:
 	$(RM) -r .$(BUILDDIR)
 	$(RM) -f $(YYCCODE)
 	$(RM) -f $(OBJECTS)
+	$(RM) -f $(PROGNAME)
 
 # creake a bz2-achiv
 archive: ../$(PROGNAME)-$(VERSION).tar.bz2
