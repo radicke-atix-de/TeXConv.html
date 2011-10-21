@@ -10,7 +10,7 @@ LEX     = flex
 LFLAGS  = -d -v
 YACC    = bison -y
 YFLAGS  = -d
-TMPCPP = latex2html.yy.cpp
+YYCPP = latex2html.yy.cpp
 #objects = scan.o parse.o myprogram.o
 
 
@@ -20,7 +20,7 @@ TMPCPP = latex2html.yy.cpp
 all: dist
 
 # create distrebut-build
-dist: AUTHORS $(TMPCPP)
+dist: AUTHORS $(YYCPP)
 	mkdir .$(BUILDDIR)
 	mkdir $(OUTPUT_BUILD)
 	#cp ./GPL*.txt $(OUTPUT_BUILD)
@@ -37,7 +37,8 @@ AUTHORS:
 
 
 latex2html.yy.cpp: $(LEXSOURCE)/latex2html.l
-	$(LEX) $(LFLAGS) $(LEXSOURCE)/latex2html.l -o /latex2html.yy.cpp
+	$(LEX) $(LFLAGS)  -o $@ $^
+
 
 
 
@@ -56,7 +57,7 @@ clean:
 	#rm -f *~
 	#rm -f *.rpm
 	$(RM) -r .$(BUILDDIR)
-	$(RM) -f $(TMPCPP)
+	$(RM) -f $(YYCPP)
 
 # creake a bz2-achiv
 archive: ../$(PROGNAME)-$(VERSION).tar.bz2
