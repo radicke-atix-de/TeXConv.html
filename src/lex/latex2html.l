@@ -13,6 +13,7 @@ int open_curly_brackets = 0;
 
 word        [a-zA-Z][a-zA-Z0-9_!.:;,-?=/]*
 white       [ \t]+
+comment     %[a-zA-Z0-9_!.:;,-?=/]*\n
 
 %%
 "("             {
@@ -48,11 +49,14 @@ white       [ \t]+
 "\end{lstlisting}"
 "\begin{tabular}"
 "\end{tabular}"
+"%"
 
   /* single commands */
 {word}          { }
   /* {word}          { std::cout << "Das Wort: " << yytext  << std::endl;} */
 {white}     { /* We ignore white characters */ }
+
+{comment}    { /* We ignore comments */ }
 
 
 "\\hline"           {}
