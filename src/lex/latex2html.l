@@ -13,7 +13,7 @@ int open_curly_brackets = 0;
 
 word        [a-zA-Z][a-zA-Z0-9_!.:;,-?=/]*
 white       [ \t]+
-comment     %[a-zA-Z0-9_!.:;,-?=/]*\n
+comment     %.*\n
 
 %%
 "("             {
@@ -56,7 +56,7 @@ comment     %[a-zA-Z0-9_!.:;,-?=/]*\n
   /* {word}          { std::cout << "Das Wort: " << yytext  << std::endl;} */
 {white}     { /* We ignore white characters */ }
 
-{comment}    { /* We ignore comments */ }
+{comment}    { std::cout << "comment: " << yytext  << std::endl; }
 
 
 "\\hline"           {}
