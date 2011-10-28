@@ -1,14 +1,14 @@
-%option prefix="html"
+%option prefix="newcom"
 %option noyywrap
 %option c++
 %{
 #include <iostream>
   /* "("  */
-int html_open_round_brackets = 0;
+int newcom_open_round_brackets = 0;
   /* "["  */
-int html_open_square_brackets = 0;
+int newcom_open_square_brackets = 0;
   /* "{"  */
-int html_open_curly_brackets = 0;
+int newcom_open_curly_brackets = 0;
 %}
 
 word        [a-zA-Z][a-zA-Z0-9_!.:;,-?=/]*
@@ -17,25 +17,25 @@ comment     %.*\n
 
 %%
 "("             {
-                  html_open_round_brackets++;
+                  newcom_open_round_brackets++;
                   std::cout << "Klammer auf" << std::endl;
                 }
 ")"             {
-                  html_open_round_brackets--;
-                  std::cout << "Klammer zu. Rest:" << html_open_round_brackets << std::endl;
+                  newcom_open_round_brackets--;
+                  std::cout << "Klammer zu. Rest:" << newcom_open_round_brackets << std::endl;
                 }
 "["             {
-                  html_open_square_brackets++; std::cout << "Klammer auf" << std::endl;
+                  newcom_open_square_brackets++; std::cout << "Klammer auf" << std::endl;
                 }
 "]"             {
-                  html_open_square_brackets--;std::cout << "Klammer zu" << std::endl;
+                  newcom_open_square_brackets--;std::cout << "Klammer zu" << std::endl;
                 }
 "{"             {
-                  html_open_curly_brackets++; std::cout << "Klammer auf" << std::endl;
+                  newcom_open_curly_brackets++; std::cout << "Klammer auf" << std::endl;
                 }
 "}"             {
-                  html_open_curly_brackets--;
-                  std::cout << "Klammer zu. Rest: " << html_open_curly_brackets << std::endl;
+                  newcom_open_curly_brackets--;
+                  std::cout << "Klammer zu. Rest: " << newcom_open_curly_brackets << std::endl;
                 }
 
 
