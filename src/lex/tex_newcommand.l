@@ -35,7 +35,8 @@ comment     %.*\n
                 }
 "}"             {
                   newcom_open_curly_brackets--;
-                  std::cout << "Klammer zu. Rest: " << newcom_open_curly_brackets << std::endl;
+                  std::cout << "Klammer zu. Rest: " << newcom_open_curly_brackets <<
+                  std::endl;
                 }
 
 

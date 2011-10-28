@@ -39,11 +39,11 @@ AUTHORS:
 	git shortlog  --numbered --summary -e | while read a rest; do echo $$rest;done > ./AUTHORS
 
 
-$(PROGNAME) : $(OBJECTS)
+$(PROGNAME) : latex2html.o tex_newcommand.o main.o 
 	$(CC) -o $@  $(LDFLAGS) $^
 
 
-main.o: $(SOURCE)
+main.o: ./src/main.cpp
 	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ -c $^
 
 
@@ -55,11 +55,12 @@ tex_newcommand.o: tex_newcommand.yy.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ -c $^
 
 
+latex2html.yy.c: $(LEXSOURCE)/latex2html.l
+	$(LEX) $(LFLAGS)  -o $@ $^
+
 tex_newcommand.yy.c : $(LEXSOURCE)/tex_newcommand.l
 	$(LEX) $(LFLAGS)  -o $@ $^
 
-latex2html.yy.c: $(LEXSOURCE)/latex2html.l
-	$(LEX) $(LFLAGS)  -o $@ $^
 
 
 
