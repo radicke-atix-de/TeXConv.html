@@ -1,2 +1,19 @@
+Subect
+======
 Tool for covert LaTeX to HTML.
-Lizenz: GPLv3
+
+Lizenz
+======
+GPLv3
+
+Installation
+============
+Us the make-command for compiling the code. You need the tools: 
+- make 
+- flex 
+- gcc-c++
+
+
+Using
+=====
+texconv [input tex file] [output file name]
