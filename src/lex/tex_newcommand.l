@@ -40,17 +40,9 @@ comment     %.*\n
                 }
 
 
-"\begin{description}"
-"\end{description}"
-"\begin{document}"
-"\end{document}"
-"\begin{itemize}"
-"\end{itemize}"
-"\begin{lstlisting}"
-"\end{lstlisting}"
-"\begin{tabular}"
-"\end{tabular}"
-"%"
+"#[0-9]"        {
+                  std::cout << "Platzhalter gefunden: " << yytext << std::endl;
+                }
 
   /* single commands */
 {word}          { }
@@ -60,28 +52,8 @@ comment     %.*\n
 {comment}    { std::cout << "comment: " << yytext  << std::endl; }
 
 
-"\\hline"           {}
-"\\index"           {}
-"\\item"            {}
-"\\label"           {}
-"\maketitle"        {}
-"\n"                {}
-"\\newpage"     {
-                  std::cout << "---- Neue Seite!! ----" << std::endl;
-                }
-"\\pageref"         {}
-"\\ref"             {}
-"\\subsubsection"   {}
-"\\subsection"      {}
-"\\section"         {}
-"\\subsection"      {}
-"\\tableofcontents" {}
-"&"                 {}
-"\\\\"              {}
-"--"                {}
-"\\-"               {}
-"\\&"               {}
-"|"                 {}
+"\\newcommand"      {}
+"\#"      {}
 %%
 
 

@@ -39,17 +39,17 @@ comment     %.*\n
                 }
 
 
-"\begin{description}"
-"\end{description}"
-"\begin{document}"
-"\end{document}"
-"\begin{itemize}"
-"\end{itemize}"
-"\begin{lstlisting}"
-"\end{lstlisting}"
-"\begin{tabular}"
-"\end{tabular}"
-"%"
+"\begin{description}"   {}
+"\end{description}"     {}
+"\begin{document}"      {}
+"\end{document}"        {}
+"\begin{itemize}"       {}
+"\end{itemize}"         {}
+"\begin{lstlisting}"    {}
+"\end{lstlisting}"      {}
+"\begin{tabular}"       {}
+"\end{tabular}"         {}
+"\%"                    {}
 
   /* single commands */
 {word}          { }
@@ -59,7 +59,7 @@ comment     %.*\n
 {comment}    { std::cout << "comment: " << yytext  << std::endl; }
 
 
-"\\hline"           {}
+"\\hline"           { std::cout << "comment: " << yytext  << std::endl; }
 "\\index"           {}
 "\\item"            {}
 "\\label"           {}
