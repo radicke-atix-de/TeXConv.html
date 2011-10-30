@@ -3,6 +3,9 @@
 %option c++
 %{
 #include <iostream>
+#include <fstream>
+
+
   /* "("  */
 int newcom_open_round_brackets = 0;
   /* "["  */

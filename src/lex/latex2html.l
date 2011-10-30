@@ -3,6 +3,21 @@
 %option c++
 %{
 #include <iostream>
+#include <fstream>
+
+
+
+std::ofstream html_file ("texconv_html.tmp");
+  /* file open for writeing 
+if (html_file.is_open())
+{
+//         html_file << "This is a line.\n";
+//         html_file << "This is another line.\n";
+}else{
+    std::cout << "Unable to open file" << std::endl;
+    return 0;
+}*/
+
   /* "("  */
 int html_open_round_brackets = 0;
   /* "["  */
@@ -12,7 +27,8 @@ int html_open_curly_brackets = 0;
 %}
 
 word        [a-zA-Z][a-zA-Z0-9_!.:;,-?=/]*
-white       [ \t]+
+  /* white       [ \t]+ */
+white       [:blank:]*
 comment     %.*\n
 
 %%
@@ -52,11 +68,11 @@ comment     %.*\n
 "\%"                    {}
 
   /* single commands */
-{word}          { }
+{word}      { html_file <<  YYText(); }
   /* {word}          { std::cout << "Das Wort: " << yytext  << std::endl;} */
-{white}     { /* We ignore white characters */ }
+{white}     { html_file << " "; }
 
-{comment}    { std::cout << "comment: " << yytext  << std::endl; }
+{comment}   { std::cout << "comment: " << yytext  << std::endl; }
 
 
 "\\hline"           { std::cout << "comment: " << yytext  << std::endl; }
