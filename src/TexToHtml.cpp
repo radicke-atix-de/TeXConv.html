@@ -41,6 +41,11 @@ void TexToHtml::htmlLexer(void)
     htmlFlexLexer htmlLexer( &tex_file_tmp);
     htmlLexer.yylex();
     
+    
+    
+    
+    
+    
     // file open for writeing
     std::ofstream html_file (outputFileName.c_str());
     if (html_file.is_open())
@@ -51,6 +56,22 @@ void TexToHtml::htmlLexer(void)
         std::cout << "Unable to open file" << std::endl;
         return;
     }    
+    
+    
+    // open file to read...
+    std::ifstream html_file_tmp(tmpFileName.c_str());
+    if (html_file_tmp.is_open())
+    {
+        while ( html_file_tmp.good() )
+        {
+            std::string line;
+            getline (html_file_tmp,line);
+            html_file << line << std::endl;
+        }
+    }else{
+        std::cout << "couldn't open temp for writting\n" << std::endl;
+        return;
+    }
     
     tex_file_tmp.close();
     html_file.close();
@@ -134,7 +155,8 @@ void TexToHtml::start(void)
 // T ==========================================================================
 
 TexToHtml::TexToHtml(void):
-        tmpFileName("texconv.tmp")
+        tmpFileName("texconv.tmp"),
+        tmpHtmlFileName("texconv.html.tmp")
 {
 
 };

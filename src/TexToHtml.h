@@ -16,6 +16,7 @@ private:
     std::string inputFileName;
     std::string outputFileName;
     std::string tmpFileName;
+    std::string tmpHtmlFileName;
     void newcommandLexer(void);
     void htmlLexer(void);
     void openTexFile(void);

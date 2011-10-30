@@ -7,7 +7,7 @@
 
 
 
-std::ofstream html_file ("texconv_html.tmp");
+std::ofstream html_file ("texconv.html.tmp");
   /* file open for writeing 
 if (html_file.is_open())
 {
