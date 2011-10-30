@@ -15,7 +15,7 @@ YFLAGS  = -d
 
 YYCCODE = latex2html.yy.c tex_newcommand.yy.c
 SOURCE = ./src/main.cpp
-OBJECTS = latex2html.o main.o tex_newcommand.o
+OBJECTS = latex2html.o main.o tex_newcommand.o TexToHtml.o
 
 
 
@@ -39,11 +39,14 @@ AUTHORS:
 	git shortlog  --numbered --summary -e | while read a rest; do echo $$rest;done > ./AUTHORS
 
 
-$(PROGNAME) : latex2html.o tex_newcommand.o main.o 
+$(PROGNAME) : $(OBJECTS)
 	$(CC) -o $@  $(LDFLAGS) $^
 
 
 main.o: ./src/main.cpp
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ -c $^
+
+TexToHtml.o: ./src/TexToHtml.cpp
 	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ -c $^
 
 
