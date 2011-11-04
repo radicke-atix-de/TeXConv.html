@@ -7,15 +7,10 @@ BUILDDIR=/BUILD
 OUTPUT_BUILD = .$(BUILDDIR)/$(PROGNAME)-$(VERSION)
 LEXSOURCE=./src/lex
 CC = g++
-LEX     = flex
-LFLAGS  = -d -v -+
 CFLAGS  =
-YACC    = bison -y
-YFLAGS  = -d
 
-YYCCODE = latex2html.yy.c tex_newcommand.yy.c
 SOURCE = ./src/main.cpp
-OBJECTS = latex2html.o main.o tex_newcommand.o TexToHtml.o
+OBJECTS =  main.o  TexToHtml.o
 
 
 
@@ -49,20 +44,6 @@ main.o: ./src/main.cpp
 TexToHtml.o: ./src/TexToHtml.cpp
 	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ -c $^
 
-
-latex2html.o: latex2html.yy.c
-	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ -c $^
-
-
-tex_newcommand.o: tex_newcommand.yy.c
-	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ -c $^
-
-
-latex2html.yy.c: $(LEXSOURCE)/latex2html.l
-	$(LEX) $(LFLAGS)  -o $@ $^
-
-tex_newcommand.yy.c : $(LEXSOURCE)/tex_newcommand.l
-	$(LEX) $(LFLAGS)  -o $@ $^
 
 
 

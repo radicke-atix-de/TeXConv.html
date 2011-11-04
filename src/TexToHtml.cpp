@@ -4,13 +4,6 @@
 #include <fstream>
 #include <string>
 
-#undef yyFlexLexer
-#define yyFlexLexer newcomFlexLexer
-#include <FlexLexer.h>
-
-#undef yyFlexLexer
-#define yyFlexLexer htmlFlexLexer
-#include <FlexLexer.h>
 
 
 // H ==========================================================================
@@ -34,18 +27,6 @@ void TexToHtml::htmlLexer(void)
         return;
     }
 
-
-
-//     FlexLexer htmlLexer( &tex_file_tmp,  &html_file);
-//     htmlFlexLexer htmlLexer( &tex_file_tmp,  &errFStrem);
-    htmlFlexLexer htmlLexer( &tex_file_tmp);
-    htmlLexer.yylex();
-    
-    
-    
-    
-    
-    
     // file open for writeing
     std::ofstream html_file (outputFileName.c_str());
     if (html_file.is_open())
@@ -111,14 +92,6 @@ void TexToHtml::newcommandLexer(void)
         return;
     }
 
-
-
- 
-  
-  
-    newcomFlexLexer comLexer; //( &tex_file,  &tmp_file);
-    comLexer.switch_streams( &tex_file);
-    comLexer.yylex();
     tmp_file.close();
    
 };
