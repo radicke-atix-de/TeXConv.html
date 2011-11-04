@@ -4,11 +4,17 @@ VERSION=dev
 PROGNAME=texconv
 
 BUILDDIR=/BUILD
-OUTPUT_BUILD = .$(BUILDDIR)/$(PROGNAME)-$(VERSION)ls
+OUTPUT_BUILD = .$(BUILDDIR)/$(PROGNAME)-$(VERSION)
 CC = g++
-CPPFLAGS = -Wall -Werror -pedantic  -lboost_regex
+CPPFLAGS = -Wall -Werror -pedantic 
 
+#LIBS = -L/usr/lib/  -lboost_regex
+#LIBS = -L/usr/lib/libboost_regex.so.1.46.0
+#LIBS += -L/usr/lib/libboost_regex-mt.so.1.46.0
+#LIBS += -L/usr/lib/
 LIBS = -L/usr/lib/
+LIBS += -L/usr/include/
+
 
 SOURCE = ./src/main.cpp
 OBJECTS =  main.o  TexParser.o
@@ -36,7 +42,7 @@ AUTHORS:
 
 
 $(PROGNAME) : $(OBJECTS)
-	$(CC) -o $@  $^
+	$(CC) -o $@  $^ $(LIBS)
 
 
 main.o: ./src/main.cpp

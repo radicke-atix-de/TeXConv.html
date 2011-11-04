@@ -2,8 +2,9 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <regex.h>
 #include <boost/regex.hpp>
-#include <boost/config.hpp>
+//#include <boost/config.hpp>
 
 
 #include "TexParser.h"
