@@ -60,13 +60,18 @@ uninstall:
 
 
 # cleaning the build-tmp-files
-clean:
+clean-all:
 	$(RM) -f *~
 	#rm -f *.rpm
 	$(RM) -r .$(BUILDDIR)
-	$(RM) -f $(YYCCODE)
 	$(RM) -f $(OBJECTS)
 	$(RM) -f $(PROGNAME)
+
+
+# cleaning the build-tmp-files
+clean:
+	#rm -f *.rpm
+	$(RM) -r .$(BUILDDIR)
 
 # creake a bz2-achiv
 archive: ../$(PROGNAME)-$(VERSION).tar.bz2
