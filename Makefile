@@ -6,7 +6,9 @@ PROGNAME=texconv
 BUILDDIR=/BUILD
 OUTPUT_BUILD = .$(BUILDDIR)/$(PROGNAME)-$(VERSION)ls
 CC = g++
-CFLAGS  =
+CPPFLAGS = -Wall -Werror -pedantic  -lboost_regex
+
+LIBS = -L/usr/lib/
 
 SOURCE = ./src/main.cpp
 OBJECTS =  main.o  TexParser.o
@@ -34,15 +36,15 @@ AUTHORS:
 
 
 $(PROGNAME) : $(OBJECTS)
-	$(CC) -o $@  $(LDFLAGS) $^
+	$(CC) -o $@  $^
 
 
 main.o: ./src/main.cpp
-	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ -c $^
+	$(CC) $(CPPFLAGS)  -o $@ -c $^ $(LIBS)
 
 
 TexParser.o: ./src/TexParser.cpp
-	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ -c $^
+	$(CC) $(CPPFLAGS)  -o $@ -c $^ $(LIBS)
 
 
 
