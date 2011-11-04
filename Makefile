@@ -8,12 +8,7 @@ OUTPUT_BUILD = .$(BUILDDIR)/$(PROGNAME)-$(VERSION)
 CC = g++
 CPPFLAGS = -Wall -Werror -pedantic 
 
-#LIBS = -L/usr/lib/  -lboost_regex
-#LIBS = -L/usr/lib/libboost_regex.so.1.46.0
-#LIBS += -L/usr/lib/libboost_regex-mt.so.1.46.0
-#LIBS += -L/usr/lib/
-#LIBS = -L/usr/lib/
-#LIBS += -L/usr/include/ 
+
 LIBS = -lboost_regex
 
 
