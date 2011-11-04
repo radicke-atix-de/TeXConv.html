@@ -4,13 +4,12 @@ VERSION=dev
 PROGNAME=texconv
 
 BUILDDIR=/BUILD
-OUTPUT_BUILD = .$(BUILDDIR)/$(PROGNAME)-$(VERSION)
-LEXSOURCE=./src/lex
+OUTPUT_BUILD = .$(BUILDDIR)/$(PROGNAME)-$(VERSION)ls
 CC = g++
 CFLAGS  =
 
 SOURCE = ./src/main.cpp
-OBJECTS =  main.o  TexToHtml.o
+OBJECTS =  main.o  TexParser.o
 
 
 
@@ -41,7 +40,8 @@ $(PROGNAME) : $(OBJECTS)
 main.o: ./src/main.cpp
 	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ -c $^
 
-TexToHtml.o: ./src/TexToHtml.cpp
+
+TexParser.o: ./src/TexParser.cpp
 	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ -c $^
 
 
