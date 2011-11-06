@@ -23,18 +23,25 @@ void TexParser::pars()
 
 std::string TexParser::parsDocument(void)
 {
-// test...............
-
-    boost::regex pattern ("b.lug",boost::regex_constants::icase|boost::regex_constants::perl);
-    std::string stringa ("Searching for bolug");
-    std::string replace ("BgLug");
+    // More detais to boost::regex see: 
+    // http://www.boost.org/doc/libs/1_47_0/libs/regex/doc/html/boost_regex/syntax/basic_syntax.html
+    // It is in use a case sensitive POSIX-Basic expression. The POSIX-Basic 
+    // regular expression syntax is used by the Unix utility sed, and 
+    // variations are used by grep and emacs. 
+    boost::regex pattern ("[^\\]%*\\n",boost::regex::basic);
+    std::string stringa = TexParser::completeDoc;
+    std::string replace ("");
     std::string newString;
 
     newString = boost::regex_replace (stringa, pattern, replace);
+   
 
+    std::cerr << "###############################################" << std::endl;
     printf("The new string is: |%s|\n",newString.c_str());
+    std::cerr << "###############################################" << std::endl;
 
- // test end...............
+    // TODO: lösung. zeile für Zeile nach "%" suchen und ab dar Abschneiden,
+    // wenn index minus 1 nicht "\" ist...
  
     size_t found_begin = TexParser::completeDoc.find("\\begin{document}");
     size_t found_end = TexParser::completeDoc.find("\\end{document}");
