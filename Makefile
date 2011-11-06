@@ -5,6 +5,9 @@ PROGNAME=texconv
 
 BUILDDIR=/BUILD
 OUTPUT_BUILD = .$(BUILDDIR)/$(PROGNAME)-$(VERSION)
+DOCS=./docs
+
+CP=cp
 CC = g++
 CPPFLAGS = -Wall -Werror -pedantic 
 
@@ -22,13 +25,14 @@ OBJECTS =  main.o  TexParser.o
 all: dist
 
 # create distrebut-build
-dist: AUTHORS $(PROGNAME)
+dist: $(DOCS) AUTHORS $(PROGNAME)
 	mkdir .$(BUILDDIR)
 	mkdir $(OUTPUT_BUILD)
-	#cp ./GPL*.txt $(OUTPUT_BUILD)
-	cp ./README* $(OUTPUT_BUILD)
-	cp ./Makefile $(OUTPUT_BUILD)
-	cp ./AUTHORS $(OUTPUT_BUILD)
+	#$(CP) ./GPL*.txt $(OUTPUT_BUILD)
+	$(CP) ./README* $(OUTPUT_BUILD)
+	$(CP) ./Makefile $(OUTPUT_BUILD)
+	$(CP) ./AUTHORS $(OUTPUT_BUILD)
+	$(CP) -r $(DOCS)  $(OUTPUT_BUILD)
 	#cp ./COPYING $(OUTPUT_BUILD)
 
 
@@ -50,9 +54,6 @@ TexParser.o: ./src/TexParser.cpp
 
 
 
-
-
-
 # Install all dracut modules
 install:
 	echo "yet does not implement"
@@ -70,6 +71,7 @@ clean-all:
 	$(RM) -r .$(BUILDDIR)
 	$(RM) -f $(OBJECTS)
 	$(RM) -f $(PROGNAME)
+	$(RM) -r $(DOCS)
 
 
 # cleaning the build-tmp-files
@@ -93,6 +95,9 @@ tar: dist
 rpm: tar
 	#rpmbuild -v \
 	#-ba ${PROGNAME}.spec
+
+$(DOCS): 
+	doxygen ./Doxyfile
 
 
 

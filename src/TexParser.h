@@ -31,6 +31,14 @@ private:
     std::string completeDoc;
 
     // Methods
+    
+     /**
+    * search and remove Tex-comments in String.
+    * @param  line Sting with coment (or not).
+    * @return Return a Stnin without comments.
+    */   
+    std::string findAndRemoveComments(const std::string &read_line);    
+    
     /**
     * Tread the imput file and copy to propertie completeDoc.
     */
@@ -40,6 +48,7 @@ private:
     * It's pars the Tex document and get back the value of "document".
     */
     std::string parsDocument(void);
+
 };
 
 #endif 

@@ -10,8 +10,9 @@ Installation
 ============
 Us the make-command for compiling the code. You need the tools: 
 - make 
-- flex 
+- boost-devel
 - gcc-c++
+- doxygen
 
 
 Using
