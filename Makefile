@@ -6,6 +6,7 @@ PROGNAME=texconv
 BUILDDIR=/BUILD
 OUTPUT_BUILD = .$(BUILDDIR)/$(PROGNAME)-$(VERSION)
 DOCS=./docs
+TESTFILES=./testfiles
 
 CP=cp
 CC = g++
@@ -72,6 +73,11 @@ clean-all:
 	$(RM) -f $(OBJECTS)
 	$(RM) -f $(PROGNAME)
 	$(RM) -r $(DOCS)
+	$(RM) -r ./*.aux
+	$(RM) -r ./*.out
+	$(RM) -r ./*.pdf
+	$(RM) -r ./*.toc
+	$(RM) -r ./*.log
 
 
 # cleaning the build-tmp-files
@@ -98,6 +104,9 @@ rpm: tar
 
 $(DOCS): 
 	doxygen ./Doxyfile
+
+tex-test:
+	pdflatex $(TESTFILES)/simple_single.tex
 
 
 
