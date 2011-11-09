@@ -1,0 +1,21 @@
+\section {Tex-Include}
+
+\verb|\include|
+
+The \\include command is used in conjunction with the \\includeonly command for
+selective inclusion of files. The file argument is the first name of a file,
+denoting FILE.TEX. If file is one the file names in the file list of the
+\\includeonly command or if there is no \\includeonly command, the \\include
+command is equivalent to
+
+\begin{verbatim}
+\clearpage \input{file} \clearpage
+\end{verbatim} 
+
+
+except that if the file FILE.TEX does not exist, then a warning message
+rather than an error is produced. If the file is not in the file list, the
+\include command is equivalent to \clearpage.
+
+The \include command may not appear in the preamble or in a file read by
+another \include command.

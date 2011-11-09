@@ -106,7 +106,8 @@ $(DOCS):
 	doxygen ./Doxyfile
 
 tex-test:
-	pdflatex $(TESTFILES)/simple_single.tex
+	pdflatex $(TESTFILES)/simple_tex_document.tex
+	pdflatex $(TESTFILES)/simple_tex_document.tex
 
 
 
