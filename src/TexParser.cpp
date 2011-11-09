@@ -2,7 +2,6 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <regex.h>
 #include <boost/regex.hpp>
 
 
@@ -13,7 +12,7 @@
 
 std::string TexParser::findAndRemoveComments(const std::string &read_line)
 {
-    return TexParser::findAndRemoveCommentsBoost(read_line);
+    return TexParser::findAndRemoveCommentsSTD(read_line);
 }
 
 std::string TexParser::findAndRemoveCommentsBoost(const std::string &read_line)
@@ -23,7 +22,12 @@ std::string TexParser::findAndRemoveCommentsBoost(const std::string &read_line)
     // It is in use a case sensitive POSIX-Basic expression. The POSIX-Basic 
     // regular expression syntax is used by the Unix utility sed, and 
     // variations are used by grep and emacs. 
-    boost::regex pattern ("[^\\]%*\\n",boost::regex::basic);
+
+    boost::regex pattern
+    (
+        "(^\\(.*\\)[^\\\\]*%.*$)|(/^\\(.*\\)[^\\\\]*%.*$)",
+        boost::regex::basic
+    );
     std::string replace ("");
     return boost::regex_replace (read_line, pattern, replace);
 }    
@@ -80,8 +84,6 @@ std::string TexParser::findAndRemoveCommentsSTD(const std::string &read_line)
     }while( true );
     // no more  '%' found. Get back all.
     return line;
-    
-    return "";
 }
 
 // P =========================================================================
@@ -99,7 +101,6 @@ void TexParser::pars()
 
 std::string TexParser::parsDocument(void)
 {
- 
     size_t found_begin = TexParser::completeDoc.find("\\begin{document}");
     size_t found_end = TexParser::completeDoc.find("\\end{document}");
     if (found_begin!=std::string::npos || found_end!=std::string::npos)
