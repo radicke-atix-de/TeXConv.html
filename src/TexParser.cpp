@@ -11,11 +11,28 @@
 // F =========================================================================
 
 
-
 std::string TexParser::findAndRemoveComments(const std::string &read_line)
 {
+    return TexParser::findAndRemoveCommentsBoost(read_line);
+}
+
+std::string TexParser::findAndRemoveCommentsBoost(const std::string &read_line)
+{
+    // More detais to boost::regex see: 
+    // http://www.boost.org/doc/libs/1_47_0/libs/regex/doc/html/boost_regex/syntax/basic_syntax.html
+    // It is in use a case sensitive POSIX-Basic expression. The POSIX-Basic 
+    // regular expression syntax is used by the Unix utility sed, and 
+    // variations are used by grep and emacs. 
+    boost::regex pattern ("[^\\]%*\\n",boost::regex::basic);
+    std::string replace ("");
+    return boost::regex_replace (read_line, pattern, replace);
+}    
+
+
+std::string TexParser::findAndRemoveCommentsSTD(const std::string &read_line)
+{
     std::string line = read_line;
-    std::cout << "line: " << line << std::endl;
+//     std::cout << "line: " << line << std::endl;
     if( line.size() == 0 )
     {
         return "";
@@ -24,40 +41,40 @@ std::string TexParser::findAndRemoveComments(const std::string &read_line)
     if(found_index == std::string::npos)
     {
         // no '%' found. Get back all.
-        std::cout << "Kein % gefunden! in: \n " << line  << std::endl;
+//         std::cout << "Kein % gefunden! in: \n " << line  << std::endl;
         return line;
     }    
-    std::cout << "found_index: " << found_index << std::endl;
-    std::cout << "line.size(): " << line.size() << std::endl;
+//     std::cout << "found_index: " << found_index << std::endl;
+//     std::cout << "line.size(): " << line.size() << std::endl;
     if( found_index == 0)
     {
         // is on the begin of the line.
-        std::cout << "% am Anfang gefunden." << std::endl;
+//         std::cout << "% am Anfang gefunden." << std::endl;
         return "";        
     }
     if( line.at(found_index -1) != '\\')
     {
-        std::cout << "line.at(found_index -1): " << line.at(found_index -1) << std::endl;
-        std::cout << "Unmaskiertes % gefunden!" <<  std::endl;
+//         std::cout << "line.at(found_index -1): " << line.at(found_index -1) << std::endl;
+//         std::cout << "Unmaskiertes % gefunden!" <<  std::endl;
         return line.substr( 0, found_index );
     }    
 
     do
     {
-        std::cout << "Maskiertes % gefunden!" <<  std::endl;
+//         std::cout << "Maskiertes % gefunden!" <<  std::endl;
         found_index = line.find("%", (found_index + 1));
-        std::cout << "found_index: " << found_index << std::endl;
+//         std::cout << "found_index: " << found_index << std::endl;
         if(found_index != std::string::npos)
         {
             if( line[(found_index -1)] != '\\')
             {
-                std::cout << "Unmaskiertes % gefunden!" <<  std::endl;
+//                 std::cout << "Unmaskiertes % gefunden!" <<  std::endl;
                 line = line.substr( 0, found_index );
                 break;
             } 
         } else 
         {
-            std::cout << "Kein weiteren % gefunden!" <<  std::endl;
+//             std::cout << "Kein weiteren % gefunden!" <<  std::endl;
             break;
         }
     }while( true );
@@ -82,25 +99,6 @@ void TexParser::pars()
 
 std::string TexParser::parsDocument(void)
 {
-    // More detais to boost::regex see: 
-    // http://www.boost.org/doc/libs/1_47_0/libs/regex/doc/html/boost_regex/syntax/basic_syntax.html
-    // It is in use a case sensitive POSIX-Basic expression. The POSIX-Basic 
-    // regular expression syntax is used by the Unix utility sed, and 
-    // variations are used by grep and emacs. 
-//     boost::regex pattern ("[^\\]%*\\n",boost::regex::basic);
-//     std::string stringa = TexParser::completeDoc;
-//     std::string replace ("");
-//     std::string newString;
-// 
-//     newString = boost::regex_replace (stringa, pattern, replace);
-//    
-// 
-//     std::cerr << "###############################################" << std::endl;
-//     printf("The new string is: |%s|\n",newString.c_str());
-//     std::cerr << "###############################################" << std::endl;
-
-    // TODO: lösung. zeile für Zeile nach "%" suchen und ab dar Abschneiden,
-    // wenn index minus 1 nicht "\" ist...
  
     size_t found_begin = TexParser::completeDoc.find("\\begin{document}");
     size_t found_end = TexParser::completeDoc.find("\\end{document}");
@@ -134,7 +132,6 @@ void TexParser::readImputFile()
             getline (tex_file,line);
             std::cout << "return: " << TexParser::findAndRemoveComments(line) << std::endl;;
             TexParser::completeDoc.append( TexParser::findAndRemoveComments(line) );
-//             TexParser::completeDoc.append(line);
             TexParser::completeDoc.append("\n");
         }
     }else{

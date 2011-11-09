@@ -32,12 +32,29 @@ private:
 
     // Methods
     
-     /**
+    /**
     * search and remove Tex-comments in String.
+    * It's a wraper class.
     * @param  line Sting with coment (or not).
     * @return Return a Stnin without comments.
     */   
-    std::string findAndRemoveComments(const std::string &read_line);    
+    std::string findAndRemoveComments(const std::string &read_line); 
+    
+    /**
+    * search and remove Tex-comments in String.
+    * This function us boost-lib.
+    * @param  line Sting with coment (or not).
+    * @return Return a Stnin without comments.
+    */      
+    std::string findAndRemoveCommentsBoost(const std::string &read_line);
+    
+        /**
+    * search and remove Tex-comments in String.
+    * This function us std::string-lib.
+    * @param  line Sting with coment (or not).
+    * @return Return a Stnin without comments.
+    */      
+    std::string findAndRemoveCommentsSTD(const std::string &read_line);
     
     /**
     * Tread the imput file and copy to propertie completeDoc.
