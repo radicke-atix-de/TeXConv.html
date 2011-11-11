@@ -90,10 +90,6 @@ rpm: tar
 $(DOCS): 
 	doxygen ./Doxyfile
 
-tex-test:
-	pdflatex $(TESTFILES)/simple_tex_document.tex
-	pdflatex $(TESTFILES)/simple_tex_document.tex
-
 # Install all dracut modules
 install:
 	echo "yet does not implement"
@@ -102,9 +98,14 @@ install:
 uninstall:
 	echo "yet does not implement"
 
-test:
+# simple function check of bin-file.
+bin-test:
 	./texconv --input=./testfiles/simple_tex_document.tex --output=./muell.html
 
+# test the LateX exsample
+tex-test:
+	pdflatex $(TESTFILES)/simple_tex_document.tex
+	pdflatex $(TESTFILES)/simple_tex_document.tex
 
 
 
