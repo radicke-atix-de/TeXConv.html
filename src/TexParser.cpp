@@ -10,21 +10,27 @@
 
 // B =========================================================================
 
-void TexParser::cutOfBeginEnd(TexDocElement &element, std::string keyWord)
+void TexParser::cutOutBeginEnd
+(
+    TexDocElement &element, 
+    std::string keyWord,
+    const int& typ
+)
 {
     std::string texSubstring;
     std::string texElementValue = element.getTexElementValue();
-    size_t searchBegin = texElementValue.begin();
-    size_t found_end =  texElementValue.begin();
+    size_t      searchBegin     = 0;
+    size_t      found_end       = std::string::npos;
+    size_t      found_begin     = std::string::npos;
 
     while ( true)
     {
-        size_t found_begin = texElementValue.find
+        found_begin = texElementValue.find
         (
             ("\\begin{" + keyWord + "}"),
             searchBegin
         );
-        size_t found_end = texElementValue.find
+        found_end = texElementValue.find
         (
             ("\\end{" + keyWord + "}"),
             found_begin
@@ -44,10 +50,9 @@ void TexParser::cutOfBeginEnd(TexDocElement &element, std::string keyWord)
         }
         TexDocElement metaElement;
         // TODU
-        metaElement.setTexElementTyp( TexDocElement::METADATA );
+        metaElement.setTexElementTyp( typ );
         metaElement.setTexElementValue( texSubstring );
-        std::cout << "document_metadata: " << document_metadata << std::endl;
-        element.push_back(metaElement);
+        element.texDocElementsList.push_back(metaElement);
 
     }
 
