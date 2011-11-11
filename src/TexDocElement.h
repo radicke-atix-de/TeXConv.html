@@ -54,13 +54,11 @@ public:
     
     /**
     * get the typ of element.
-    * @param typ an string of typ name.
     */
     int getTexElementTyp();
     
     /**
     * get the value of element.
-    * @param typ an string of typ name.
     */
     std::string getTexElementValue();
     
