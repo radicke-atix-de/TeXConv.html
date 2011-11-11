@@ -6,6 +6,7 @@
 
 
 #include "TexParser.h"
+#include "TexDocElement.h"
 
 // F =========================================================================
 
@@ -91,31 +92,48 @@ std::string TexParser::findAndRemoveCommentsSTD(const std::string &read_line)
 void TexParser::pars()
 {
     TexParser::readImputFile();
-//     std::cout << TexParser::completeDoc << std::endl;
-    std::cout << "================================= ERGEBNIS ================" << std::endl;   
-    std::cout << TexParser::parsDocument() << std::endl;
-    
+    TexParser::parsDocument();
     return;
-
 }
 
-std::string TexParser::parsDocument(void)
+void TexParser::parsDocument(void)
 {
+    std::string text_document = "";
+    std::string document_metadata = "";
+    
     size_t found_begin = TexParser::completeDoc.find("\\begin{document}");
     size_t found_end = TexParser::completeDoc.find("\\end{document}");
     if (found_begin!=std::string::npos || found_end!=std::string::npos)
     {
+        // cut metadata.
+        document_metadata = TexParser::completeDoc.substr
+        (
+            0,
+            found_begin
+        );
+        // cut netto document.
         found_begin += std::string("\\begin{document}").length();
-        return TexParser::completeDoc.substr
+        text_document = TexParser::completeDoc.substr
         (
             found_begin,
             (found_end - found_begin)
         );
+
+        
     }else
     {
         std::cerr << "[201111062044] No begin or end of document found." << std::endl;
         throw;
     }
+    TexDocElement metaElement;
+    metaElement.setTexElementTyp( TexDocElement::METADATA );
+    metaElement.setTexElementValue( document_metadata );
+    TexParser::rootElement.texDocElementsList.push_back(metaElement);
+    
+    TexDocElement docElement;
+    docElement.setTexElementTyp( TexDocElement::DOCUMENT );
+    docElement.setTexElementValue( text_document );
+    TexParser::rootElement.texDocElementsList.push_back(docElement);
 }
 
 // R ==========================================================================
@@ -131,7 +149,7 @@ void TexParser::readImputFile()
         {
             std::string line;
             getline (tex_file,line);
-            std::cout << "return: " << TexParser::findAndRemoveComments(line) << std::endl;;
+//             std::cout << "return: " << TexParser::findAndRemoveComments(line) << std::endl;;
             TexParser::completeDoc.append( TexParser::findAndRemoveComments(line) );
             TexParser::completeDoc.append("\n");
         }
@@ -156,7 +174,8 @@ void TexParser::setInputFileName(std::string fileName)
 
 TexParser::TexParser()
 {
-    // pass
+    TexParser::rootElement = TexDocElement();
+    TexParser::rootElement.setTexElementTyp( TexDocElement::ROOTELEMENT );
 }
 
 TexParser::~TexParser()

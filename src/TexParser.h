@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "TexDocElement.h"
+
 class TexParser
 {
 public:
@@ -30,6 +32,11 @@ private:
     */
     std::string completeDoc;
 
+    /**
+    * This ist the root element.
+    */
+    TexDocElement rootElement;
+
     // Methods
     
     /**
@@ -56,16 +63,17 @@ private:
     * @return Return a Stnin without comments.
     */      
     std::string findAndRemoveCommentsSTD(const std::string &read_line);
+
+    /**
+    * It's pars the Tex document and get back the value of "document".
+    */
+    void parsDocument(void);
     
     /**
     * Tread the imput file and copy to propertie completeDoc.
     */
     void readImputFile(void);
-    
-    /**
-    * It's pars the Tex document and get back the value of "document".
-    */
-    std::string parsDocument(void);
+
 
 };
 

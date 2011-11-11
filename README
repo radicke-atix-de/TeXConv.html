@@ -17,4 +17,6 @@ Us the make-command for compiling the code. You need the tools:
 
 Using
 =====
-texconv [input tex file] [output file name]
+texconv --input=[input tex file] --output=[output file name]
+exsample:
+./texconv --input=./testfiles/simple_tex_document.tex --output=./muell.html

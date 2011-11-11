@@ -17,7 +17,7 @@ LIBS = -lboost_regex
 
 
 SOURCE = ./src/main.cpp
-OBJECTS =  main.o  TexParser.o
+OBJECTS =  main.o TexDocElement.o TexParser.o
 
 
 
@@ -45,25 +45,19 @@ AUTHORS:
 $(PROGNAME) : $(OBJECTS)
 	$(CC) -o $@  $^ $(LIBS)
 
-
 main.o: ./src/main.cpp
 	$(CC) $(CPPFLAGS)  -o $@ -c $^ $(LIBS)
-
 
 TexParser.o: ./src/TexParser.cpp
 	$(CC) $(CPPFLAGS)  -o $@ -c $^ $(LIBS)
 
+TexDocElement.o: ./src/TexDocElement.cpp
+	$(CC) $(CPPFLAGS)  -o $@ -c $^ $(LIBS)
 
-
-# Install all dracut modules
-install:
-	echo "yet does not implement"
-	
-# remove modules 
-uninstall: 
-	echo "yet does not implement"
-
-
+# cleaning the build-tmp-files
+clean:
+	#rm -f *.rpm
+	$(RM) -r .$(BUILDDIR)
 
 # cleaning the build-tmp-files
 clean-all:
@@ -79,17 +73,8 @@ clean-all:
 	$(RM) -r ./*.toc
 	$(RM) -r ./*.log
 
-
-# cleaning the build-tmp-files
-clean:
-	#rm -f *.rpm
-	$(RM) -r .$(BUILDDIR)
-
 # creake a bz2-achiv
 archive: ../$(PROGNAME)-$(VERSION).tar.bz2
-
-
-
 
 # create tar-file
 tar: dist
@@ -108,6 +93,18 @@ $(DOCS):
 tex-test:
 	pdflatex $(TESTFILES)/simple_tex_document.tex
 	pdflatex $(TESTFILES)/simple_tex_document.tex
+
+# Install all dracut modules
+install:
+	echo "yet does not implement"
+
+# remove modules
+uninstall:
+	echo "yet does not implement"
+
+test:
+	./texconv --input=./testfiles/simple_tex_document.tex --output=./muell.html
+
 
 
 
