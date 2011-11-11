@@ -16,13 +16,29 @@ public:
     */
     enum ElementType
     {
-        DOCUMENT,       /**< tex document                                   */
+        AUTOR           /**< tex command author                             */
+        DESCRIPTION     /**< tex command description                        */
+        DOCUMENT,       /**< tex command document                           */
+        ITEM            /**< tex command item                               */
+        ITEMIZE         /**< tex command itemize                            */
+        LABEL           /**< tex command label                              */
+        LSTLISTING      /**< tex command lstlisting                         */
+        MAKETITLE       /**< tex command maketitle                          */
         METADATA,       /**< metadata of document                           */
+        NEWCOMMAND      /**< tex command newcommand                         */
+        PAGEREF         /**< tex command pageref                            */
+        TABLEOFCONTENTS /**< tex command tableofcontents                    */
+        TABULAR         /**< tex command tabular                            */
         TEXT,           /**< raw text                                       */
+        TITLE           /**< tex command title                              */
+        REF             /**< tex command ref                                */
         ROOTELEMENT,    /**< root element.                                  */
-        SUBSUBSECTION,  /**< tex subsection                                 */
-        SUBSECTION,     /**< tex subsubsection                              */
-        SECTION,        /**< tex section                                    */
+        SUBSUBSECTION,  /**< tex command subsection                         */
+        SUBSECTION,     /**< tex command subsubsection                      */
+        SECTION,        /**< tex command section                            */
+        URL             /**< tex command url                                */
+        VERB            /**< tex command verb                               */
+        VERBATIM        /**< tex command verbatim                           */
         VOID            /**< typ is not set                                 */
     };
 

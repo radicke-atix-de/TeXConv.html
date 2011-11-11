@@ -38,6 +38,17 @@ private:
     TexDocElement rootElement;
 
     // Methods
+    /**
+    * search and convert elements of texElementValue in TexDocElement objekts.
+    * @param  element parents element.
+    * @param  keyWord parents element.
+    * @return Return a Stnin without comments.
+    */   
+    void TexParser::cutOfBeginEnd
+    (
+        TexDocElement &element,
+        std::string keyWord
+    );
     
     /**
     * search and remove Tex-comments in String.

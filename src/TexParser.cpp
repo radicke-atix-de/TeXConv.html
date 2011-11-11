@@ -8,6 +8,52 @@
 #include "TexParser.h"
 #include "TexDocElement.h"
 
+// B =========================================================================
+
+void TexParser::cutOfBeginEnd(TexDocElement &element, std::string keyWord)
+{
+    std::string texSubstring;
+    std::string texElementValue = element.getTexElementValue();
+    size_t searchBegin = texElementValue.begin();
+    size_t found_end =  texElementValue.begin();
+
+    while ( true)
+    {
+        size_t found_begin = texElementValue.find
+        (
+            ("\\begin{" + keyWord + "}"),
+            searchBegin
+        );
+        size_t found_end = texElementValue.find
+        (
+            ("\\end{" + keyWord + "}"),
+            found_begin
+        );
+        if (found_begin!=std::string::npos || found_end!=std::string::npos)
+        {
+            searchBegin = found_end;
+            found_begin += std::string("\\begin{" + keyWord + "}").length();
+            texSubstring = TexParser::completeDoc.substr
+            (
+                found_begin,
+                (found_end - found_begin)
+            );
+        }else
+        {
+            break;
+        }
+        TexDocElement metaElement;
+        // TODU
+        metaElement.setTexElementTyp( TexDocElement::METADATA );
+        metaElement.setTexElementValue( texSubstring );
+        std::cout << "document_metadata: " << document_metadata << std::endl;
+        element.push_back(metaElement);
+
+    }
+
+
+}
+
 // F =========================================================================
 
 
@@ -128,6 +174,7 @@ void TexParser::parsDocument(void)
     TexDocElement metaElement;
     metaElement.setTexElementTyp( TexDocElement::METADATA );
     metaElement.setTexElementValue( document_metadata );
+    std::cout << "document_metadata: " << document_metadata << std::endl;
     TexParser::rootElement.texDocElementsList.push_back(metaElement);
     
     TexDocElement docElement;
