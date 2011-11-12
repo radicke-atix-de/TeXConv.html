@@ -20,3 +20,9 @@ Using
 texconv --input=[input tex file] --output=[output file name]
 exsample:
 ./texconv --input=./testfiles/simple_tex_document.tex --output=./muell.html
+
+TODO
+====
+
+* Ausgabe der unterstützten TeX-Vokabulars. (enum ElementType).
+
