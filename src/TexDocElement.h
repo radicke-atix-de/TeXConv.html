@@ -17,6 +17,7 @@ public:
     enum ElementType
     {
         AUTOR,          /**< tex command author                             */
+        BIGSKIP,        /**< bigskip                                        */
         DESCRIPTION,    /**< tex command description                        */
         DOCUMENT,       /**< tex command document                           */
         ITEM,           /**< tex command item                               */

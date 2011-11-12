@@ -17,7 +17,10 @@ void TexParser::cutOutBeginEnd
     const int& typ
 )
 {
-    std::string texSubstring;
+    std::string rawPreSubString = "";
+    std::string texSubstring = "";
+    std::string rawPostSubString = "";
+    
     std::string texElementValue = element.getTexElementValue();
     size_t      searchBegin     = 0;
     size_t      found_end       = std::string::npos;
@@ -37,6 +40,19 @@ void TexParser::cutOutBeginEnd
         );
         if (found_begin!=std::string::npos || found_end!=std::string::npos)
         {
+            // text before found the right element.
+            rawPreSubString = TexParser::completeDoc.substr
+            (
+                searchBegin,
+                found_begin
+            );
+            TexDocElement preElement;
+            preElement.setTexElementTyp( TexDocElement::RAW );
+            std::cout << "rawPreSubString: " << rawPreSubString  << std::endl;
+            preElement.setTexElementValue( rawPreSubString );
+            element.texDocElementsList.push_back(preElement);
+            
+            // the founded element
             searchBegin = found_end;
             found_begin += std::string("\\begin{" + keyWord + "}").length();
             texSubstring = TexParser::completeDoc.substr
@@ -44,19 +60,31 @@ void TexParser::cutOutBeginEnd
                 found_begin,
                 (found_end - found_begin)
             );
+            TexDocElement subElement;
+            subElement.setTexElementTyp( typ );
+            std::cout << "texSubstring: " << texSubstring  << std::endl;
+            subElement.setTexElementValue( texSubstring );
+            element.texDocElementsList.push_back(subElement);            
+            
         }else
         {
+            if( searchBegin < (texElementValue.size() - 1) )
+            {
+                // text after the last found right element.
+                rawPostSubString = TexParser::completeDoc.substr
+                (
+                    searchBegin,
+                    (texElementValue.size() - 1)
+                );
+                TexDocElement postElement;
+                postElement.setTexElementTyp( TexDocElement::RAW );
+                std::cout << "texPostSubstring: " << rawPostSubString  << std::endl;
+                postElement.setTexElementValue( rawPostSubString );
+                element.texDocElementsList.push_back(postElement);
+            }
             break;
         }
-        TexDocElement metaElement;
-        // TODU
-        metaElement.setTexElementTyp( typ );
-        metaElement.setTexElementValue( texSubstring );
-        element.texDocElementsList.push_back(metaElement);
-
-    }
-
-
+    } // end while-loop
 }
 
 // F =========================================================================
@@ -144,6 +172,12 @@ void TexParser::pars()
 {
     TexParser::readImputFile();
     TexParser::parsDocument();
+    TexParser::cutOutBeginEnd
+    (
+        TexParser::rootElement, 
+        "verbatim",
+        TexDocElement::VERBATIM
+    );
     return;
 }
 
@@ -206,8 +240,8 @@ void TexParser::readImputFile()
             TexParser::completeDoc.append("\n");
         }
     }else{
-        std::cerr << "[201111062048] couldn't open " << inputFileName \
-            << " for reading\n" << std::endl;
+        std::cerr << "[201111062048] couldn't open \"" << inputFileName \
+            << "\" for reading\n" << std::endl;
         throw;
     }
     tex_file.close();
