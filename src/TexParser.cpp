@@ -28,7 +28,7 @@ DBINF << "\\end{" + keyWord + "}\n";
     std::string rawPostSubString = "";
     
     std::string texElementValue = parentElement.getTexElementValue();
-DBINF << "In: " <<  texElementValue << "\n";
+// DBINF << "In: " <<  texElementValue << "\n";
     size_t      searchBegin     = 0;
     size_t      found_end       = std::string::npos;
     size_t      found_begin     = std::string::npos;
@@ -49,7 +49,7 @@ DBINF << "In: " <<  texElementValue << "\n";
         {
 DBINF << "....Fündig geworden!\n"  ;          
             // text before found the right element.
-            rawPreSubString = TexParser::completeDoc.substr
+            rawPreSubString = texElementValue.substr
             (
                 searchBegin,
                 found_begin
@@ -63,7 +63,9 @@ DBINF << "....Fündig geworden!\n"  ;
             // the founded element
             searchBegin = found_end;
             found_begin += std::string("\\begin{" + keyWord + "}").length();
-            texSubstring = TexParser::completeDoc.substr
+DBINF << "found_begin: " <<  found_begin << std::endl;
+DBINF << "(found_end - found_begin): " <<  (found_end - found_begin) << std::endl ;
+            texSubstring = texElementValue.substr
             (
                 found_begin,
                 (found_end - found_begin)
@@ -79,7 +81,7 @@ DBINF << "texSubstring: " << texSubstring  << std::endl;
             if( searchBegin < (texElementValue.size() - 1) )
             {
                 // text after the last found right element.
-                rawPostSubString = TexParser::completeDoc.substr
+                rawPostSubString = texElementValue.substr
                 (
                     searchBegin,
                     (texElementValue.size() - 1)

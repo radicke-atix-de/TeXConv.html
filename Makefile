@@ -102,6 +102,9 @@ uninstall:
 bin-test:
 	./texconv --input=./testfiles/simple_tex_document.tex --output=./muell.html
 
+bin-gdb:
+	gdb ./texconv
+
 # test the LateX exsample
 tex-test:
 	pdflatex $(TESTFILES)/simple_tex_document.tex
