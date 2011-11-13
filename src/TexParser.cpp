@@ -4,24 +4,31 @@
 #include <string>
 #include <boost/regex.hpp>
 
-
 #include "TexParser.h"
 #include "TexDocElement.h"
+
+/** get debugging info */
+#define DBINF  std::cout << "[debug]"
+
 
 // B =========================================================================
 
 void TexParser::cutOutBeginEnd
 (
-    TexDocElement &element, 
+    TexDocElement& parentElement, 
     std::string keyWord,
     const int& typ
 )
 {
+DBINF << "Suche nach: " <<  keyWord << "\n";
+DBINF << "\\begin{" + keyWord + "}\n";
+DBINF << "\\end{" + keyWord + "}\n";
     std::string rawPreSubString = "";
     std::string texSubstring = "";
     std::string rawPostSubString = "";
     
-    std::string texElementValue = element.getTexElementValue();
+    std::string texElementValue = parentElement.getTexElementValue();
+DBINF << "In: " <<  texElementValue << "\n";
     size_t      searchBegin     = 0;
     size_t      found_end       = std::string::npos;
     size_t      found_begin     = std::string::npos;
@@ -40,6 +47,7 @@ void TexParser::cutOutBeginEnd
         );
         if (found_begin!=std::string::npos || found_end!=std::string::npos)
         {
+DBINF << "....Fündig geworden!\n"  ;          
             // text before found the right element.
             rawPreSubString = TexParser::completeDoc.substr
             (
@@ -48,9 +56,9 @@ void TexParser::cutOutBeginEnd
             );
             TexDocElement preElement;
             preElement.setTexElementTyp( TexDocElement::RAW );
-            std::cout << "rawPreSubString: " << rawPreSubString  << std::endl;
+//DBINF << "rawPreSubString: " << rawPreSubString  << std::endl;
             preElement.setTexElementValue( rawPreSubString );
-            element.texDocElementsList.push_back(preElement);
+            parentElement.texDocElementsList.push_back(preElement);
             
             // the founded element
             searchBegin = found_end;
@@ -62,9 +70,9 @@ void TexParser::cutOutBeginEnd
             );
             TexDocElement subElement;
             subElement.setTexElementTyp( typ );
-            std::cout << "texSubstring: " << texSubstring  << std::endl;
+DBINF << "texSubstring: " << texSubstring  << std::endl;
             subElement.setTexElementValue( texSubstring );
-            element.texDocElementsList.push_back(subElement);            
+            parentElement.texDocElementsList.push_back(subElement);            
             
         }else
         {
@@ -78,9 +86,9 @@ void TexParser::cutOutBeginEnd
                 );
                 TexDocElement postElement;
                 postElement.setTexElementTyp( TexDocElement::RAW );
-                std::cout << "texPostSubstring: " << rawPostSubString  << std::endl;
+//DBINF << "texPostSubstring: " << rawPostSubString  << std::endl;
                 postElement.setTexElementValue( rawPostSubString );
-                element.texDocElementsList.push_back(postElement);
+                parentElement.texDocElementsList.push_back(postElement);
             }
             break;
         }
@@ -116,7 +124,7 @@ std::string TexParser::findAndRemoveCommentsBoost(const std::string &read_line)
 std::string TexParser::findAndRemoveCommentsSTD(const std::string &read_line)
 {
     std::string line = read_line;
-//     std::cout << "line: " << line << std::endl;
+//DBINF << "line: " << line << std::endl;
     if( line.size() == 0 )
     {
         return "";
@@ -125,40 +133,40 @@ std::string TexParser::findAndRemoveCommentsSTD(const std::string &read_line)
     if(found_index == std::string::npos)
     {
         // no '%' found. Get back all.
-//         std::cout << "Kein % gefunden! in: \n " << line  << std::endl;
+//DBINF << "Kein % gefunden! in: \n " << line  << std::endl;
         return line;
     }    
-//     std::cout << "found_index: " << found_index << std::endl;
-//     std::cout << "line.size(): " << line.size() << std::endl;
+//DBINF << "found_index: " << found_index << std::endl;
+//DBINF << "line.size(): " << line.size() << std::endl;
     if( found_index == 0)
     {
         // is on the begin of the line.
-//         std::cout << "% am Anfang gefunden." << std::endl;
+//DBINF << "% am Anfang gefunden." << std::endl;
         return "";        
     }
     if( line.at(found_index -1) != '\\')
     {
-//         std::cout << "line.at(found_index -1): " << line.at(found_index -1) << std::endl;
-//         std::cout << "Unmaskiertes % gefunden!" <<  std::endl;
+//DBINF << "line.at(found_index -1): " << line.at(found_index -1) << std::endl;
+//DBINF << "Unmaskiertes % gefunden!" <<  std::endl;
         return line.substr( 0, found_index );
     }    
 
     do
     {
-//         std::cout << "Maskiertes % gefunden!" <<  std::endl;
+//DBINF << "Maskiertes % gefunden!" <<  std::endl;
         found_index = line.find("%", (found_index + 1));
-//         std::cout << "found_index: " << found_index << std::endl;
+//DBINF << "found_index: " << found_index << std::endl;
         if(found_index != std::string::npos)
         {
             if( line[(found_index -1)] != '\\')
             {
-//                 std::cout << "Unmaskiertes % gefunden!" <<  std::endl;
+//DBINF << "Unmaskiertes % gefunden!" <<  std::endl;
                 line = line.substr( 0, found_index );
                 break;
             } 
         } else 
         {
-//             std::cout << "Kein weiteren % gefunden!" <<  std::endl;
+//DBINF << "Kein weiteren % gefunden!" <<  std::endl;
             break;
         }
     }while( true );
@@ -172,12 +180,24 @@ void TexParser::pars()
 {
     TexParser::readImputFile();
     TexParser::parsDocument();
-    TexParser::cutOutBeginEnd
+    for
     (
-        TexParser::rootElement, 
-        "verbatim",
-        TexDocElement::VERBATIM
-    );
+        std::list<TexDocElement>::iterator i = TexParser::rootElement.texDocElementsList.begin();
+        i != TexParser::rootElement.texDocElementsList.end();
+        i++)
+    {
+        int typ = i->getTexElementTyp();
+        if(typ == TexDocElement::DOCUMENT)
+        {
+DBINF << "TexParser::DOCUMENT gefunden!\n";
+            TexParser::cutOutBeginEnd
+            (
+                *i, 
+                std::string("verbatim"),
+                TexDocElement::VERBATIM
+            );            
+        }
+    }
     return;
 }
 
@@ -213,7 +233,7 @@ void TexParser::parsDocument(void)
     TexDocElement metaElement;
     metaElement.setTexElementTyp( TexDocElement::METADATA );
     metaElement.setTexElementValue( document_metadata );
-    std::cout << "document_metadata: " << document_metadata << std::endl;
+//DBINF << "document_metadata: " << document_metadata << std::endl;
     TexParser::rootElement.texDocElementsList.push_back(metaElement);
     
     TexDocElement docElement;

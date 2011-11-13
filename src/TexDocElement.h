@@ -1,6 +1,7 @@
 #ifndef TEXDOCELEMENT_H
 #define TEXDOCELEMENT_H
 
+
 #include <string>
 #include <list>
 
@@ -16,7 +17,7 @@ public:
     */
     enum ElementType
     {
-        AUTOR,          /**< tex command author                             */
+        AUTOR ,         /**< tex command author                             */
         BIGSKIP,        /**< bigskip                                        */
         DESCRIPTION,    /**< tex command description                        */
         DOCUMENT,       /**< tex command document                           */
@@ -50,7 +51,6 @@ public:
     */
     std::list<TexDocElement> texDocElementsList;    
 
-    
     // Methods ###############################################################
     
     /**

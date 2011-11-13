@@ -40,14 +40,14 @@ private:
     // Methods
     /**
     * search and convert elements of texElementValue in TexDocElement objekts.
-    * @param  element parents element.
+    * @param  parentElement parent element.
     * @param  keyWord parents element.
     * @param  typ a enum ElementType from TexDocElement class.
     * @return Return a Stnin without comments.
     */   
     void cutOutBeginEnd
     (
-        TexDocElement &element,
+        TexDocElement& parentElement,
         std::string keyWord,
         const int& typ
     );

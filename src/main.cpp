@@ -5,6 +5,9 @@
 #include <iostream>
 #include "TexParser.h"
 
+/** get debugging info */
+#define DBINF  std::cout << "[debug]"
+
 void get_help(void)
 {
     std::cout << "\n--help" << std::endl;
@@ -62,7 +65,7 @@ int main(int argc,char *argv[])
         std::cout << "Name of output file is not set!" << std::endl;
         return 1;
     }
-    std::cout << "convert " << imputFileName << " to " << outputFileName << std::endl;
+DBINF << "convert " << imputFileName << " to " << outputFileName << std::endl;
     TexParser texParser;
     texParser.setInputFileName(imputFileName);
     texParser.pars();
