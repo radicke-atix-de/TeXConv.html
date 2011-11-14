@@ -20,9 +20,9 @@ void TexParser::cutOutBeginEnd
     const int& typ
 )
 {
-DBINF << "Suche nach: " <<  keyWord << "\n";
-DBINF << "\\begin{" + keyWord + "}\n";
-DBINF << "\\end{" + keyWord + "}\n";
+// DBINF << "Suche nach: " <<  keyWord << "\n";
+// DBINF << "\\begin{" + keyWord + "}\n";
+// DBINF << "\\end{" + keyWord + "}\n";
     std::string rawPreSubString = "";
     std::string texSubstring = "";
     std::string rawPostSubString = "";
@@ -47,7 +47,7 @@ DBINF << "\\end{" + keyWord + "}\n";
         );
         if (found_begin!=std::string::npos || found_end!=std::string::npos)
         {
-DBINF << "....Fündig geworden!\n"  ;          
+// DBINF << "....Fündig geworden!\n"  ;          
             // text before found the right element.
             rawPreSubString = texElementValue.substr
             (
@@ -63,6 +63,92 @@ DBINF << "....Fündig geworden!\n"  ;
             // the founded element
             searchBegin = found_end;
             found_begin += std::string("\\begin{" + keyWord + "}").length();
+// DBINF << "found_begin: " <<  found_begin << std::endl;
+// DBINF << "(found_end - found_begin): " <<  (found_end - found_begin) << std::endl ;
+            texSubstring = texElementValue.substr
+            (
+                found_begin,
+                (found_end - found_begin)
+            );
+            TexDocElement subElement;
+            subElement.setTexElementTyp( typ );
+// DBINF << "texSubstring: " << texSubstring  << std::endl;
+            subElement.setTexElementValue( texSubstring );
+            parentElement.texDocElementsList.push_back(subElement);            
+            
+        }else
+        {
+            if( searchBegin < (texElementValue.size() - 1) )
+            {
+                // text after the last found right element.
+                rawPostSubString = texElementValue.substr
+                (
+                    searchBegin,
+                    (texElementValue.size() - 1)
+                );
+                TexDocElement postElement;
+                postElement.setTexElementTyp( TexDocElement::RAW );
+//DBINF << "texPostSubstring: " << rawPostSubString  << std::endl;
+                postElement.setTexElementValue( rawPostSubString );
+                parentElement.texDocElementsList.push_back(postElement);
+            }
+            break;
+        }
+    } // end while-loop
+}
+
+void TexParser::cutOutShortElements
+(
+    TexDocElement& parentElement,
+    std::string keyWord,
+    const int& typ
+)
+{
+    std::string beginKeyWord = "\\" + keyWord + "{";
+    std::string endKeyWord = "}";
+DBINF << "Suche nach: " <<  keyWord << "\n";
+DBINF << "Anfang: " << beginKeyWord << "\n";
+DBINF << "Ende: " << endKeyWord << "\n";
+    std::string rawPreSubString = "";
+    std::string texSubstring = "";
+    std::string rawPostSubString = "";
+    
+    std::string texElementValue = parentElement.getTexElementValue();
+// DBINF << "In: " <<  texElementValue << "\n";
+    size_t      searchBegin     = 0;
+    size_t      found_end       = std::string::npos;
+    size_t      found_begin     = std::string::npos;
+
+    while ( true)
+    {
+        found_begin = texElementValue.find
+        (
+            beginKeyWord,
+            searchBegin
+        );
+        found_end = texElementValue.find
+        (
+            endKeyWord,
+            found_begin
+        );
+        if (found_begin!=std::string::npos || found_end!=std::string::npos)
+        {
+DBINF << "....Fündig geworden!\n"  ;          
+            // text before found the right element.
+            rawPreSubString = texElementValue.substr
+            (
+                searchBegin,
+                found_begin
+            );
+            TexDocElement preElement;
+            preElement.setTexElementTyp( TexDocElement::RAW );
+//DBINF << "rawPreSubString: " << rawPreSubString  << std::endl;
+            preElement.setTexElementValue( rawPreSubString );
+            parentElement.texDocElementsList.push_back(preElement);
+            
+            // the founded element
+            searchBegin = found_end;
+            found_begin += beginKeyWord.length();
 DBINF << "found_begin: " <<  found_begin << std::endl;
 DBINF << "(found_end - found_begin): " <<  (found_end - found_begin) << std::endl ;
             texSubstring = texElementValue.substr
@@ -94,7 +180,8 @@ DBINF << "texSubstring: " << texSubstring  << std::endl;
             }
             break;
         }
-    } // end while-loop
+    } // end while-loop    
+    
 }
 
 // F =========================================================================
@@ -197,9 +284,25 @@ DBINF << "TexParser::DOCUMENT gefunden!\n";
                 *i, 
                 std::string("verbatim"),
                 TexDocElement::VERBATIM
-            );            
-        }
-    }
+            ); 
+            TexDocElement& subElement = *i;
+            for
+            (
+                std::list<TexDocElement>::iterator i2 = subElement.texDocElementsList.begin();
+                i2 != subElement.texDocElementsList.end();
+                i2++)
+            {            
+                TexParser::cutOutShortElements
+                (
+                    *i2, 
+                    std::string("input"),
+                    TexDocElement::INPUT
+                ); 
+            }
+            
+        } // end if(typ == TexDocElement::DOCUMENT)
+    } // end for
+//cutOutShortElements    
     return;
 }
 

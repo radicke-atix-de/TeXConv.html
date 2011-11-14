@@ -21,6 +21,7 @@ public:
         BIGSKIP,        /**< bigskip                                        */
         DESCRIPTION,    /**< tex command description                        */
         DOCUMENT,       /**< tex command document                           */
+        INPUT,          /**< tex command input                              */
         ITEM,           /**< tex command item                               */
         ITEMIZE,        /**< tex command itemize                            */
         LABEL,          /**< tex command label                              */

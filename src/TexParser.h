@@ -39,7 +39,9 @@ private:
 
     // Methods
     /**
-    * search and convert elements of texElementValue in TexDocElement objekts.
+    * search and convert elements of texElementValue in a list
+    * of TexDocElement objekts. With this form:
+    * \begin{keyword}text part \end{keyword}
     * @param  parentElement parent element.
     * @param  keyWord parents element.
     * @param  typ a enum ElementType from TexDocElement class.
@@ -51,6 +53,22 @@ private:
         std::string keyWord,
         const int& typ
     );
+    
+    /**
+    * search and convert elements of texElementValue in a list 
+    * of TexDocElement objekts. With this form:
+    * \kexword{text part}
+    * @param  parentElement parent element.
+    * @param  keyWord parents element.
+    * @param  typ a enum ElementType from TexDocElement class.
+    * @return Return a Stnin without comments.
+    */   
+    void cutOutShortElements
+    (
+        TexDocElement& parentElement,
+        std::string keyWord,
+        const int& typ
+    );    
     
     /**
     * search and remove Tex-comments in String.
