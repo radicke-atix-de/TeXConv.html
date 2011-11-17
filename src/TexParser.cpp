@@ -274,6 +274,51 @@ void TexParser::pars()
 {
     TexParser::readImputFile();
     TexParser::parsDocument();
+    TexParser::parsInput();
+    return;
+}
+
+void TexParser::parsDocument(void)
+{
+    string text_document = "";
+    string document_metadata = "";
+    
+    size_t found_begin = TexParser::completeDoc.find("\\begin{document}");
+    size_t found_end = TexParser::completeDoc.find("\\end{document}");
+    if (found_begin!=string::npos || found_end!=string::npos)
+    {
+        // cut metadata.
+        document_metadata = TexParser::completeDoc.substr
+        (
+            0,
+            found_begin
+        );
+        // cut netto document.
+        found_begin += string("\\begin{document}").length();
+        text_document = TexParser::completeDoc.substr
+        (
+            found_begin,
+            (found_end - found_begin)
+        );
+    }else
+    {
+        cerr << "[201111062044] No begin or end of document found." << endl;
+        throw;
+    }
+    TexDocElement metaElement;
+    metaElement.setTexElementTyp( TexDocElement::METADATA );
+    metaElement.setTexElementValue( document_metadata );
+//DBINF << "document_metadata: " << document_metadata << endl;
+    TexParser::rootElement.texDocElementsList.push_back(metaElement);
+    
+    TexDocElement docElement;
+    docElement.setTexElementTyp( TexDocElement::DOCUMENT );
+    docElement.setTexElementValue( text_document );
+    TexParser::rootElement.texDocElementsList.push_back(docElement);
+}
+
+void TexParser::parsInput(void)
+{
     for
     (
         list<TexDocElement>::iterator i = TexParser::rootElement.texDocElementsList.begin();
@@ -306,50 +351,8 @@ DBINF << "TexParser::DOCUMENT gefunden!\n";
             }
             
         } // end if(typ == TexDocElement::DOCUMENT)
-    } // end for
-//cutOutShortElements    
-    return;
-}
-
-void TexParser::parsDocument(void)
-{
-    string text_document = "";
-    string document_metadata = "";
+    } // end for 
     
-    size_t found_begin = TexParser::completeDoc.find("\\begin{document}");
-    size_t found_end = TexParser::completeDoc.find("\\end{document}");
-    if (found_begin!=string::npos || found_end!=string::npos)
-    {
-        // cut metadata.
-        document_metadata = TexParser::completeDoc.substr
-        (
-            0,
-            found_begin
-        );
-        // cut netto document.
-        found_begin += string("\\begin{document}").length();
-        text_document = TexParser::completeDoc.substr
-        (
-            found_begin,
-            (found_end - found_begin)
-        );
-
-        
-    }else
-    {
-        cerr << "[201111062044] No begin or end of document found." << endl;
-        throw;
-    }
-    TexDocElement metaElement;
-    metaElement.setTexElementTyp( TexDocElement::METADATA );
-    metaElement.setTexElementValue( document_metadata );
-//DBINF << "document_metadata: " << document_metadata << endl;
-    TexParser::rootElement.texDocElementsList.push_back(metaElement);
-    
-    TexDocElement docElement;
-    docElement.setTexElementTyp( TexDocElement::DOCUMENT );
-    docElement.setTexElementValue( text_document );
-    TexParser::rootElement.texDocElementsList.push_back(docElement);
 }
 
 // R ==========================================================================

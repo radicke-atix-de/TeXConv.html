@@ -22,7 +22,7 @@ public:
 
 private:
 
-    // Properties
+    // Properties ------------------------------------------------------------
     /**
     * The name of imput file.
     */
@@ -37,7 +37,7 @@ private:
     */
     TexDocElement rootElement;
 
-    // Methods
+    // Methods ---------------------------------------------------------------
     /**
     * search and convert elements of texElementValue in a list
     * of TexDocElement objekts. With this form:
@@ -96,9 +96,15 @@ private:
     std::string findAndRemoveCommentsSTD(const std::string &read_line);
 
     /**
-    * It's pars the Tex document and get back the value of "document".
+    * It's pars the Tex document of the part "document".
     */
     void parsDocument(void);
+    
+    /**
+    * It's pars the Tex document of the part "\input{}" and
+    * include the file values.
+    */
+    void parsInput(void);
     
     /**
     * Tread the imput file and copy to propertie completeDoc.
