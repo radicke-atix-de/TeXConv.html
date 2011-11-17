@@ -94,6 +94,12 @@ private:
     * @return Return a Stnin without comments.
     */      
     std::string findAndRemoveCommentsSTD(const std::string &read_line);
+    
+    /**
+    * @throw string If the the Function not fount TexParser::DOCUMENT.
+    * @return Get back a TexDocElement with typ "TexParser::DOCUMENT".
+    */    
+    TexDocElement& getDocumentElement(void);    
 
     /**
     * It's pars the Tex document of the part "document".
@@ -106,11 +112,15 @@ private:
     */
     void parsInput(void);
     
+     /**
+    * It's pars the Tex document of verbatim elements.
+    */   
+    void parsVerbatim(void);
+    
     /**
     * Tread the imput file and copy to propertie completeDoc.
     */
     void readImputFile(void);
-
 
 };
 

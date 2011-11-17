@@ -268,6 +268,27 @@ string TexParser::findAndRemoveCommentsSTD(const string &read_line)
     return line;
 }
 
+// G =========================================================================
+
+TexDocElement& TexParser::getDocumentElement(void)
+{
+    for
+    (
+        list<TexDocElement>::iterator i = TexParser::rootElement.texDocElementsList.begin();
+        i != TexParser::rootElement.texDocElementsList.end();
+        i++)
+    {
+        int typ = i->getTexElementTyp();
+        if(typ == TexDocElement::DOCUMENT)
+        {
+DBINF << "TexParser::DOCUMENT gefunden!\n";
+            return *i;
+        }
+    }
+    cerr << "[201111171814] No begin or end of document found." << endl;
+    throw;    
+}
+
 // P =========================================================================
 
 void TexParser::pars()
@@ -319,41 +340,41 @@ void TexParser::parsDocument(void)
 
 void TexParser::parsInput(void)
 {
+    TexDocElement& documentElement = TexParser::getDocumentElement();
     for
     (
-        list<TexDocElement>::iterator i = TexParser::rootElement.texDocElementsList.begin();
-        i != TexParser::rootElement.texDocElementsList.end();
-        i++)
-    {
-        int typ = i->getTexElementTyp();
-        if(typ == TexDocElement::DOCUMENT)
-        {
-DBINF << "TexParser::DOCUMENT gefunden!\n";
-            TexParser::cutOutBeginEnd
-            (
-                *i, 
-                string("verbatim"),
-                TexDocElement::VERBATIM
-            ); 
-            TexDocElement& childElement = *i;
-            for
-            (
-                list<TexDocElement>::iterator i2 = childElement.texDocElementsList.begin();
-                i2 != childElement.texDocElementsList.end();
-                i2++)
-            {            
-                TexParser::cutOutShortElements
-                (
-                    *i2, 
-                    string("input"),
-                    TexDocElement::INPUT
-                ); 
-            }
-            
-        } // end if(typ == TexDocElement::DOCUMENT)
-    } // end for 
-    
+        list<TexDocElement>::iterator i2 = documentElement.texDocElementsList.begin();
+        i2 != documentElement.texDocElementsList.end();
+        i2++)
+    {            
+        TexParser::cutOutShortElements
+        (
+            *i2, 
+            string("input"),
+            TexDocElement::INPUT
+        ); 
+    }
 }
+
+
+void TexParser::parsVerbatim(void)
+{
+    TexDocElement& documentElement = TexParser::getDocumentElement();
+    for
+    (
+        list<TexDocElement>::iterator i2 = documentElement.texDocElementsList.begin();
+        i2 != documentElement.texDocElementsList.end();
+        i2++)
+    {            
+        TexParser::cutOutShortElements
+        (
+            *i2, 
+            string("input"),
+            TexDocElement::INPUT
+        ); 
+    }
+}
+
 
 // R ==========================================================================
 
