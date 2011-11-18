@@ -19,7 +19,7 @@ void TexParser::cutOutBeginEnd
 (
     TexDocElement& parentElement, 
     string keyWord,
-    const int& typ
+    const enum TexDocElement::ElementType& typ
 )
 {
     string beginKeyWord = "\\begin{" + keyWord + "}";
@@ -106,7 +106,7 @@ void TexParser::cutOutShortElements
 (
     TexDocElement& parentElement,
     string keyWord,
-    const int& typ
+    const enum TexDocElement::ElementType& typ
 )
 {
     string beginKeyWord = "\\" + keyWord + "{";

@@ -7,10 +7,25 @@
 
 #include "TexDocElement.h"
 
+using namespace std;
+
 class PrintElementTree
 {
-public:
-    static void printTree( TexDocElement& parentElement );
+  public:
+
+      /**
+      * Print the document tree.
+      * @param parentElement a parent element.
+      */
+      void printTree( TexDocElement& parentElement );
+
+      /**
+      * constructor.
+      */
+      PrintElementTree(): treedepth( 0 ) {};
+      
+  private:
+      size_t  treedepth;
 };
 
 #endif   

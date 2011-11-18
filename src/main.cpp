@@ -90,7 +90,8 @@ int main(int argc,char *argv[])
         TexParser texParser;
         texParser.setInputFileName(imputFileName);
         texParser.pars();
-        PrintElementTree::printTree( texParser.getRootElement() );
+        PrintElementTree treePrinter;
+        treePrinter.printTree( texParser.getRootElement() );
         return 0;
     }
     if( do_command == "pars")

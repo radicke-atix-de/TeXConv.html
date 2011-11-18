@@ -57,7 +57,7 @@ private:
     (
         TexDocElement& parentElement,
         std::string keyWord,
-        const int& typ
+        const enum TexDocElement::ElementType& typ
     );
     
     /**
@@ -73,7 +73,7 @@ private:
     (
         TexDocElement& parentElement,
         std::string keyWord,
-        const int& typ
+        const enum TexDocElement::ElementType& typ
     );    
     
     /**

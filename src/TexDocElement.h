@@ -1,9 +1,10 @@
 #ifndef TEXDOCELEMENT_H
 #define TEXDOCELEMENT_H
 
-
 #include <string>
 #include <list>
+
+using namespace std;
 
 class TexDocElement
 {
@@ -50,32 +51,38 @@ public:
     * if the object have other children object,
     * then it is in this list.
     */
-    std::list<TexDocElement> texDocElementsList;    
+    list<TexDocElement> texDocElementsList;
 
     // Methods ###############################################################
     
     /**
     * get the typ of element.
     */
-    int getTexElementTyp();
+    enum ElementType getTexElementTyp();
     
     /**
     * get the value of element.
     */
-    std::string getTexElementValue();
+    string getTexElementValue();
     
     /**
     * set the typ of element.
     * @param typ an string of typ name.
     */
-    void setTexElementTyp( int typ );
+    void setTexElementTyp( enum TexDocElement::ElementType typ );
     
 
     /**
     * set the value of element.
     * @param typ an string of typ name.
     */
-    void setTexElementValue( std::string typ );
+    void setTexElementValue( string typ );
+
+    /**
+    * Convert a enum ElementType in a String.
+    * @param t A enum ElementType
+    */
+    string typToString(enum ElementType t) const ;
 
     
 private:
@@ -84,12 +91,12 @@ private:
     /**
     * The name of imput file.
     */
-    int texElementTyp;
+    enum ElementType texElementTyp;
     
     /**
     * If this object only a string, thas is the value.
     */
-    std::string texElementValue;
+    string texElementValue;
 
 
     // Methods ###############################################################
