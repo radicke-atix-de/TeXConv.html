@@ -293,9 +293,10 @@ DBINF << "TexParser::DOCUMENT gefunden!\n";
 
 void TexParser::pars()
 {
-    TexParser::readImputFile();
+    TexParser::completeDoc = TexParser::readInputFile(TexParser::inputFileName);
     TexParser::parsDocument();
-    TexParser::parsInput();
+    TexParser::parsVerbatim( TexParser::getDocumentElement() );
+    TexParser::parsInput( TexParser::getDocumentElement() );
     return;
 }
 
@@ -338,51 +339,95 @@ void TexParser::parsDocument(void)
     TexParser::rootElement.texDocElementsList.push_back(docElement);
 }
 
-void TexParser::parsInput(void)
+void TexParser::parsInput(TexDocElement&  parentElement)
 {
-    TexDocElement& documentElement = TexParser::getDocumentElement();
+    int typInputCount = 0;
+    list<TexDocElement>::iterator subElement;
+    list<TexDocElement>::iterator subSubElement;
+    
     for
     (
-        list<TexDocElement>::iterator i2 = documentElement.texDocElementsList.begin();
-        i2 != documentElement.texDocElementsList.end();
-        i2++)
+        subElement = parentElement.texDocElementsList.begin();
+        subElement != parentElement.texDocElementsList.end();
+        subElement++
+    )
     {            
+        if
+        ( 
+            TexDocElement::VERBATIM == (*subElement).getTexElementTyp() 
+            || TexDocElement::VERB == (*subElement).getTexElementTyp() 
+        )
+        {
+            continue;
+        }
         TexParser::cutOutShortElements
         (
-            *i2, 
+            *subElement, 
             string("input"),
             TexDocElement::INPUT
         ); 
+        for
+        (
+            subSubElement = (*subElement).texDocElementsList.begin();
+            subSubElement != (*subElement).texDocElementsList.end();
+            subSubElement++
+        )
+        {
+            int typ = subSubElement->getTexElementTyp();
+            if(typ == TexDocElement::INPUT)    
+            {
+                typInputCount++;
+DBINF << "TexDocElement::INPUT: "  << endl;                
+                string fileName = subSubElement->getTexElementValue();
+                subSubElement->setTexElementValue
+                ( 
+                    TexParser::readInputFile(fileName) 
+                );
+                subSubElement->setTexElementTyp( TexDocElement::RAW );   
+            }
+        }// end sub for-loop
+    } // end for-loop
+    if( typInputCount == 0 )
+    {
+        return;
+    }else
+    {
+        TexParser::parsInput( *subElement );
     }
 }
 
 
-void TexParser::parsVerbatim(void)
+void TexParser::parsVerbatim(TexDocElement&  parentElement)
 {
-    TexDocElement& documentElement = TexParser::getDocumentElement();
+    // TODO
+    list<TexDocElement>::iterator subElement;
     for
     (
-        list<TexDocElement>::iterator i2 = documentElement.texDocElementsList.begin();
-        i2 != documentElement.texDocElementsList.end();
-        i2++)
+        subElement = parentElement.texDocElementsList.begin();
+        subElement != parentElement.texDocElementsList.end();
+        subElement++)
     {            
-        TexParser::cutOutShortElements
+
+        TexParser::cutOutBeginEnd
         (
-            *i2, 
-            string("input"),
-            TexDocElement::INPUT
-        ); 
-    }
+            *subElement,
+            string("verbatim"),
+            TexDocElement::VERBATIM
+        );  
+    }    
+    
 }
 
 
 // R ==========================================================================
 
 
-void TexParser::readImputFile()
+string TexParser::readInputFile(string& fileName)
 {
+DBINF << "i reading now: " << fileName << endl;
+    string completString = "";
     // open fiele to read....
-    ifstream tex_file(inputFileName.c_str());
+    ifstream tex_file(fileName.c_str());
     if (tex_file.is_open())
     {
         while ( tex_file.good() )
@@ -390,8 +435,8 @@ void TexParser::readImputFile()
             string line;
             getline (tex_file,line);
 //             cout << "return: " << TexParser::findAndRemoveComments(line) << endl;;
-            TexParser::completeDoc.append( TexParser::findAndRemoveComments(line) );
-            TexParser::completeDoc.append("\n");
+            completString.append( TexParser::findAndRemoveComments(line) );
+            completString.append("\n");
         }
     }else{
         cerr << "[201111062048] couldn't open \"" << inputFileName \
@@ -399,6 +444,7 @@ void TexParser::readImputFile()
         throw;
     }
     tex_file.close();
+    return completString;
 }
 
 

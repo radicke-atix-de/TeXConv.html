@@ -109,18 +109,21 @@ private:
     /**
     * It's pars the Tex document of the part "\input{}" and
     * include the file values.
+    * @param parentElement this is a recursive function ans this 
+    * beginning element.
     */
-    void parsInput(void);
+    void parsInput( TexDocElement&  parentElement );
     
      /**
     * It's pars the Tex document of verbatim elements.
+    * @param parentElement 
     */   
-    void parsVerbatim(void);
+    void parsVerbatim( TexDocElement& parentElement );
     
     /**
     * Tread the imput file and copy to propertie completeDoc.
     */
-    void readImputFile(void);
+    std::string readInputFile(std::string& fileName);
 
 };
 
