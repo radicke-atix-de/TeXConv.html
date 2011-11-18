@@ -20,6 +20,12 @@ public:
     */
     void setInputFileName(std::string);
 
+    /**
+    * Get back the rootElement.
+    * @return The root elemet.
+    */
+    TexDocElement& getRootElement(void);
+
 private:
 
     // Properties ------------------------------------------------------------

@@ -17,7 +17,10 @@ LIBS = -lboost_regex
 
 
 SOURCE = ./src/main.cpp
-OBJECTS =  main.o TexDocElement.o TexParser.o
+OBJECTS =  main.o \
+PrintElementTree.o \
+TexDocElement.o \
+TexParser.o
 
 
 
@@ -52,6 +55,9 @@ TexParser.o: ./src/TexParser.cpp
 	$(CC) $(CPPFLAGS)  -o $@ -c $^ $(LIBS)
 
 TexDocElement.o: ./src/TexDocElement.cpp
+	$(CC) $(CPPFLAGS)  -o $@ -c $^ $(LIBS)
+
+PrintElementTree.o: ./src/PrintElementTree.cpp
 	$(CC) $(CPPFLAGS)  -o $@ -c $^ $(LIBS)
 
 # cleaning the build-tmp-files
@@ -100,7 +106,9 @@ uninstall:
 
 # simple function check of bin-file.
 bin-test:
-	./texconv --input=./testfiles/simple_tex_document.tex --output=./muell.html
+	./texconv --help
+	./texconv pars --input=./testfiles/simple_tex_document.tex --output=./muell.html
+	./texconv doctree --input=./testfiles/simple_tex_document.tex 
 
 bin-gdb:
 	gdb ./texconv
