@@ -20,6 +20,12 @@ public:
     */
     void setInputFileName(std::string);
 
+    /**
+    * Get back the rootElement.
+    * @return The root elemet.
+    */
+    TexDocElement& getRootElement(void);
+
 private:
 
     // Properties ------------------------------------------------------------
@@ -51,7 +57,7 @@ private:
     (
         TexDocElement& parentElement,
         std::string keyWord,
-        const int& typ
+        const enum TexDocElement::ElementType& typ
     );
     
     /**
@@ -67,7 +73,7 @@ private:
     (
         TexDocElement& parentElement,
         std::string keyWord,
-        const int& typ
+        const enum TexDocElement::ElementType& typ
     );    
     
     /**

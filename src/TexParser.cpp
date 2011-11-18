@@ -4,13 +4,13 @@
 #include <string>
 #include <boost/regex.hpp>
 
-using namespace std;
-
 #include "TexParser.h"
 #include "TexDocElement.h"
 
 /** get debugging info */
 #define DBINF  cout << "[debug]"
+
+using namespace std;
 
 
 // B =========================================================================
@@ -19,7 +19,7 @@ void TexParser::cutOutBeginEnd
 (
     TexDocElement& parentElement, 
     string keyWord,
-    const int& typ
+    const enum TexDocElement::ElementType& typ
 )
 {
     string beginKeyWord = "\\begin{" + keyWord + "}";
@@ -106,7 +106,7 @@ void TexParser::cutOutShortElements
 (
     TexDocElement& parentElement,
     string keyWord,
-    const int& typ
+    const enum TexDocElement::ElementType& typ
 )
 {
     string beginKeyWord = "\\" + keyWord + "{";
@@ -287,6 +287,12 @@ DBINF << "TexParser::DOCUMENT gefunden!\n";
     }
     cerr << "[201111171814] No begin or end of document found." << endl;
     throw;    
+}
+
+
+TexDocElement& TexParser::getRootElement(void)
+{
+    return TexParser::rootElement;
 }
 
 // P =========================================================================
