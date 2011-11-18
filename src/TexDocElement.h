@@ -54,6 +54,11 @@ public:
     list<TexDocElement> texDocElementsList;
 
     // Methods ###############################################################
+
+    /**
+    * @return get beck the typ of element as string.
+    */
+    string getTypAsString();
     
     /**
     * get the typ of element.
@@ -82,7 +87,7 @@ public:
     * Convert a enum ElementType in a String.
     * @param t A enum ElementType
     */
-    string typToString(enum ElementType t) const ;
+    const string typToString( const enum ElementType& t) const ;
 
     
 private:

@@ -14,6 +14,12 @@ TexDocElement::~TexDocElement(void)
 
 // G #########################################################################
 
+
+string TexDocElement::getTypAsString()
+{
+    return TexDocElement::typToString( TexDocElement::texElementTyp );
+}
+
 enum TexDocElement::ElementType TexDocElement::getTexElementTyp()
 {
     return TexDocElement::texElementTyp;
@@ -39,7 +45,7 @@ void TexDocElement::setTexElementValue( std::string value )
 
 // T #########################################################################
 
-string TexDocElement::typToString(enum ElementType t) const {
+const string TexDocElement::typToString( const enum ElementType& t) const {
     switch(t) {
     case AUTOR:
         return "AUTOR";

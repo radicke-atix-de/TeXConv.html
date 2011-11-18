@@ -91,6 +91,7 @@ int main(int argc,char *argv[])
         texParser.setInputFileName(imputFileName);
         texParser.pars();
         PrintElementTree treePrinter;
+DBINF << "######### Starte mit PrintElementTree::printTree ############" << endl;        
         treePrinter.printTree( texParser.getRootElement() );
         return 0;
     }
