@@ -15,6 +15,8 @@ using namespace std;
 
 // B =========================================================================
 
+// C =========================================================================
+
 void TexParser::cutOutBeginEnd
 (
     TexDocElement& parentElement, 
@@ -281,11 +283,29 @@ TexDocElement& TexParser::getDocumentElement(void)
         int typ = i->getTexElementTyp();
         if(typ == TexDocElement::DOCUMENT)
         {
-DBINF << "TexParser::DOCUMENT gefunden!\n";
             return *i;
         }
     }
-    cerr << "[201111171814] No begin or end of document found." << endl;
+    cerr << "[201111171814] No Document found." << endl;
+    throw;    
+}
+
+
+TexDocElement& TexParser::getMetadataElement(void)
+{
+    for
+    (
+        list<TexDocElement>::iterator i = TexParser::rootElement.texDocElementsList.begin();
+        i != TexParser::rootElement.texDocElementsList.end();
+        i++)
+    {
+        int typ = i->getTexElementTyp();
+        if(typ == TexDocElement::METADATA)
+        {
+            return *i;
+        }
+    }
+    cerr << "[201111192151] No Metadata found." << endl;
     throw;    
 }
 
@@ -302,7 +322,8 @@ void TexParser::pars()
     TexParser::completeDoc = TexParser::readInputFile(TexParser::inputFileName);
     TexParser::parsDocument();
     TexParser::parsVerbatim( TexParser::getDocumentElement() );
-    TexParser::parsInput( TexParser::getDocumentElement() );
+//     TexParser::parsVerbatim( TexParser::getMetadataElement() );
+    TexParser::parsInput( TexParser::getRootElement() );
     return;
 }
 
@@ -333,6 +354,7 @@ void TexParser::parsDocument(void)
         cerr << "[201111062044] No begin or end of document found." << endl;
         throw;
     }
+DBINF << "Setze Dcument und Metadata." << endl; 
     TexDocElement metaElement;
     metaElement.setTexElementTyp( TexDocElement::METADATA );
     metaElement.setTexElementValue( document_metadata );
@@ -347,10 +369,30 @@ void TexParser::parsDocument(void)
 
 void TexParser::parsInput(TexDocElement&  parentElement)
 {
+DBINF << "pars \\input." << endl; 
     int typInputCount = 0;
     list<TexDocElement>::iterator subElement;
     list<TexDocElement>::iterator subSubElement;
-    
+DBINF << "Listenlänge: " << parentElement.texDocElementsList.size() << endl;
+
+    if( parentElement.texDocElementsList.size() == 0 )
+    {
+        if
+        ( 
+            TexDocElement::VERBATIM == parentElement.getTexElementTyp() 
+            || TexDocElement::VERB == parentElement.getTexElementTyp() 
+        )
+        {      
+DBINF << "überspringe TexDocElement::VERBATIM" << endl;  
+            return;
+        }
+        TexParser::cutOutShortElements
+        (
+            parentElement, 
+            string("input"),
+            TexDocElement::INPUT
+        );
+    }
     for
     (
         subElement = parentElement.texDocElementsList.begin();
@@ -358,53 +400,55 @@ void TexParser::parsInput(TexDocElement&  parentElement)
         subElement++
     )
     {            
+DBINF << "subElement gefunden" << endl; 
         if
         ( 
             TexDocElement::VERBATIM == (*subElement).getTexElementTyp() 
             || TexDocElement::VERB == (*subElement).getTexElementTyp() 
         )
         {
+DBINF << "überspringe TexDocElement::VERBATIM" << endl; 
             continue;
         }
-        TexParser::cutOutShortElements
-        (
-            *subElement, 
-            string("input"),
-            TexDocElement::INPUT
-        ); 
-        for
-        (
-            subSubElement = (*subElement).texDocElementsList.begin();
-            subSubElement != (*subElement).texDocElementsList.end();
-            subSubElement++
-        )
+        enum TexDocElement::ElementType typ = (*subElement).getTexElementTyp();
+        if(typ == TexDocElement::INPUT)    
         {
-            int typ = subSubElement->getTexElementTyp();
-            if(typ == TexDocElement::INPUT)    
-            {
-                typInputCount++;
-DBINF << "TexDocElement::INPUT: "  << endl;                
-                string fileName = subSubElement->getTexElementValue();
-                subSubElement->setTexElementValue
-                ( 
-                    TexParser::readInputFile(fileName) 
-                );
-                subSubElement->setTexElementTyp( TexDocElement::RAW );   
-            }
-        }// end sub for-loop
+            typInputCount++;
+DBINF << "TexDocElement::INPUT gefunden "  << endl;                
+            string fileName = (*subElement).getTexElementValue();
+            (*subSubElement).setTexElementValue
+            ( 
+                TexParser::readInputFile(fileName) 
+            );
+            (*subElement).setTexElementTyp( TexDocElement::RAW );   
+        }
+
     } // end for-loop
-    if( typInputCount == 0 )
-    {
-        return;
-    }else
-    {
-        TexParser::parsInput( *subElement );
-    }
+//     if( typInputCount == 0 )
+//     {
+//         return;
+//     }else
+//     {
+//         TexParser::parsInput( *subElement );
+//     }
 }
 
 
 void TexParser::parsVerbatim(TexDocElement&  parentElement)
 {
+DBINF << "parsVerbatim.... "  << endl;  
+DBINF << "Listenlänge: " << parentElement.texDocElementsList.size() << endl;    
+    if( parentElement.texDocElementsList.size() == 0 )
+    {
+        TexParser::cutOutBeginEnd
+        (
+            parentElement,
+            string("verbatim"),
+            TexDocElement::VERBATIM
+        );  
+        return;
+    }
+
     // TODO
     list<TexDocElement>::iterator subElement;
     for
@@ -413,13 +457,15 @@ void TexParser::parsVerbatim(TexDocElement&  parentElement)
         subElement != parentElement.texDocElementsList.end();
         subElement++)
     {            
-
-        TexParser::cutOutBeginEnd
-        (
-            *subElement,
-            string("verbatim"),
-            TexDocElement::VERBATIM
-        );  
+        if( (*subElement).texDocElementsList.size() == 0 )
+        {
+            TexParser::cutOutBeginEnd
+            (
+                *subElement,
+                string("verbatim"),
+                TexDocElement::VERBATIM
+            );  
+        }
     }    
     
 }

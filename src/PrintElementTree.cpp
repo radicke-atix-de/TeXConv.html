@@ -13,6 +13,13 @@ using namespace std;
 void PrintElementTree::printTree( TexDocElement& parentElement )
 {
     list<TexDocElement>::iterator itSubElement;
+    cout << string(PrintElementTree::treedepth, '=')
+    << "[Typ: "
+    <<  parentElement.getTypAsString()
+    << "][Zeichelänge: "
+    << (parentElement.getTexElementValue()).size() 
+    << "]" << endl;    
+    
     PrintElementTree::treedepth++;
     for
     (
@@ -23,10 +30,10 @@ void PrintElementTree::printTree( TexDocElement& parentElement )
     {
         cout << string(PrintElementTree::treedepth, '=')
         << "[Typ: "
-//         << (*itSubElement).typToString((*itSubElement).getTexElementTyp())
         <<  (*itSubElement).getTypAsString()
-        << "][Zeiche: "
-        << ((*itSubElement).getTexElementValue()).size() << endl;
+        << "][Zeichelänge: "
+        << ((*itSubElement).getTexElementValue()).size() 
+        << "]" << endl;
         // got depth. 
         PrintElementTree::printTree(*itSubElement);
     }

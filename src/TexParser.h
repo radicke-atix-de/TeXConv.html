@@ -106,6 +106,12 @@ private:
     * @return Get back a TexDocElement with typ "TexParser::DOCUMENT".
     */    
     TexDocElement& getDocumentElement(void);    
+    
+    /**
+    * @throw string If the the Function not fount TexParser::METADATA.
+    * @return Get back a TexDocElement with typ "TexParser::METADATA".
+    */       
+    TexDocElement& getMetadataElement(void);
 
     /**
     * It's pars the Tex document of the part "document".
