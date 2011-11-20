@@ -2,9 +2,11 @@
 #include "TexDocElement.h"
 
 
-TexDocElement::TexDocElement(void)
+TexDocElement::TexDocElement(void) //: id(TexDocElement::idCounte)
 {
     TexDocElement::texElementTyp = TexDocElement::VOID;
+    TexDocElement::idCounter++;
+    TexDocElement::id = TexDocElement::idCounter;
 }
 
 TexDocElement::~TexDocElement(void)
@@ -31,7 +33,11 @@ std::string TexDocElement::getTexElementValue()
     return TexDocElement::texElementValue;
 }
 
- // S #########################################################################
+// I #########################################################################
+
+int TexDocElement::idCounter = 0;
+
+// S #########################################################################
 
 void TexDocElement::setTexElementTyp( enum TexDocElement::ElementType typ)
 {

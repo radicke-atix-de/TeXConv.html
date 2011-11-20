@@ -2,6 +2,8 @@
 #include <iostream>
 #include <string>
 
+#include <boost/lexical_cast.hpp>
+
 #include "PrintElementTree.h"
 #include "TexDocElement.h"
 
@@ -19,8 +21,10 @@ void PrintElementTree::printTree( TexDocElement& parentElement )
 void PrintElementTree::printTreeElement( TexDocElement& parentElement )
 {
     list<TexDocElement>::iterator itSubElement;
+    string header = "";
     cout << string(PrintElementTree::treedepth, '\t')
-    << "[Typ: "
+    << "[ID: " << parentElement.getID() 
+    << "][Typ: "
     <<  parentElement.getTypAsString()
     << "][characters: "
     << (parentElement.getTexElementValue()).size() 
@@ -28,7 +32,15 @@ void PrintElementTree::printTreeElement( TexDocElement& parentElement )
     << endl;    
     if (PrintElementTree::verboseMode == true)
     {
-        PrintElementTree::recordingValue.append( parentElement.getTexElementValue() );
+        header = "\n##################### [ID:" 
+            + boost::lexical_cast<string>( parentElement.getID() )
+            + "][Typ: " +parentElement.getTypAsString() + "]"
+            + " #####################\n" ;
+        PrintElementTree::recordingValue.append( header );
+        if ( parentElement.texDocElementsList.size() == 0 )
+        {
+            PrintElementTree::recordingValue.append( parentElement.getTexElementValue() );
+        }
     }
     
     PrintElementTree::treedepth++;

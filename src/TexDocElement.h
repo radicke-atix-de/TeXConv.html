@@ -52,6 +52,11 @@ public:
     * then it is in this list.
     */
     list<TexDocElement> texDocElementsList;
+    
+    /**
+    * All objects have a own id. This is store the last using number.
+    */    
+    static int idCounter;    
 
     // Methods ###############################################################
 
@@ -89,6 +94,11 @@ public:
     */
     const string typToString( const enum ElementType& t) const ;
 
+    /**
+     * Get the object id.
+     * @return a object id.
+     * */
+    int getID(void){ return id; };
     
 private:
 
@@ -102,7 +112,12 @@ private:
     * If this object only a string, thas is the value.
     */
     string texElementValue;
-
+    
+    /**
+    * A Object id.
+    */    
+    int id;
+    
 
     // Methods ###############################################################
 
