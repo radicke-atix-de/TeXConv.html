@@ -27,8 +27,8 @@ void TexParser::cutOutBeginEnd
     string beginKeyWord = "\\begin{" + keyWord + "}";
     string endKeyWord = "\\end{" + keyWord + "}";
 DBINF << "Suche nach: " <<  keyWord << "\n";
-DBINF << "beginKeyWord: " + beginKeyWord + "\n";
-DBINF << "endKeyWord: " + endKeyWord + "\n";
+// DBINF << "beginKeyWord: " + beginKeyWord + "\n";
+// DBINF << "endKeyWord: " + endKeyWord + "\n";
     string rawPreSubString = "";
     string texSubstring = "";
     string rawPostSubString = "";
@@ -79,7 +79,7 @@ DBINF << "....Fündig geworden!\n"  ;
             );
             TexDocElement subElement;
             subElement.setTexElementTyp( typ );
-DBINF << "texSubstring: " << texSubstring  << endl;
+// DBINF << "texSubstring: " << texSubstring  << endl;
             subElement.setTexElementValue( texSubstring );
             parentElement.texDocElementsList.push_back(subElement);            
             
@@ -114,8 +114,8 @@ void TexParser::cutOutShortElements
     string beginKeyWord = "\\" + keyWord + "{";
     string endKeyWord = "}";
 DBINF << "Suche nach: " <<  keyWord << "\n";
-DBINF << "Anfang: " << beginKeyWord << "\n";
-DBINF << "Ende: " << endKeyWord << "\n";
+// DBINF << "Anfang: " << beginKeyWord << "\n";
+// DBINF << "Ende: " << endKeyWord << "\n";
     string rawPreSubString = "";
     string texSubstring = "";
     string rawPostSubString = "";
@@ -128,17 +128,11 @@ DBINF << "Ende: " << endKeyWord << "\n";
 
     while ( true)
     {
-        found_begin = texElementValue.find
-        (
-            beginKeyWord,
-            searchBegin
-        );
-        found_end = texElementValue.find
-        (
-            endKeyWord,
-            found_begin
-        );
-        if (found_begin!=string::npos || found_end!=string::npos)
+        found_begin = texElementValue.find ( beginKeyWord,
+            searchBegin );
+        found_end = texElementValue.find ( endKeyWord,
+            found_begin );
+        if ( found_begin!=string::npos || found_end!=string::npos )
         {
 DBINF << "....Fündig geworden!\n"  ;          
             // text before found the right element.
@@ -156,8 +150,8 @@ DBINF << "....Fündig geworden!\n"  ;
             // the founded element
             searchBegin = found_end;
             found_begin += beginKeyWord.length();
-DBINF << "found_begin: " <<  found_begin << endl;
-DBINF << "(found_end - found_begin): " <<  (found_end - found_begin) << endl ;
+// DBINF << "found_begin: " <<  found_begin << endl;
+// DBINF << "(found_end - found_begin): " <<  (found_end - found_begin) << endl ;
             texSubstring = texElementValue.substr
             (
                 found_begin,
@@ -165,20 +159,25 @@ DBINF << "(found_end - found_begin): " <<  (found_end - found_begin) << endl ;
             );
             TexDocElement subElement;
             subElement.setTexElementTyp( typ );
-DBINF << "texSubstring: " << texSubstring  << endl;
+// DBINF << "texSubstring: " << texSubstring  << endl;
             subElement.setTexElementValue( texSubstring );
             parentElement.texDocElementsList.push_back(subElement);            
             
         }else
         {
-            if( searchBegin < (texElementValue.size() - 1) )
+            // if nothing found do nothing.
+            if( searchBegin == 0 ) 
             {
-                // text after the last found right element.
-                rawPostSubString = texElementValue.substr
-                (
-                    searchBegin,
-                    (texElementValue.size() - 1)
-                );
+DBINF <<  keyWord << " - Nicht gefunden!" << endl;
+                break;
+            }
+            
+            // if text after the last right element found .
+            if( searchBegin < (texElementValue.size() - 1) 
+                && searchBegin > 0 )
+            {
+                rawPostSubString = texElementValue.substr ( searchBegin,
+                    (texElementValue.size() - 1) );
                 TexDocElement postElement;
                 postElement.setTexElementTyp( TexDocElement::RAW );
 //DBINF << "texPostSubstring: " << rawPostSubString  << endl;
@@ -324,6 +323,7 @@ void TexParser::pars()
     TexParser::parsVerbatim( TexParser::getDocumentElement() );
 //     TexParser::parsVerbatim( TexParser::getMetadataElement() );
     TexParser::parsInput( TexParser::getRootElement() );
+    TexParser::parsVerbatim( TexParser::getDocumentElement() );
     return;
 }
 
@@ -370,74 +370,58 @@ DBINF << "Setze Dcument und Metadata." << endl;
 void TexParser::parsInput(TexDocElement&  parentElement)
 {
 DBINF << "pars \\input." << endl; 
-    int typInputCount = 0;
     list<TexDocElement>::iterator subElement;
-    list<TexDocElement>::iterator subSubElement;
 DBINF << "Listenlänge: " << parentElement.texDocElementsList.size() << endl;
+DBINF << "parentElement.getTexElementTyp(): " << parentElement.getTypAsString() << endl;
 
-    if( parentElement.texDocElementsList.size() == 0 )
-    {
-        if
-        ( 
-            TexDocElement::VERBATIM == parentElement.getTexElementTyp() 
-            || TexDocElement::VERB == parentElement.getTexElementTyp() 
-        )
-        {      
+    if( parentElement.getTexElementTyp() == TexDocElement::VERBATIM
+        || parentElement.getTexElementTyp() == TexDocElement::VERB )
+    {      
 DBINF << "überspringe TexDocElement::VERBATIM" << endl;  
-            return;
+        return;
+    }else
+    {
+        if( parentElement.getTexElementTyp() == TexDocElement::INPUT )    
+        {
+            DBINF << "TexDocElement::INPUT gefunden "  << endl;                
+            string fileName = parentElement.getTexElementValue();
+            parentElement.setTexElementValue ( TexParser::readInputFile(fileName) );
+            parentElement.setTexElementTyp( TexDocElement::RAW );
+            //  DBINF << "parsInput rekusion..." << endl; 
+            //         TexParser::parsInput( parentElement );
+            //         return;
+        }else
+        {
+            if ( parentElement.texDocElementsList.size() == 0 )
+            {
+                TexParser::cutOutShortElements( parentElement, 
+                    string("input"),
+                    TexDocElement::INPUT );
+            }
+            DBINF << parentElement.texDocElementsList.size()  << " subelemente gefunden." << endl; 
+            for ( subElement = parentElement.texDocElementsList.begin();
+                subElement != parentElement.texDocElementsList.end();
+                subElement++ )
+            {           
+                DBINF << "parsInput rekusion-2..." << endl; 
+                TexParser::parsInput( *subElement );
+            } // end for-loop
         }
-        TexParser::cutOutShortElements
-        (
-            parentElement, 
-            string("input"),
-            TexDocElement::INPUT
-        );
     }
-    for
-    (
-        subElement = parentElement.texDocElementsList.begin();
-        subElement != parentElement.texDocElementsList.end();
-        subElement++
-    )
-    {            
-DBINF << "subElement gefunden" << endl; 
-        if
-        ( 
-            TexDocElement::VERBATIM == (*subElement).getTexElementTyp() 
-            || TexDocElement::VERB == (*subElement).getTexElementTyp() 
-        )
-        {
-DBINF << "überspringe TexDocElement::VERBATIM" << endl; 
-            continue;
-        }
-        enum TexDocElement::ElementType typ = (*subElement).getTexElementTyp();
-        if(typ == TexDocElement::INPUT)    
-        {
-            typInputCount++;
-DBINF << "TexDocElement::INPUT gefunden "  << endl;                
-            string fileName = (*subElement).getTexElementValue();
-            (*subSubElement).setTexElementValue
-            ( 
-                TexParser::readInputFile(fileName) 
-            );
-            (*subElement).setTexElementTyp( TexDocElement::RAW );   
-        }
-
-    } // end for-loop
-//     if( typInputCount == 0 )
-//     {
-//         return;
-//     }else
-//     {
-//         TexParser::parsInput( *subElement );
-//     }
 }
 
 
 void TexParser::parsVerbatim(TexDocElement&  parentElement)
 {
+    list<TexDocElement>::iterator subElement;
 DBINF << "parsVerbatim.... "  << endl;  
 DBINF << "Listenlänge: " << parentElement.texDocElementsList.size() << endl;    
+    if( parentElement.getTexElementTyp() == TexDocElement::VERB
+        || parentElement.getTexElementTyp() == TexDocElement::VERBATIM )
+    {
+DBINF << "... überspringe ein VERBATIM element."  << endl;          
+        return;
+    }
     if( parentElement.texDocElementsList.size() == 0 )
     {
         TexParser::cutOutBeginEnd
@@ -448,24 +432,23 @@ DBINF << "Listenlänge: " << parentElement.texDocElementsList.size() << endl;
         );  
         return;
     }
-
-    // TODO
-    list<TexDocElement>::iterator subElement;
-    for
-    (
-        subElement = parentElement.texDocElementsList.begin();
+    for( subElement = parentElement.texDocElementsList.begin();
         subElement != parentElement.texDocElementsList.end();
-        subElement++)
+        subElement++ )
     {            
-        if( (*subElement).texDocElementsList.size() == 0 )
+        if( (*subElement).getTexElementTyp() == TexDocElement::VERB
+            || (*subElement).getTexElementTyp() == TexDocElement::VERBATIM )
         {
-            TexParser::cutOutBeginEnd
-            (
-                *subElement,
-                string("verbatim"),
-                TexDocElement::VERBATIM
-            );  
-        }
+            return;
+        }        
+//         if( (*subElement).texDocElementsList.size() == 0 )
+//         {
+//             TexParser::cutOutBeginEnd( *subElement,
+//                 string("verbatim"),
+//                 TexDocElement::VERBATIM );  
+//         }
+DBINF << "... VERBATIM rekusion."  << endl;    
+        TexParser::parsVerbatim( *subElement );
     }    
     
 }

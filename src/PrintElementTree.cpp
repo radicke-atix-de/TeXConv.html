@@ -13,7 +13,7 @@ using namespace std;
 void PrintElementTree::printTree( TexDocElement& parentElement )
 {
     list<TexDocElement>::iterator itSubElement;
-    cout << string(PrintElementTree::treedepth, '=')
+    cout << string(PrintElementTree::treedepth, '\t')
     << "[Typ: "
     <<  parentElement.getTypAsString()
     << "][characters: "
