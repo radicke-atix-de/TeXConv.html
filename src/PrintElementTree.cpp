@@ -16,9 +16,10 @@ void PrintElementTree::printTree( TexDocElement& parentElement )
     cout << string(PrintElementTree::treedepth, '=')
     << "[Typ: "
     <<  parentElement.getTypAsString()
-    << "][Zeichelänge: "
+    << "][characters: "
     << (parentElement.getTexElementValue()).size() 
-    << "]" << endl;    
+    << "][sub elements: " << parentElement.texDocElementsList.size() << "]"
+    << endl;    
     
     PrintElementTree::treedepth++;
     for
@@ -28,12 +29,13 @@ void PrintElementTree::printTree( TexDocElement& parentElement )
         itSubElement++
     )
     {
-        cout << string(PrintElementTree::treedepth, '=')
-        << "[Typ: "
-        <<  (*itSubElement).getTypAsString()
-        << "][Zeichelänge: "
-        << ((*itSubElement).getTexElementValue()).size() 
-        << "]" << endl;
+//         cout << string(PrintElementTree::treedepth, '=')
+//         << "[Typ: "
+//         <<  (*itSubElement).getTypAsString()
+//         << "][characters: "
+//         << ((*itSubElement).getTexElementValue()).size() 
+//         << "][sub elements: " << parentElement.texDocElementsList.size() << "]"
+//         << endl;
         // got depth. 
         PrintElementTree::printTree(*itSubElement);
     }
