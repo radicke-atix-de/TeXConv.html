@@ -12,6 +12,12 @@ using namespace std;
 
 void PrintElementTree::printTree( TexDocElement& parentElement )
 {
+    PrintElementTree::printTreeElement( parentElement );
+    cout << PrintElementTree::recordingValue << endl;    
+}
+
+void PrintElementTree::printTreeElement( TexDocElement& parentElement )
+{
     list<TexDocElement>::iterator itSubElement;
     cout << string(PrintElementTree::treedepth, '\t')
     << "[Typ: "
@@ -20,6 +26,10 @@ void PrintElementTree::printTree( TexDocElement& parentElement )
     << (parentElement.getTexElementValue()).size() 
     << "][sub elements: " << parentElement.texDocElementsList.size() << "]"
     << endl;    
+    if (PrintElementTree::verboseMode == true)
+    {
+        PrintElementTree::recordingValue.append( parentElement.getTexElementValue() );
+    }
     
     PrintElementTree::treedepth++;
     for
@@ -37,7 +47,12 @@ void PrintElementTree::printTree( TexDocElement& parentElement )
 //         << "][sub elements: " << parentElement.texDocElementsList.size() << "]"
 //         << endl;
         // got depth. 
-        PrintElementTree::printTree(*itSubElement);
+        PrintElementTree::printTreeElement(*itSubElement);
     }
     PrintElementTree::treedepth--;
+}
+
+void PrintElementTree::setVerbose ( bool mode )
+{
+    PrintElementTree::verboseMode = mode;
 }

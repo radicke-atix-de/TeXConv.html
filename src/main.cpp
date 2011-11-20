@@ -21,6 +21,8 @@ void get_help(void)
     cout << "\t\t Name of input file." << endl;
     cout << "\n--output=[file name]" << endl;
     cout << "\t\t Name of output file." << endl;
+    cout << "\n-v" << endl;
+    cout << "\t\t verbose mode. explain what is being done." << endl;
 
 
 }
@@ -34,6 +36,8 @@ int main(int argc,char *argv[])
     std::string outputFileName;
     outputFileName="";
     string do_command = "";
+    bool verbose = false;
+    
 
 
     for ( int i = 1; i < argc; i++)
@@ -70,6 +74,11 @@ int main(int argc,char *argv[])
             size_t endIdentifier = std::string("--output=").length();
             outputFileName = str_arg.substr( endIdentifier );
         }
+        found = str_arg.find("-v");
+        if (found!=std::string::npos)
+        {
+            verbose = true;
+        }        
     } // end for-loop
     
     if( do_command == "")
@@ -91,7 +100,8 @@ int main(int argc,char *argv[])
         texParser.setInputFileName(imputFileName);
         texParser.pars();
         PrintElementTree treePrinter;
-DBINF << "######### Starte mit PrintElementTree::printTree ############" << endl;        
+DBINF << "######### Starte mit PrintElementTree::printTree ############" << endl;   
+        treePrinter.setVerbose ( verbose );
         treePrinter.printTree( texParser.getRootElement() );
         return 0;
     }

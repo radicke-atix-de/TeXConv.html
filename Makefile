@@ -108,7 +108,7 @@ uninstall:
 bin-test:
 	./texconv --help
 	./texconv pars --input=./testfiles/simple_tex_document.tex --output=./muell.html
-	./texconv doctree --input=./testfiles/simple_tex_document.tex 
+	./texconv doctree -v --input=./testfiles/simple_tex_document.tex | cat > ./out.txt
 
 bin-gdb:
 	gdb ./texconv

@@ -323,6 +323,8 @@ void TexParser::pars()
     TexParser::parsVerbatim( TexParser::getDocumentElement() );
 //     TexParser::parsVerbatim( TexParser::getMetadataElement() );
     TexParser::parsInput( TexParser::getRootElement() );
+    // second level?
+//    TexParser::parsInput( TexParser::getRootElement() );
     TexParser::parsVerbatim( TexParser::getDocumentElement() );
     return;
 }
@@ -387,9 +389,9 @@ DBINF << "überspringe TexDocElement::VERBATIM" << endl;
             string fileName = parentElement.getTexElementValue();
             parentElement.setTexElementValue ( TexParser::readInputFile(fileName) );
             parentElement.setTexElementTyp( TexDocElement::RAW );
-            //  DBINF << "parsInput rekusion..." << endl; 
-            //         TexParser::parsInput( parentElement );
-            //         return;
+//             DBINF << "parsInput rekusion..." << endl; 
+//             TexParser::parsInput( parentElement );
+//             return;
         }else
         {
             if ( parentElement.texDocElementsList.size() == 0 )
