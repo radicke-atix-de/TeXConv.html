@@ -68,7 +68,7 @@ DBINF << "....Fündig geworden!\n"  ;
             parentElement.texDocElementsList.push_back(preElement);
             
             // the founded element
-            searchBegin = found_end;
+            searchBegin = found_end + endKeyWord.length() + 1;
             found_begin += beginKeyWord.length();
 // DBINF << "found_begin: " <<  found_begin << endl;
 // DBINF << "(found_end - found_begin): " <<  (found_end - found_begin) << endl ;
