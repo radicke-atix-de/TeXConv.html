@@ -14,15 +14,16 @@ public:
     * pars the imput file.
     */
     void pars(void);
+    
     /**
     * set the name of imput file.
-    * @param fileName an integer argument.
+    * @param fileName a string argument is needed.
     */
-    void setInputFileName(std::string);
+    void setInputFileName(std::string fileName);
 
     /**
-    * Get back the rootElement.
-    * @return The root elemet.
+    * Get back the ElementType::ROOTELEMENT.
+    * @return The root element.
     */
     TexDocElement& getRootElement(void);
 
