@@ -176,7 +176,7 @@ DBINF <<  keyWord << " - Nicht gefunden!" << endl;
             if( searchBegin < (texElementValue.size() - 1) 
                 && searchBegin > 0 )
             {
-                rawPostSubString = texElementValue.substr ( searchBegin,
+                rawPostSubString = texElementValue.substr ( (searchBegin + 1),
                     (texElementValue.size() - 1) );
                 TexDocElement postElement;
                 postElement.setTexElementTyp( TexDocElement::RAW );
