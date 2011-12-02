@@ -5,8 +5,7 @@
 
 #include "TexDocElement.h"
 
-class TexParser
-{
+class TexParser{
 public:
     TexParser(void);
     ~TexParser(void);
@@ -54,8 +53,7 @@ private:
     * @param  typ a enum ElementType from TexDocElement class.
     * @return Return a Stnin without comments.
     */   
-    void cutOutBeginEnd
-    (
+    void cutOutBeginEnd (
         TexDocElement& parentElement,
         std::string keyWord,
         const enum TexDocElement::ElementType& typ
@@ -70,8 +68,7 @@ private:
     * @param  typ a enum ElementType from TexDocElement class.
     * @return Return a Stnin without comments.
     */   
-    void cutOutShortElements
-    (
+    void cutOutShortElements (
         TexDocElement& parentElement,
         std::string keyWord,
         const enum TexDocElement::ElementType& typ

@@ -6,8 +6,7 @@
 
 using namespace std;
 
-class TexDocElement
-{
+class TexDocElement{
 public:
     TexDocElement(void);
     ~TexDocElement(void);
@@ -16,8 +15,7 @@ public:
     /**
     * supportet typs
     */
-    enum ElementType
-    {
+    enum ElementType {
         AUTOR ,         /**< tex command author                             */
         BIGSKIP,        /**< bigskip                                        */
         DESCRIPTION,    /**< tex command description                        */

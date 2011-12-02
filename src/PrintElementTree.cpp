@@ -12,14 +12,12 @@
 
 using namespace std;
 
-void PrintElementTree::printTree( TexDocElement& parentElement )
-{
+void PrintElementTree::printTree( TexDocElement& parentElement ){
     PrintElementTree::printTreeElement( parentElement );
     cout << PrintElementTree::recordingValue << endl;    
 }
 
-void PrintElementTree::printTreeElement( TexDocElement& parentElement )
-{
+void PrintElementTree::printTreeElement( TexDocElement& parentElement ){
     list<TexDocElement>::iterator itSubElement;
     string header = "";
     cout << string(PrintElementTree::treedepth, '\t')
@@ -30,27 +28,23 @@ void PrintElementTree::printTreeElement( TexDocElement& parentElement )
     << (parentElement.getTexElementValue()).size() 
     << "][sub elements: " << parentElement.texDocElementsList.size() << "]"
     << endl;    
-    if (PrintElementTree::verboseMode == true)
-    {
+    if (PrintElementTree::verboseMode == true) {
         header = "\n##################### [ID:" 
             + boost::lexical_cast<string>( parentElement.getID() )
             + "][Typ: " +parentElement.getTypAsString() + "]"
             + " #####################\n" ;
         PrintElementTree::recordingValue.append( header );
-        if ( parentElement.texDocElementsList.size() == 0 )
-        {
+        if ( parentElement.texDocElementsList.size() == 0 ) {
             PrintElementTree::recordingValue.append( parentElement.getTexElementValue() );
         }
     }
     
     PrintElementTree::treedepth++;
-    for
-    (
+    for(
         itSubElement = parentElement.texDocElementsList.begin();
         itSubElement != parentElement.texDocElementsList.end();
         itSubElement++
-    )
-    {
+    ) {
 //         cout << string(PrintElementTree::treedepth, '=')
 //         << "[Typ: "
 //         <<  (*itSubElement).getTypAsString()
@@ -64,7 +58,6 @@ void PrintElementTree::printTreeElement( TexDocElement& parentElement )
     PrintElementTree::treedepth--;
 }
 
-void PrintElementTree::setVerbose ( bool mode )
-{
+void PrintElementTree::setVerbose ( bool mode ){
     PrintElementTree::verboseMode = mode;
 }

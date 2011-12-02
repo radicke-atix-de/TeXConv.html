@@ -9,8 +9,7 @@
 
 using namespace std;
 
-class PrintElementTree
-{
+class PrintElementTree{
   public:
 
 

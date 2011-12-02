@@ -17,19 +17,16 @@ TexDocElement::~TexDocElement(void)
 // G #########################################################################
 
 
-string TexDocElement::getTypAsString()
-{
+string TexDocElement::getTypAsString(){
     return TexDocElement::typToString( TexDocElement::texElementTyp );
 }
 
-enum TexDocElement::ElementType TexDocElement::getTexElementTyp()
-{
+enum TexDocElement::ElementType TexDocElement::getTexElementTyp(){
     return TexDocElement::texElementTyp;
 }
 
 
-std::string TexDocElement::getTexElementValue()
-{
+std::string TexDocElement::getTexElementValue(){
     return TexDocElement::texElementValue;
 }
 
@@ -39,13 +36,11 @@ int TexDocElement::idCounter = 0;
 
 // S #########################################################################
 
-void TexDocElement::setTexElementTyp( enum TexDocElement::ElementType typ)
-{
+void TexDocElement::setTexElementTyp( enum TexDocElement::ElementType typ){
     TexDocElement::texElementTyp = typ;
 }
 
-void TexDocElement::setTexElementValue( std::string value )
-{
+void TexDocElement::setTexElementValue( std::string value ){
     TexDocElement::texElementValue = value;
 }
 
@@ -110,5 +105,4 @@ const string TexDocElement::typToString( const enum ElementType& t) const {
     default: 
         return "unknow";
     }
-    
 }
