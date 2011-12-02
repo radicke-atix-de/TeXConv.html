@@ -17,7 +17,8 @@ public:
     */
     enum ElementType {
         AUTOR ,         /**< tex command author                             */
-        BIGSKIP,        /**< bigskip                                        */
+        BIGSKIP,        /**< tex command bigskip                            */
+        CHAPTER,        /**< tex command chapter                            */
         DESCRIPTION,    /**< tex command description                        */
         DOCUMENT,       /**< tex command document                           */
         INPUT,          /**< tex command input                              */
@@ -28,23 +29,27 @@ public:
         MAKETITLE,      /**< tex command maketitle                          */
         METADATA,       /**< metadata of document                           */
         NEWCOMMAND,     /**< tex command newcommand                         */
+        NO_TABCON,      /**< No add section in tableofcontents              */
         PAGEREF,        /**< tex command pageref                            */
+        PARAGRAPH,      /**< tex command paragraph                          */
         TABLEOFCONTENTS,/**< tex command tableofcontents                    */
         TABULAR,        /**< tex command tabular                            */
-        TEXT,           /**< raw text                                       */
+        TEXT,           /**< text                                           */
         TITLE,          /**< tex command title                              */
         RAW,            /**< raw tex text                                   */
         REF,            /**< tex command ref                                */
         ROOTELEMENT,    /**< root element.                                  */
-        SUBSUBSECTION,  /**< tex command subsection                         */
-        SUBSECTION,     /**< tex command subsubsection                      */
         SECTION,        /**< tex command section                            */
+        SHORTTITLE,     /**< short title of a section                       */
+        SUPPARAGRAPH,   /**< tex command subparagraph                       */
+        SUBSUBSECTION,  /**< tex command subsubsection                      */
+        SUBSECTION,     /**< tex command subsection                         */
         URL,            /**< tex command url                                */
         VERB,           /**< tex command verb                               */
         VERBATIM,       /**< tex command verbatim                           */
         VOID            /**< typ is not set                                 */
     };
-
+    
     /**
     * if the object have other children object,
     * then it is in this list.
