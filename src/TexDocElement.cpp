@@ -52,6 +52,8 @@ const string TexDocElement::typToString( const enum ElementType& t) const {
         return "AUTOR";
     case BIGSKIP:
         return "BIGSKIP";
+    case CHAPTER:
+        return "CHAPTER";
     case DESCRIPTION:
         return "DESCRIPTION";
     case DOCUMENT:
@@ -72,8 +74,12 @@ const string TexDocElement::typToString( const enum ElementType& t) const {
         return "METADATA";
     case NEWCOMMAND:
         return "NEWCOMMAND";
+    case NO_TABCON:
+        return "NO_TABCON";
     case PAGEREF:
         return "PAGEREF";
+    case PARAGRAPH:
+        return "PARAGRAPH";
     case TABLEOFCONTENTS:
         return "TABLEOFCONTENTS";
     case TABULAR:
@@ -88,12 +94,16 @@ const string TexDocElement::typToString( const enum ElementType& t) const {
         return "REF";
     case ROOTELEMENT:
         return "ROOTELEMENT";
+    case SECTION:
+        return "SECTION";
+    case SHORTTITLE:
+        return "SHORTTITLE";
+    case SUPPARAGRAPH:
+        return "SUPPARAGRAPH";
     case SUBSUBSECTION:
         return "SUBSUBSECTION";
     case SUBSECTION:
         return "SUBSECTION";
-    case SECTION:
-        return "SECTION";
     case URL:
         return "URL";
     case VERB:
