@@ -98,6 +98,21 @@ void TexParser::cutOutSectionElements(
     string keyWord,
     const enum TexDocElement::ElementType& type
 ){
+    string      firstCharacter      = "";
+    string      rawPreSubString     = "";
+    string      texSubstring        = "";
+    string      rawPostSubString    = "";
+
+    string      texElementValue     = parentElement.getTexElementValue();
+// DBINF << "[cutOutSectionElements] In: " <<  texElementValue << "\n";
+    size_t      searchBegin         = 0;
+    size_t      found_begin         = string::npos;
+    size_t      found_end           = string::npos;
+    size_t      cutBegin            = 0;
+    size_t      cutEnd              = 0;
+    string      beginKeyWord        = "\\" + keyWord;
+    string      endKeyWord          = "}";
+    
     enum TexDocElement::ElementType  elementTyp = parentElement.getTexElementTyp();
     if ( elementTyp != TexDocElement::DOCUMENT
         && elementTyp != TexDocElement::TEXT
@@ -109,23 +124,9 @@ DBINF << "[cutOutSectionElements] is: " <<  parentElement.getTypAsString() << "\
         return;
     }
 
-    string beginKeyWord = "\\" + keyWord;
-    string endKeyWord = "}";
 DBINF << "[cutOutSectionElements] Suche nach: " <<  keyWord << "\n";
 DBINF << "[cutOutSectionElements] Anfang: " << beginKeyWord << "\n";
 DBINF << "[cutOutSectionElements] Ende: " << endKeyWord << "\n";
-    string firstCharacter = "";
-    string rawPreSubString = "";
-    string texSubstring = "";
-    string rawPostSubString = "";
-
-    string texElementValue = parentElement.getTexElementValue();
-// DBINF << "[cutOutSectionElements] In: " <<  texElementValue << "\n";
-    size_t      searchBegin     = 0;
-    size_t      found_begin     = string::npos;
-    size_t      found_end       = string::npos;
-    size_t      cutBegin        = 0;
-    size_t      cutEnd          = 0;
 
     
     while ( true) {
@@ -154,23 +155,23 @@ DBINF << "[cutOutSectionElements] rawPreSubString: " << rawPreSubString  << endl
             TexDocElement subElement;
             subElement.setTexElementTyp( type );
             searchBegin = found_end + 1;
-            found_begin += beginKeyWord.length();
+//             found_begin += beginKeyWord.length();
 DBINF << "[cutOutSectionElements] found_begin: " <<  found_begin << endl;
 DBINF << "[cutOutSectionElements] (found_end - found_begin): " <<  (found_end - found_begin) << endl ;
-            cutBegin = found_begin + beginKeyWord.length();
+            cutBegin = found_begin + beginKeyWord.length() ;
             cutEnd = 1;
             while ( true) {
                 firstCharacter = texElementValue.substr (
-                    (cutBegin - 1),
+                    cutBegin,
                     1
                 );
+                cutBegin++;
 DBINF << "[cutOutSectionElements] firstCharacter: " <<  firstCharacter << endl;
                 if( firstCharacter == "*"){
 DBINF << "[cutOutSectionElements] * gefunden!" << endl;
                     TexDocElement metaData;
                     metaData.setTexElementTyp( TexDocElement::NO_TABCON );
                     subElement.texDocElementsList.push_back(metaData);
-                    cutBegin++;
                 }
                 if( firstCharacter == "["){
 DBINF << "[cutOutSectionElements] [ gefunden!" << endl;
@@ -200,8 +201,7 @@ DBINF << "[cutOutSectionElements] { gefunden!" << endl;
                     subElement.setTexElementValue( title );
                     parentElement.texDocElementsList.push_back(subElement);
                     break;
-                }
-                cutBegin++;            
+                }      
             } // end while
         }else
         {
