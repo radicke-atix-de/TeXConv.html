@@ -119,16 +119,14 @@ void TexParser::cutOutSectionElements(
         && elementTyp != TexDocElement::RAW
     ){
         // all other ignore....
-DBINF << "[cutOutSectionElements] return: is not DOCUMENT, TEXT or RAW " << "\n";  
-DBINF << "[cutOutSectionElements] is: " <<  parentElement.getTypAsString() << "\n";        
+/*DBINF << "[cutOutSectionElements] return: is not DOCUMENT, TEXT or RAW " << "\n";  
+DBINF << "[cutOutSectionElements] is: " <<  parentElement.getTypAsString() << "\n";*/        
         return;
     }
 
-DBINF << "[cutOutSectionElements] Suche nach: " <<  keyWord << "\n";
-DBINF << "[cutOutSectionElements] Anfang: " << beginKeyWord << "\n";
-DBINF << "[cutOutSectionElements] Ende: " << endKeyWord << "\n";
-
-    
+// DBINF << "[cutOutSectionElements] Suche nach: " <<  keyWord << "\n";
+// DBINF << "[cutOutSectionElements] Anfang: " << beginKeyWord << "\n";
+// DBINF << "[cutOutSectionElements] Ende: " << endKeyWord << "\n";
     while ( true) {
         found_begin = texElementValue.find ( 
             beginKeyWord,
@@ -139,7 +137,7 @@ DBINF << "[cutOutSectionElements] Ende: " << endKeyWord << "\n";
             found_begin 
         );
         if ( found_begin!=string::npos || found_end!=string::npos )  {
-DBINF << "[cutOutSectionElements] ....Fündig geworden!\n"  ;
+// DBINF << "[cutOutSectionElements] ....Fündig geworden!\n"  ;
             // text before found the right element.
             rawPreSubString = texElementValue.substr (
                 searchBegin,
@@ -147,7 +145,7 @@ DBINF << "[cutOutSectionElements] ....Fündig geworden!\n"  ;
             );
             TexDocElement preElement;
             preElement.setTexElementTyp( TexDocElement::RAW );
-DBINF << "[cutOutSectionElements] rawPreSubString: " << rawPreSubString  << endl;
+// DBINF << "[cutOutSectionElements] rawPreSubString: " << rawPreSubString  << endl;
             preElement.setTexElementValue( rawPreSubString );
             parentElement.texDocElementsList.push_back(preElement);
 
@@ -156,8 +154,8 @@ DBINF << "[cutOutSectionElements] rawPreSubString: " << rawPreSubString  << endl
             subElement.setTexElementTyp( type );
             searchBegin = found_end + 1;
 //             found_begin += beginKeyWord.length();
-DBINF << "[cutOutSectionElements] found_begin: " <<  found_begin << endl;
-DBINF << "[cutOutSectionElements] (found_end - found_begin): " <<  (found_end - found_begin) << endl ;
+// DBINF << "[cutOutSectionElements] found_begin: " <<  found_begin << endl;
+// DBINF << "[cutOutSectionElements] (found_end - found_begin): " <<  (found_end - found_begin) << endl ;
             cutBegin = found_begin + beginKeyWord.length() ;
             cutEnd = 1;
             while ( true) {
@@ -166,15 +164,15 @@ DBINF << "[cutOutSectionElements] (found_end - found_begin): " <<  (found_end - 
                     1
                 );
                 cutBegin++;
-DBINF << "[cutOutSectionElements] firstCharacter: " <<  firstCharacter << endl;
+// DBINF << "[cutOutSectionElements] firstCharacter: " <<  firstCharacter << endl;
                 if( firstCharacter == "*"){
-DBINF << "[cutOutSectionElements] * gefunden!" << endl;
+// DBINF << "[cutOutSectionElements] * gefunden!" << endl;
                     TexDocElement metaData;
                     metaData.setTexElementTyp( TexDocElement::NO_TABCON );
                     subElement.texDocElementsList.push_back(metaData);
                 }
                 if( firstCharacter == "["){
-DBINF << "[cutOutSectionElements] [ gefunden!" << endl;
+// DBINF << "[cutOutSectionElements] [ gefunden!" << endl;
                     TexDocElement metaData;
                     string shortTitle = "";
                     metaData.setTexElementTyp( TexDocElement::SHORTTITLE );
@@ -193,7 +191,7 @@ DBINF << "[cutOutSectionElements] [ gefunden!" << endl;
                     cutEnd = 1;
                 }
                 if( firstCharacter == "{"){
-DBINF << "[cutOutSectionElements] { gefunden!" << endl;
+// DBINF << "[cutOutSectionElements] { gefunden!" << endl;
                     string title = texElementValue.substr (
                         cutBegin,
                         (found_end - cutBegin)
@@ -207,7 +205,7 @@ DBINF << "[cutOutSectionElements] { gefunden!" << endl;
         {
             // if nothing found do nothing.
             if( searchBegin == 0 ) {
-DBINF << "[cutOutSectionElements] " <<  keyWord << " - Nicht gefunden!" << endl;
+// DBINF << "[cutOutSectionElements] " <<  keyWord << " - Nicht gefunden!" << endl;
                 break;
             }
 
