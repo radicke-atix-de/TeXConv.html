@@ -342,7 +342,29 @@ TexDocElement& TexParser::getDocumentElement(void){
     throw;    
 }
 
+list<TexDocElement&>  TexParser::getListElementOfType(
+        TexDocElement& parentElement,
+        const enum TexDocElement::ElementType& type){
+  
+    list<TexDocElement&> listElement;
+    list<TexDocElement>::iterator itSubElement;
+    string header = "";
+    enum TexDocElement::ElementType  elementTyp = parentElement.getTexElementTyp();
+   
+    if(elementTyp == type){
+        listElement.push_back(parentElement);
+    }
 
+    for(
+        itSubElement = parentElement.texDocElementsList.begin();
+        itSubElement != parentElement.texDocElementsList.end();
+        itSubElement++
+    ) {
+        listElement.push_back( PrintElementTree::getListElementOfType(*itSubElement) );
+    }
+    return listElement;
+}
+        
 TexDocElement& TexParser::getMetadataElement(void){
     for (
         list<TexDocElement>::iterator i = TexParser::rootElement.texDocElementsList.begin();

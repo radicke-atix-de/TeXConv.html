@@ -44,6 +44,7 @@ private:
     TexDocElement rootElement;
 
     // Methods ---------------------------------------------------------------
+   
     /**
     * search and convert elements of texElementValue in a list
     * of TexDocElement objects. With this form:
@@ -118,7 +119,17 @@ private:
     * @throw string If the the Function not fount TexParser::DOCUMENT.
     * @return Get back a TexDocElement with type "TexParser::DOCUMENT".
     */    
-    TexDocElement& getDocumentElement(void);    
+    TexDocElement& getDocumentElement(void);
+
+    /**
+    * Get a list of Element select bei type. 
+    * @param  type The type of selection.
+    * @param  parentElement The top element where the search starts.
+    * @return Get back a list of TexDocElement with type of param type.
+    */
+    list<TexDocElement&>  getListElementOfType(
+        TexDocElement& parentElement,
+        const enum TexDocElement::ElementType& type);
     
     /**
     * @throw string If the the Function not fount TexParser::METADATA.
