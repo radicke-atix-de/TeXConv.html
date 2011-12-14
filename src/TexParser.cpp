@@ -402,6 +402,7 @@ void TexParser::pars(){
     // second level?
 //    TexParser::parsInput( TexParser::getRootElement() );
     TexParser::parsVerbatim( TexParser::getDocumentElement() );
+    TexParser::parsNewCommand();
     TexParser::parsAllSections( TexParser::getDocumentElement() );
     return;
 }
@@ -511,6 +512,15 @@ DBINF << "überspringe TexDocElement::VERBATIM" << endl;
             } // end for-loop
         }
     }
+}
+
+void TexParser::parsNewCommand(void){
+    TexParser::cutOutShortElements (
+        getMetadataElement(),
+        string("newcommand"),
+        TexDocElement::NEWCOMMAND
+    );  
+
 }
 
 

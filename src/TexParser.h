@@ -80,7 +80,7 @@ private:
     * with this form:
     * \kexword{text part}
     * @param  parentElement parent element.
-    * @param  keyWord parents element.
+    * @param  keyWord like this: "input" für "\input{file.txt}".
     * @param  type a enum ElementType from TexDocElement class.
     */   
     void cutOutShortElements (
@@ -144,6 +144,14 @@ private:
     * beginning element.
     */
     void parsInput( TexDocElement&  parentElement );
+
+
+    /**
+    * It's pars the Tex document of the part "\newcommand" in
+    * TexParser::METADATA and pars TexParser::DOCUMENT part
+    * to find and remove definition of new commands.
+    */
+    void parsNewCommand(void);
 
     /**
     * It's pars the Tex document of sections elements.
