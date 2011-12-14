@@ -1,6 +1,7 @@
 #ifndef TEXPARSER_H
 #define TEXPARSER_H
 
+#include <list>
 #include <string>
 
 #include "TexDocElement.h"
@@ -127,8 +128,8 @@ private:
     * @param  parentElement The top element where the search starts.
     * @return Get back a list of TexDocElement with type of param type.
     */
-    list<TexDocElement&>  getListElementOfType(
-        TexDocElement& parentElement,
+    list<TexDocElement*>  getListElementOfType(
+        TexDocElement* parentElement,
         const enum TexDocElement::ElementType& type);
     
     /**

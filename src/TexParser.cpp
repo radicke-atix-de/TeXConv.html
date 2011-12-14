@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <list>
 #include <string>
 #include <boost/regex.hpp>
 
@@ -342,25 +343,34 @@ TexDocElement& TexParser::getDocumentElement(void){
     throw;    
 }
 
-list<TexDocElement&>  TexParser::getListElementOfType(
-        TexDocElement& parentElement,
+list<TexDocElement*>  TexParser::getListElementOfType(
+        TexDocElement* parentElement,
         const enum TexDocElement::ElementType& type){
   
-    list<TexDocElement&> listElement;
+    list<TexDocElement*> listElement;
     list<TexDocElement>::iterator itSubElement;
     string header = "";
-    enum TexDocElement::ElementType  elementTyp = parentElement.getTexElementTyp();
+    enum TexDocElement::ElementType  elementTyp = parentElement->getTexElementTyp();
    
     if(elementTyp == type){
-        listElement.push_back(parentElement);
+        listElement.push_back ( parentElement );
     }
 
     for(
-        itSubElement = parentElement.texDocElementsList.begin();
-        itSubElement != parentElement.texDocElementsList.end();
+        itSubElement = parentElement->texDocElementsList.begin();
+        itSubElement != parentElement->texDocElementsList.end();
         itSubElement++
     ) {
-        listElement.push_back( PrintElementTree::getListElementOfType(*itSubElement) );
+          list<TexDocElement*> subList = TexParser::getListElementOfType(
+              &(*itSubElement),
+              type
+          );
+          listElement.insert (
+                listElement.end(),
+                subList.begin(),
+                subList.end()
+          );
+
     }
     return listElement;
 }
