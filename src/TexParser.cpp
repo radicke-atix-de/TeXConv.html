@@ -510,7 +510,12 @@ void TexParser::parsNewCommand(void){
         string("newcommand"),
         TexDocElement::NEWCOMMAND
     );  
-
+    list<TexDocElement*> ListOfElement = TexParser::getListElementOfType(
+        &(TexParser::getMetadataElement()),
+        TexDocElement::NEWCOMMAND
+    );
+DBINF << "Faunded newcommands: " <<  ListOfElement.size() << "\n";
+        
 }
 
 void TexParser::parsSections(
