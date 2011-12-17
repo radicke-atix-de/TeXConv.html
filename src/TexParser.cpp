@@ -505,17 +505,26 @@ void TexParser::parsInput(TexDocElement&  parentElement){
 }
 
 void TexParser::parsNewCommand(void){
+    list<TexDocElement*> listOfElement;
+    list<TexDocElement*>::iterator element;
     TexParser::cutOutShortElements (
         getMetadataElement(),
         string("newcommand"),
         TexDocElement::NEWCOMMAND
     );  
-    list<TexDocElement*> ListOfElement = TexParser::getListElementOfType(
+    listOfElement = TexParser::getListElementOfType(
         &(TexParser::getMetadataElement()),
         TexDocElement::NEWCOMMAND
     );
-DBINF << "Faunded newcommands: " <<  ListOfElement.size() << "\n";
-        
+DBINF << "Faunded newcommands: " <<  listOfElement.size() << "\n";
+    for ( element = listOfElement.begin();
+        element != listOfElement.end();
+        element++
+    ) {
+//         TexParser::parsSections( *listElement, keyWord, type );
+
+DBINF << "newcommand value: " <<  (*element)->getTexElementValue() << endl;    
+    } // end for-loop        
 }
 
 void TexParser::parsSections(
