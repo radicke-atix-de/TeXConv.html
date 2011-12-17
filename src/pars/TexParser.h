@@ -4,7 +4,7 @@
 #include <list>
 #include <string>
 
-#include "TexDocElement.h"
+#include "../TexDocElement.h"
 
 class TexParser{
 public:

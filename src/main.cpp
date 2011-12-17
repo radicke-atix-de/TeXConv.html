@@ -1,11 +1,10 @@
 // Creating error-no: date +"%Y%m%d%H%M"
 
-#include "TexParser.h"
 #include <string>
 #include <iostream>
 
 #include "PrintElementTree.h"
-#include "TexParser.h"
+#include "pars/TexParser.h"
 
 /** get debugging info */
 #define DBINF  cout << "[debug]"

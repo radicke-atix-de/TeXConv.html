@@ -54,7 +54,7 @@ public:
     * if the object have other children object,
     * then it is in this list.
     */
-    list<TexDocElement> texDocElementsList;
+    list<TexDocElement> subElementList;
     
     /**
     * All objects have a own id. This is store the last using number.
@@ -71,31 +71,31 @@ public:
     /**
     * get the typ of element.
     */
-    enum ElementType getTexElementTyp();
+    enum ElementType getType();
     
     /**
     * get the value of element.
     */
-    string getTexElementValue();
+    string getValue();
     
     /**
     * set the typ of element.
-    * @param typ an string of typ name.
+    * @param type an string of typ name.
     */
-    void setTexElementTyp( enum TexDocElement::ElementType typ );
+    void setType( enum TexDocElement::ElementType type );
     
 
     /**
     * set the value of element.
-    * @param typ an string of typ name.
+    * @param value an string of typ name.
     */
-    void setTexElementValue( string typ );
+    void setValue( string value );
 
     /**
     * Convert a enum ElementType in a String.
-    * @param t A enum ElementType
+    * @param type A enum ElementType
     */
-    const string typToString( const enum ElementType& t) const ;
+    const string typeToString( const enum ElementType& type) const ;
 
     /**
      * Get the object id.

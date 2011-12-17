@@ -16,7 +16,7 @@ CPPFLAGS = -Wall -Werror -pedantic
 LIBS = -lboost_regex
 
 
-SOURCE = ./src/main.cpp
+#SOURCE = ./src/main.cpp
 OBJECTS =  main.o \
 PrintElementTree.o \
 TexDocElement.o \
@@ -51,7 +51,7 @@ $(PROGNAME) : $(OBJECTS)
 main.o: ./src/main.cpp
 	$(CC) $(CPPFLAGS)  -o $@ -c $^ $(LIBS)
 
-TexParser.o: ./src/TexParser.cpp
+TexParser.o: ./src/pars/TexParser.cpp
 	$(CC) $(CPPFLAGS)  -o $@ -c $^ $(LIBS)
 
 TexDocElement.o: ./src/TexDocElement.cpp

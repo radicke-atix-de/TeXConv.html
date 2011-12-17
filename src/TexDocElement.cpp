@@ -18,15 +18,15 @@ TexDocElement::~TexDocElement(void)
 
 
 string TexDocElement::getTypAsString(){
-    return TexDocElement::typToString( TexDocElement::texElementTyp );
+    return TexDocElement::typeToString( TexDocElement::texElementTyp );
 }
 
-enum TexDocElement::ElementType TexDocElement::getTexElementTyp(){
+enum TexDocElement::ElementType TexDocElement::getType(){
     return TexDocElement::texElementTyp;
 }
 
 
-std::string TexDocElement::getTexElementValue(){
+std::string TexDocElement::getValue(){
     return TexDocElement::texElementValue;
 }
 
@@ -36,17 +36,17 @@ int TexDocElement::idCounter = 0;
 
 // S #########################################################################
 
-void TexDocElement::setTexElementTyp( enum TexDocElement::ElementType typ){
-    TexDocElement::texElementTyp = typ;
+void TexDocElement::setType( enum TexDocElement::ElementType type){
+    TexDocElement::texElementTyp = type;
 }
 
-void TexDocElement::setTexElementValue( std::string value ){
+void TexDocElement::setValue( std::string value ){
     TexDocElement::texElementValue = value;
 }
 
 // T #########################################################################
 
-const string TexDocElement::typToString( const enum ElementType& t) const {
+const string TexDocElement::typeToString( const enum ElementType& t) const {
     switch(t) {
     case AUTOR:
         return "AUTOR";

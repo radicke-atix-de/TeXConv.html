@@ -25,8 +25,8 @@ void PrintElementTree::printTreeElement( TexDocElement& parentElement ){
     << "][Typ: "
     <<  parentElement.getTypAsString()
     << "][characters: "
-    << (parentElement.getTexElementValue()).size() 
-    << "][sub elements: " << parentElement.texDocElementsList.size() << "]"
+    << (parentElement.getValue()).size() 
+    << "][sub elements: " << parentElement.subElementList.size() << "]"
     << endl;    
     if (PrintElementTree::verboseMode == true) {
         header = "\n##################### [ID:" 
@@ -34,23 +34,23 @@ void PrintElementTree::printTreeElement( TexDocElement& parentElement ){
             + "][Typ: " +parentElement.getTypAsString() + "]"
             + " #####################\n" ;
         PrintElementTree::recordingValue.append( header );
-        if ( parentElement.texDocElementsList.size() == 0 ) {
-            PrintElementTree::recordingValue.append( parentElement.getTexElementValue() );
+        if ( parentElement.subElementList.size() == 0 ) {
+            PrintElementTree::recordingValue.append( parentElement.getValue() );
         }
     }
     
     PrintElementTree::treedepth++;
     for(
-        itSubElement = parentElement.texDocElementsList.begin();
-        itSubElement != parentElement.texDocElementsList.end();
+        itSubElement = parentElement.subElementList.begin();
+        itSubElement != parentElement.subElementList.end();
         itSubElement++
     ) {
 //         cout << string(PrintElementTree::treedepth, '=')
 //         << "[Typ: "
 //         <<  (*itSubElement).getTypAsString()
 //         << "][characters: "
-//         << ((*itSubElement).getTexElementValue()).size() 
-//         << "][sub elements: " << parentElement.texDocElementsList.size() << "]"
+//         << ((*itSubElement).getValue()).size() 
+//         << "][sub elements: " << parentElement.subElementList.size() << "]"
 //         << endl;
         // got depth. 
         PrintElementTree::printTreeElement(*itSubElement);
