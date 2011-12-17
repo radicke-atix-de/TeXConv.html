@@ -83,7 +83,7 @@ int main(int argc,char *argv[])
         return 1;
     }
     if( do_command == "doctree")  {
-        TexParser texParser;
+        Pars::TexParser texParser;
         texParser.setInputFileName(imputFileName);
         texParser.pars();
         PrintElementTree treePrinter;
@@ -98,7 +98,7 @@ DBINF << "######### Starte mit PrintElementTree::printTree ############" << endl
             return 1;
         }
 DBINF << "convert " << imputFileName << " to " << outputFileName << endl;
-        TexParser texParser;
+        Pars::TexParser texParser;
         texParser.setInputFileName(imputFileName);
         texParser.pars();
         return 0;

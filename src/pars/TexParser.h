@@ -6,6 +6,8 @@
 
 #include "../TexDocElement.h"
 
+namespace Pars {
+
 class TexParser{
 public:
     TexParser(void);
@@ -190,5 +192,7 @@ private:
     std::string readInputFile(std::string& fileName);
 
 };
+
+} // end namespace
 
 #endif 

@@ -12,6 +12,7 @@
 #define DBINF  cout << "[debug]"
 
 using namespace std;
+using namespace Pars;
 
 
 // B =========================================================================
