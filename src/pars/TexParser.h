@@ -63,20 +63,7 @@ private:
         const enum TexDocElement::ElementType& type
     );
     
-    /**
-    * search sections in text of texElementValue and convert in a list
-    * of TexDocElement objects. for example, searching string
-    * with this form:
-    * \section*[shot title]{long title}
-    * @param  parentElement parent element.
-    * @param  keyWord section element. For example: "section*".
-    * @param  type a enum ElementType from TexDocElement class.
-    */
-    void cutOutSectionElements (
-        TexDocElement& parentElement,
-        std::string keyWord,
-        const enum TexDocElement::ElementType& type
-    );   
+
     
     /**
     * search text parts in texElementValue and convert this in a list
@@ -140,16 +127,7 @@ private:
     */       
     TexDocElement& getMetadataElement(void);
 
-    /**
-    * It's pars the Tex document of sections elements.
-    * @param parentElement this is a recursive function and this
-    */
-    void parsAllSections( TexDocElement&  parentElement );
 
-//     /**
-//     * It's pars the Tex document of the part "document".
-//     */
-//     void parsDocument(void);
     
     /**
     * It's pars the Tex document of the part "\input{}" and
@@ -167,18 +145,7 @@ private:
     */
     void parsNewCommand(void);
 
-    /**
-    * It's pars the Tex document of sections elements.
-    * @param parentElement this is a recursive function and this
-    * beginning element.
-    * @param  keyWord parents element.
-    * @param  typ a enum ElementType from TexDocElement class.
-    */
-    void parsSections(
-        TexDocElement&  parentElement,
-        std::string keyWord,
-        const enum TexDocElement::ElementType& type
-    );
+
     
      /**
     * It's pars the Tex document of verbatim elements.

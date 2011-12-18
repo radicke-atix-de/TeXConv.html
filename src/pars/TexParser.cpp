@@ -8,6 +8,7 @@
 
 #include "../TexDocElement.h"
 #include "DocumentParser.h"
+#include "SectionParser.h"
 #include "TexParser.h"
 
 /** get debugging info */
@@ -87,122 +88,6 @@ void TexParser::cutOutBeginEnd(
     } // end while-loop
 }
 
-void TexParser::cutOutSectionElements(
-    TexDocElement& parentElement,
-    string keyWord,
-    const enum TexDocElement::ElementType& type
-){
-    string      firstCharacter      = "";
-    string      rawPreSubString     = "";
-    string      texSubstring        = "";
-    string      rawPostSubString    = "";
-
-    string      texElementValue     = parentElement.getValue();
-    size_t      searchBegin         = 0;
-    size_t      found_begin         = string::npos;
-    size_t      found_end           = string::npos;
-    size_t      cutBegin            = 0;
-    size_t      cutEnd              = 0;
-    string      beginKeyWord        = "\\" + keyWord;
-    string      endKeyWord          = "}";
-    
-    enum TexDocElement::ElementType  elementTyp = parentElement.getType();
-    if ( elementTyp != TexDocElement::DOCUMENT
-        && elementTyp != TexDocElement::TEXT
-        && elementTyp != TexDocElement::RAW
-    ){
-        // all other ignore....      
-        return;
-    }
-
-    while ( true) {
-        found_begin = texElementValue.find ( 
-            beginKeyWord,
-            searchBegin 
-        );
-        found_end = texElementValue.find ( 
-            endKeyWord,
-            found_begin 
-        );
-        if ( found_begin!=string::npos || found_end!=string::npos )  {
-            // text before found the right element.
-            rawPreSubString = texElementValue.substr (
-                searchBegin,
-                found_begin - searchBegin
-            );
-            TexDocElement preElement;
-            preElement.setType( TexDocElement::RAW );
-            preElement.setValue( rawPreSubString );
-            parentElement.subElementList.push_back(preElement);
-
-            // the founded element
-            TexDocElement subElement;
-            subElement.setType( type );
-            searchBegin = found_end + 1;
-            cutBegin = found_begin + beginKeyWord.length() ;
-            cutEnd = 1;
-            while ( true) {
-                firstCharacter = texElementValue.substr (
-                    cutBegin,
-                    1
-                );
-                cutBegin++;
-                if( firstCharacter == "*"){
-                    TexDocElement metaData;
-                    metaData.setType( TexDocElement::NO_TABCON );
-                    subElement.subElementList.push_back(metaData);
-                }
-                if( firstCharacter == "["){
-                    TexDocElement metaData;
-                    string shortTitle = "";
-                    metaData.setType( TexDocElement::SHORTTITLE );
-                    cutEnd = texElementValue.find (
-                        "]",
-                        cutBegin 
-                    );
-                    cutEnd = cutEnd - cutBegin;
-                    shortTitle = texElementValue.substr (
-                        cutBegin,
-                        (cutEnd - cutBegin)
-                    );
-                    metaData.setValue( shortTitle );
-                    subElement.subElementList.push_back(metaData);
-                    cutBegin = cutBegin + cutEnd;
-                    cutEnd = 1;
-                }
-                if( firstCharacter == "{"){
-                    string title = texElementValue.substr (
-                        cutBegin,
-                        (found_end - cutBegin)
-                    );
-                    subElement.setValue( title );
-                    parentElement.subElementList.push_back(subElement);
-                    break;
-                }      
-            } // end inner while
-        }else
-        {
-            // if nothing found do nothing.
-            if( searchBegin == 0 ) {
-                break;
-            }
-            // if text after the last right element found .
-            if( searchBegin < (texElementValue.size() - 1)
-                && searchBegin > 0 )
-            {
-                rawPostSubString = texElementValue.substr ( 
-                    searchBegin,
-                    (texElementValue.size() - 1) 
-                );
-                TexDocElement postElement;
-                postElement.setType( TexDocElement::RAW );
-                postElement.setValue( rawPostSubString );
-                parentElement.subElementList.push_back(postElement);
-            }
-            break;
-        }
-    } // end while-loop
-}
 
 void TexParser::cutOutShortElements(
     TexDocElement& parentElement,
@@ -413,76 +298,10 @@ void TexParser::pars(){
     // second level?
     TexParser::parsVerbatim( TexParser::getDocumentElement() );
     TexParser::parsNewCommand();
-    TexParser::parsAllSections( TexParser::getDocumentElement() );
+    (SectionParser()).parsAllSections( TexParser::getDocumentElement() );
     return;
 }
 
-void TexParser::parsAllSections ( TexDocElement& parentElement){
-DBINF << "parsAllSections...." <<  endl;
-    TexParser::parsSections(
-        parentElement,
-        "chapter",
-        TexDocElement::CHAPTER
-    );
-    TexParser::parsSections(
-        parentElement,
-        "paragraph",
-        TexDocElement::PARAGRAPH
-    );
-    TexParser::parsSections(
-        parentElement,
-        "section",
-        TexDocElement::SECTION
-    );
-    TexParser::parsSections(
-        parentElement,
-        "subparagraph",
-        TexDocElement::SUPPARAGRAPH
-    );
-    TexParser::parsSections(
-        parentElement,
-        "subsubsection",
-        TexDocElement::SUBSUBSECTION
-    );
-    TexParser::parsSections(
-        parentElement,
-        "subsection",
-        TexDocElement::SUBSECTION
-    );
-}
-
-// void TexParser::parsDocument(void) {
-//     string text_document = "";
-//     string document_metadata = "";
-//     
-//     size_t found_begin = TexParser::completeDoc.find("\\begin{document}");
-//     size_t found_end = TexParser::completeDoc.find("\\end{document}");
-//     if (found_begin!=string::npos || found_end!=string::npos) {
-//         // cut metadata.
-//         document_metadata = TexParser::completeDoc.substr (
-//             0,
-//             found_begin
-//         );
-//         // cut netto document.
-//         found_begin += string("\\begin{document}").length();
-//         text_document = TexParser::completeDoc.substr(
-//             found_begin,
-//             (found_end - found_begin)
-//         );
-//     }else {
-//         cerr << "[201111062044] No begin or end of document found." << endl;
-//         throw;
-//     }
-//     TexDocElement metaElement;
-//     metaElement.setType( TexDocElement::METADATA );
-//     metaElement.setValue( document_metadata );
-//     TexParser::rootElement.subElementList.push_back(metaElement);
-//     
-//     TexDocElement docElement;
-//     docElement.setType( TexDocElement::DOCUMENT );
-//     docElement.setValue( text_document );
-//     TexParser::rootElement.subElementList.push_back(docElement);
-// }
 
 void TexParser::parsInput(TexDocElement&  parentElement){
     list<TexDocElement>::iterator subElement;
@@ -530,33 +349,12 @@ DBINF << "Faunded newcommands: " <<  listOfElement.size() << "\n";
         element++
     ) {
 //         TexParser::parsSections( *listElement, keyWord, type );
+DBINF << "newcommand value: " <<  (*element)->getValue() << endl;
 
-DBINF << "newcommand value: " <<  (*element)->getValue() << endl;    
     } // end for-loop        
 }
 
-void TexParser::parsSections(
-    TexDocElement&  parentElement,
-    std::string keyWord,
-    const enum TexDocElement::ElementType& type
-){ 
-    list<TexDocElement>::iterator subElement;
-  
-    if ( parentElement.subElementList.size() == 0 ) {
-        TexParser::cutOutSectionElements( 
-            parentElement,
-            keyWord,
-            type
-    );
-    }
-    for ( subElement = parentElement.subElementList.begin();
-        subElement != parentElement.subElementList.end();
-        subElement++
-    ) {
-        TexParser::parsSections( *subElement, keyWord, type );
-    } // end for-loop
 
-}
 
 void TexParser::parsVerbatim(TexDocElement&  parentElement){
     list<TexDocElement>::iterator subElement;   

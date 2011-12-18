@@ -20,12 +20,14 @@ SOURCES = ./src/main.cpp \
 ./src/TexDocElement.cpp \
 ./src/PrintElementTree.cpp \
 ./src/pars/DocumentParser.cpp \
+./src/pars/SectionParser.cpp \
 ./src/pars/TexParser.cpp 
 
 OBJECTS =  ./src/main.o \
 ./src/PrintElementTree.o \
 ./src/TexDocElement.o \
 ./src/pars/DocumentParser.o \
+./src/pars/SectionParser.o \
 ./src/pars/TexParser.o
 
 
@@ -68,6 +70,9 @@ $(PROGNAME) : $(OBJECTS)
 	$(CC) $(CPPFLAGS)  -o $@ -c $^ $(LIBS)
 
 ./src/pars/DocumentParser.o: ./src/pars/DocumentParser.cpp
+	$(CC) $(CPPFLAGS)  -o $@ -c $^ $(LIBS)
+
+./src/pars/SectionParser.o: ./src/pars/SectionParser.cpp
 	$(CC) $(CPPFLAGS)  -o $@ -c $^ $(LIBS)
 
 ./src/pars/TexParser.o: ./src/pars/TexParser.cpp
