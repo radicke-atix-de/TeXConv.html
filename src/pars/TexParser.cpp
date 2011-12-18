@@ -5,8 +5,10 @@
 #include <string>
 #include <boost/regex.hpp>
 
-#include "TexParser.h"
+
 #include "../TexDocElement.h"
+#include "DocumentParser.h"
+#include "TexParser.h"
 
 /** get debugging info */
 #define DBINF  cout << "[debug]"
@@ -400,7 +402,12 @@ TexDocElement& TexParser::getRootElement(void){
 
 void TexParser::pars(){
     TexParser::completeDoc = TexParser::readInputFile(TexParser::inputFileName);
-    TexParser::parsDocument();
+    (DocumentParser()).parsDocument( 
+    // DocumentParser::parsDocument( 
+        TexParser::rootElement,
+        TexParser::completeDoc
+    );
+//    TexParser::parsDocument();
     TexParser::parsVerbatim( TexParser::getDocumentElement() );
     TexParser::parsInput( TexParser::getRootElement() );
     // second level?

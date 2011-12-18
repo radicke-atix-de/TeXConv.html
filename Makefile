@@ -17,14 +17,16 @@ LIBS = -lboost_regex
 
 
 SOURCES = ./src/main.cpp \
-./src/pars/TexParser.cpp \
 ./src/TexDocElement.cpp \
-./src/PrintElementTree.cpp
+./src/PrintElementTree.cpp \
+./src/pars/DocumentParser.cpp \
+./src/pars/TexParser.cpp 
 
-OBJECTS =  main.o \
-PrintElementTree.o \
-TexDocElement.o \
-TexParser.o
+OBJECTS =  ./src/main.o \
+./src/PrintElementTree.o \
+./src/TexDocElement.o \
+./src/pars/DocumentParser.o \
+./src/pars/TexParser.o
 
 
 
@@ -52,17 +54,23 @@ AUTHORS:
 $(PROGNAME) : $(OBJECTS)
 	$(CC) -o $@  $^ $(LIBS)
 
+# $(OBJECTS) : $(SOURCES)
+# 	$(CC) -o $@  $^ $(LIBS)
 
-main.o: ./src/main.cpp
+./src/main.o: ./src/main.cpp
 	$(CC) $(CPPFLAGS)  -o $@ -c $^ $(LIBS)
 
-TexParser.o: ./src/pars/TexParser.cpp
+
+./src/PrintElementTree.o: ./src/PrintElementTree.cpp
 	$(CC) $(CPPFLAGS)  -o $@ -c $^ $(LIBS)
 
-TexDocElement.o: ./src/TexDocElement.cpp
+./src/TexDocElement.o: ./src/TexDocElement.cpp
 	$(CC) $(CPPFLAGS)  -o $@ -c $^ $(LIBS)
 
-PrintElementTree.o: ./src/PrintElementTree.cpp
+./src/pars/DocumentParser.o: ./src/pars/DocumentParser.cpp
+	$(CC) $(CPPFLAGS)  -o $@ -c $^ $(LIBS)
+
+./src/pars/TexParser.o: ./src/pars/TexParser.cpp
 	$(CC) $(CPPFLAGS)  -o $@ -c $^ $(LIBS)
 
 # cleaning the build-tmp-files
