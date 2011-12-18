@@ -146,10 +146,10 @@ private:
     */
     void parsAllSections( TexDocElement&  parentElement );
 
-    /**
-    * It's pars the Tex document of the part "document".
-    */
-    void parsDocument(void);
+//     /**
+//     * It's pars the Tex document of the part "document".
+//     */
+//     void parsDocument(void);
     
     /**
     * It's pars the Tex document of the part "\input{}" and

@@ -451,38 +451,38 @@ DBINF << "parsAllSections...." <<  endl;
     );
 }
 
-void TexParser::parsDocument(void) {
-    string text_document = "";
-    string document_metadata = "";
-    
-    size_t found_begin = TexParser::completeDoc.find("\\begin{document}");
-    size_t found_end = TexParser::completeDoc.find("\\end{document}");
-    if (found_begin!=string::npos || found_end!=string::npos) {
-        // cut metadata.
-        document_metadata = TexParser::completeDoc.substr (
-            0,
-            found_begin
-        );
-        // cut netto document.
-        found_begin += string("\\begin{document}").length();
-        text_document = TexParser::completeDoc.substr(
-            found_begin,
-            (found_end - found_begin)
-        );
-    }else {
-        cerr << "[201111062044] No begin or end of document found." << endl;
-        throw;
-    }
-    TexDocElement metaElement;
-    metaElement.setType( TexDocElement::METADATA );
-    metaElement.setValue( document_metadata );
-    TexParser::rootElement.subElementList.push_back(metaElement);
-    
-    TexDocElement docElement;
-    docElement.setType( TexDocElement::DOCUMENT );
-    docElement.setValue( text_document );
-    TexParser::rootElement.subElementList.push_back(docElement);
-}
+// void TexParser::parsDocument(void) {
+//     string text_document = "";
+//     string document_metadata = "";
+//     
+//     size_t found_begin = TexParser::completeDoc.find("\\begin{document}");
+//     size_t found_end = TexParser::completeDoc.find("\\end{document}");
+//     if (found_begin!=string::npos || found_end!=string::npos) {
+//         // cut metadata.
+//         document_metadata = TexParser::completeDoc.substr (
+//             0,
+//             found_begin
+//         );
+//         // cut netto document.
+//         found_begin += string("\\begin{document}").length();
+//         text_document = TexParser::completeDoc.substr(
+//             found_begin,
+//             (found_end - found_begin)
+//         );
+//     }else {
+//         cerr << "[201111062044] No begin or end of document found." << endl;
+//         throw;
+//     }
+//     TexDocElement metaElement;
+//     metaElement.setType( TexDocElement::METADATA );
+//     metaElement.setValue( document_metadata );
+//     TexParser::rootElement.subElementList.push_back(metaElement);
+//     
+//     TexDocElement docElement;
+//     docElement.setType( TexDocElement::DOCUMENT );
+//     docElement.setValue( text_document );
+//     TexParser::rootElement.subElementList.push_back(docElement);
+// }
 
 void TexParser::parsInput(TexDocElement&  parentElement){
     list<TexDocElement>::iterator subElement;
