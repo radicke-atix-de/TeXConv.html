@@ -19,10 +19,10 @@ public:
     * TexDocElement::DOCUMENT and TexDocElement::METADATA.
     * @param  rootElement the root element of tex document.
     */
-    const void parsDocument(
+    static void parsDocument(
         TexDocElement& rootElement,
         const std::string& completeDoc
-    ) const;
+    );
 
 private:
 

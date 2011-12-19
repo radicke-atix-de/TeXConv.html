@@ -1,9 +1,8 @@
 
 #include <iostream>
-#include <fstream>
 #include <list>
 #include <string>
-#include <boost/regex.hpp>
+//#include <boost/regex.hpp>
 
 #include "DocumentParser.h"
 #include "../TexDocElement.h"
@@ -15,10 +14,10 @@ using namespace std;
 using namespace Pars;
 
 
-const void DocumentParser::parsDocument(
+void DocumentParser::parsDocument(
     TexDocElement& rootElement,
     const std::string& completeDoc
-) const {
+){
     string text_document = "";
     string document_metadata = "";
     

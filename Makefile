@@ -19,14 +19,18 @@ LIBS = -lboost_regex
 SOURCES = ./src/main.cpp \
 ./src/TexDocElement.cpp \
 ./src/PrintElementTree.cpp \
+./src/pars/CutOut.cpp \
 ./src/pars/DocumentParser.cpp \
+./src/pars/InputParser.cpp \
 ./src/pars/SectionParser.cpp \
 ./src/pars/TexParser.cpp 
 
 OBJECTS =  ./src/main.o \
 ./src/PrintElementTree.o \
 ./src/TexDocElement.o \
+./src/pars/CutOut.o \
 ./src/pars/DocumentParser.o \
+./src/pars/InputParser.o \
 ./src/pars/SectionParser.o \
 ./src/pars/TexParser.o
 
