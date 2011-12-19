@@ -3,8 +3,8 @@
 VERSION=dev
 PROGNAME=texconv
 
-BUILDDIR=/BUILD
-OUTPUT_BUILD = .$(BUILDDIR)/$(PROGNAME)-$(VERSION)
+BUILDDIR=./BUILD
+OUTPUT_BUILD = $(BUILDDIR)/$(PROGNAME)-$(VERSION)
 DOCS=./docs
 TESTFILES=./testfiles
 
@@ -38,8 +38,8 @@ all: dist
 
 # create distrebut-build
 dist: $(DOCS) AUTHORS $(PROGNAME)
-	mkdir .$(BUILDDIR)
-	mkdir $(OUTPUT_BUILD)
+	if [ ! -d $(BUILDDIR) ] ; then mkdir $(BUILDDIR) ; fi
+	if [ ! -d $(OUTPUT_BUILD)  ] ; then mkdir $(OUTPUT_BUILD) ; fi
 	#$(CP) ./GPL*.txt $(OUTPUT_BUILD)
 	$(CP) ./README* $(OUTPUT_BUILD)
 	$(CP) ./Makefile $(OUTPUT_BUILD)
@@ -53,41 +53,25 @@ AUTHORS:
 	git shortlog  --numbered --summary -e | while read a rest; do echo $$rest;done > ./AUTHORS
 
 
-$(PROGNAME) : $(OBJECTS)
-	$(CC) -o $@  $^ $(LIBS)
 
-# $(OBJECTS) : $(SOURCES)
-# 	$(CC) -o $@  $^ $(LIBS)
+$(PROGNAME): $(OBJECTS)
+	$(CC) $(CFLAGS) -o $(PROGNAME) $(OBJECTS) $(LIBS)
 
-./src/main.o: ./src/main.cpp
-	$(CC) $(CPPFLAGS)  -o $@ -c $^ $(LIBS)
+%.o: %.c
+	$(CC) $(CPPFLAGS) -c $<
 
 
-./src/PrintElementTree.o: ./src/PrintElementTree.cpp
-	$(CC) $(CPPFLAGS)  -o $@ -c $^ $(LIBS)
-
-./src/TexDocElement.o: ./src/TexDocElement.cpp
-	$(CC) $(CPPFLAGS)  -o $@ -c $^ $(LIBS)
-
-./src/pars/DocumentParser.o: ./src/pars/DocumentParser.cpp
-	$(CC) $(CPPFLAGS)  -o $@ -c $^ $(LIBS)
-
-./src/pars/SectionParser.o: ./src/pars/SectionParser.cpp
-	$(CC) $(CPPFLAGS)  -o $@ -c $^ $(LIBS)
-
-./src/pars/TexParser.o: ./src/pars/TexParser.cpp
-	$(CC) $(CPPFLAGS)  -o $@ -c $^ $(LIBS)
 
 # cleaning the build-tmp-files
 clean:
 	#rm -f *.rpm
-	$(RM) -r .$(BUILDDIR)
+	$(RM) -r $(BUILDDIR)
 
 # cleaning the build-tmp-files
 clean-all:
 	$(RM) -f *~
 	#rm -f *.rpm
-	$(RM) -r .$(BUILDDIR)
+	$(RM) -r $(BUILDDIR)
 	$(RM) -f $(OBJECTS)
 	$(RM) -f $(PROGNAME)
 	$(RM) -r $(DOCS)
