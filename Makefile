@@ -32,7 +32,7 @@ OBJECTS =  ./src/main.o \
 
 
 
-.PHONY:   AUTHORS all archive clean  install rpm
+.PHONY:   AUTHORS all archive bin-test  clean clean-all install rpm tex-test
 
 all: dist
 
