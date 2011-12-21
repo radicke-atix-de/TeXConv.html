@@ -8,6 +8,7 @@
 #include "CutOut.h"
 #include "DocumentParser.h"
 #include "InputParser.h"
+#include "NewcommandParser.h"
 #include "SectionParser.h"
 #include "TexParser.h"
 
@@ -96,34 +97,10 @@ void TexParser::pars(){
     InputParser::parsInput( TexParser::getRootElement() );
     // second level?
     TexParser::parsVerbatim( TexParser::getDocumentElement() );
-    TexParser::parsNewCommand();
+    NewcommandParser::pars( TexParser::getMetadataElement() );
     (SectionParser()).parsAllSections( TexParser::getDocumentElement() );
     return;
 }
-
-void TexParser::parsNewCommand(void){
-    list<TexDocElement*> listOfElement;
-    list<TexDocElement*>::iterator element;
-    CutOut::shortElements (
-        getMetadataElement(),
-        string("newcommand"),
-        TexDocElement::NEWCOMMAND
-    );  
-    listOfElement = TexParser::getListElementOfType(
-        &(TexParser::getMetadataElement()),
-        TexDocElement::NEWCOMMAND
-    );
-DBINF << "Faunded newcommands: " <<  listOfElement.size() << "\n";
-    for ( element = listOfElement.begin();
-        element != listOfElement.end();
-        element++
-    ) {
-//         TexParser::parsSections( *listElement, keyWord, type );
-DBINF << "newcommand value: " <<  (*element)->getValue() << endl;
-
-    } // end for-loop        
-}
-
 
 
 void TexParser::parsVerbatim(TexDocElement&  parentElement){

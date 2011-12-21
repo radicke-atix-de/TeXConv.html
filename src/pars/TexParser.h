@@ -24,6 +24,12 @@ public:
     void setInputFileName(std::string fileName);
 
     /**
+    * @throw string If the the Function not fount TexParser::METADATA.
+    * @return Get back a TexDocElement with type "TexParser::METADATA".
+    */       
+    TexDocElement& getMetadataElement(void);    
+    
+    /**
     * Get back the ElementType::ROOTELEMENT.
     * @return The root element.
     */
@@ -64,26 +70,11 @@ private:
         TexDocElement* parentElement,
         const enum TexDocElement::ElementType& type);
     
-    /**
-    * @throw string If the the Function not fount TexParser::METADATA.
-    * @return Get back a TexDocElement with type "TexParser::METADATA".
-    */       
-    TexDocElement& getMetadataElement(void);
-
-
-    /**
-    * It's pars the Tex document of the part "\newcommand" in
-    * TexParser::METADATA and pars TexParser::DOCUMENT part
-    * to find and remove definition of new commands.
-    */
-    void parsNewCommand(void);
-    
      /**
     * It's pars the Tex document of verbatim elements.
     * @param parentElement 
     */   
     void parsVerbatim( TexDocElement& parentElement );
-
 
 };
 
