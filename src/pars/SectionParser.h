@@ -16,7 +16,7 @@ public:
     * It's pars the Tex document of sections elements.
     * @param parentElement this is a recursive function and this
     */
-    void parsAllSections( TexDocElement&  parentElement );
+    static void parsAllSections( TexDocElement&  parentElement );
 
 private:
     
@@ -29,7 +29,7 @@ private:
     * @param  keyWord section element. For example: "section*".
     * @param  type a enum ElementType from TexDocElement class.
     */
-    void cutOutSectionElements (
+    static void cutOutSectionElements (
         TexDocElement& parentElement,
         std::string keyWord,
         const enum TexDocElement::ElementType& type
@@ -42,7 +42,7 @@ private:
     * @param  keyWord parents element.
     * @param  typ a enum ElementType from TexDocElement class.
     */
-    void parsSections(
+    static void parsSections(
         TexDocElement&  parentElement,
         std::string keyWord,
         const enum TexDocElement::ElementType& type

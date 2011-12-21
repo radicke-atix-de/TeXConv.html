@@ -132,7 +132,6 @@ void SectionParser::cutOutSectionElements(
     } // end while-loop
 }
 
-
 void SectionParser::parsAllSections ( TexDocElement& parentElement){
 DBINF << "parsAllSections...." <<  endl;
     SectionParser::parsSections(
