@@ -134,39 +134,39 @@ void SectionParser::cutOutSectionElements(
 
 void SectionParser::parsAllSections ( TexDocElement& parentElement){
 DBINF << "parsAllSections...." <<  endl;
-    SectionParser::parsSections(
+    SectionParser::parsSectionsRecursion(
         parentElement,
         "chapter",
         TexDocElement::CHAPTER
     );
-    SectionParser::parsSections(
+    SectionParser::parsSectionsRecursion(
         parentElement,
         "paragraph",
         TexDocElement::PARAGRAPH
     );
-    SectionParser::parsSections(
+    SectionParser::parsSectionsRecursion(
         parentElement,
         "section",
         TexDocElement::SECTION
     );
-    SectionParser::parsSections(
+    SectionParser::parsSectionsRecursion(
         parentElement,
         "subparagraph",
         TexDocElement::SUPPARAGRAPH
     );
-    SectionParser::parsSections(
+    SectionParser::parsSectionsRecursion(
         parentElement,
         "subsubsection",
         TexDocElement::SUBSUBSECTION
     );
-    SectionParser::parsSections(
+    SectionParser::parsSectionsRecursion(
         parentElement,
         "subsection",
         TexDocElement::SUBSECTION
     );
 }
 
-void SectionParser::parsSections(
+void SectionParser::parsSectionsRecursion(
     TexDocElement&  parentElement,
     std::string keyWord,
     const enum TexDocElement::ElementType& type
@@ -184,7 +184,7 @@ void SectionParser::parsSections(
         subElement != parentElement.subElementList.end();
         subElement++
     ) {
-        SectionParser::parsSections( *subElement, keyWord, type );
+        SectionParser::parsSectionsRecursion( *subElement, keyWord, type );
     } // end for-loop
 
 }

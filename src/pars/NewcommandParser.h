@@ -21,8 +21,23 @@ public:
     static void pars(TexDocElement&  metadataElement);
 
 private:
-    
 
+    /**
+    * Function is search tex command "\newcommand", and
+    * convert to TexDocElement::NEWCOMMAND.
+    * @param  parentElement this element us.
+    */
+    static void cutOutNewcommandElements(
+        TexDocElement& parentElement
+    );
+
+    /**
+     * is a recursion proxy function.
+    * @param  parentElement With this element start the search.
+     */
+    static void parsRecursion(
+        TexDocElement& parentElement
+    );
 
 }; // end class;
 

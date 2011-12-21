@@ -29,6 +29,9 @@ public:
         MAKETITLE,      /**< tex command maketitle                          */
         METADATA,       /**< metadata of document                           */
         NEWCOMMAND,     /**< tex command newcommand                         */
+        NEWCOMMAND_NAME,        /**< name of newcommand                     */
+        NEWCOMMAND_PARAM_COUNT, /**< count of newcommand params             */
+        NEWCOMMAND_SUBSTITUTE,  /**< The substitude text for newcommand     */
         NO_TABCON,      /**< No add section in tableofcontents              */
         PAGEREF,        /**< tex command pageref                            */
         PARAGRAPH,      /**< tex command paragraph                          */

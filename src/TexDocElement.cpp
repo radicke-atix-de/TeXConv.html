@@ -111,6 +111,12 @@ const string TexDocElement::typeToString( const enum ElementType& t) const {
         return "METADATA";
     case NEWCOMMAND:
         return "NEWCOMMAND";
+    case NEWCOMMAND_NAME:
+        return "NEWCOMMAND_NAME";
+    case NEWCOMMAND_PARAM_COUNT:
+        return "NEWCOMMAND_PARAM_COUNT";
+    case NEWCOMMAND_SUBSTITUTE:
+        return "NEWCOMMAND_SUBSTITUTE";      
     case NO_TABCON:
         return "NO_TABCON";
     case PAGEREF:

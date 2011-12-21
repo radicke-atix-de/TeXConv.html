@@ -42,7 +42,7 @@ private:
     * @param  keyWord parents element.
     * @param  typ a enum ElementType from TexDocElement class.
     */
-    static void parsSections(
+    static void parsSectionsRecursion(
         TexDocElement&  parentElement,
         std::string keyWord,
         const enum TexDocElement::ElementType& type
