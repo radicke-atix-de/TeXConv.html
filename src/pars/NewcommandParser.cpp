@@ -3,6 +3,7 @@
 #include <list>
 #include <string>
 
+#include "CutOut.h"
 #include "NewcommandParser.h"
 #include "../TexDocElement.h"
 
@@ -12,8 +13,7 @@
 using namespace std;
 using namespace Pars;
 
-
-static void NewcommandParser::pars(TexDocElement& metadataElement){
+void NewcommandParser::pars(TexDocElement& metadataElement){
     list<TexDocElement*> listOfElement;
     list<TexDocElement*>::iterator element;
     CutOut::shortElements (
@@ -21,8 +21,7 @@ static void NewcommandParser::pars(TexDocElement& metadataElement){
         string("newcommand"),
         TexDocElement::NEWCOMMAND
     );  
-    listOfElement = TexParser::getListElementOfType(
-        metadataElement,
+    listOfElement = metadataElement.getListElementOfType(
         TexDocElement::NEWCOMMAND
     );
 DBINF << "Faunded newcommands: " <<  listOfElement.size() << "\n";

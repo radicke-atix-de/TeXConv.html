@@ -103,6 +103,15 @@ public:
      * */
     int getID(void){ return id; };
     
+    /**
+    * Get a list of Element select bei type. 
+    * @param  type The type of selection.
+    * @param  parentElement The top element where the search starts.
+    * @return Get back a list of TexDocElement with type of param type.
+    */
+    list<TexDocElement*>  getListElementOfType(
+        const enum TexDocElement::ElementType& type);    
+    
 private:
 
     // Properties ############################################################
@@ -123,7 +132,15 @@ private:
     
 
     // Methods ###############################################################
-
+    /**
+    * Get a list of Element select bei type. 
+    * @param  type The type of selection.
+    * @param  parentElement The top element where the search starts.
+    * @return Get back a list of TexDocElement with type of param type.
+    */
+    list<TexDocElement*>  getListElementOfType(
+        TexDocElement* parentElement,
+        const enum TexDocElement::ElementType& type);  
 
 };
 

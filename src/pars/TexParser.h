@@ -22,7 +22,17 @@ public:
     * @param fileName a string argument is needed.
     */
     void setInputFileName(std::string fileName);
-
+    
+//     /**
+//     * Get a list of Element select bei type. 
+//     * @param  type The type of selection.
+//     * @param  parentElement The top element where the search starts.
+//     * @return Get back a list of TexDocElement with type of param type.
+//     */
+//     list<TexDocElement*>  getListElementOfType(
+//         TexDocElement* parentElement,
+//         const enum TexDocElement::ElementType& type);
+    
     /**
     * @throw string If the the Function not fount TexParser::METADATA.
     * @return Get back a TexDocElement with type "TexParser::METADATA".
@@ -59,16 +69,6 @@ private:
     * @return Get back a TexDocElement with type "TexParser::DOCUMENT".
     */    
     TexDocElement& getDocumentElement(void);
-
-    /**
-    * Get a list of Element select bei type. 
-    * @param  type The type of selection.
-    * @param  parentElement The top element where the search starts.
-    * @return Get back a list of TexDocElement with type of param type.
-    */
-    list<TexDocElement*>  getListElementOfType(
-        TexDocElement* parentElement,
-        const enum TexDocElement::ElementType& type);
     
      /**
     * It's pars the Tex document of verbatim elements.

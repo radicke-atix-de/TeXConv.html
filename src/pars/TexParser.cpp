@@ -33,7 +33,7 @@ TexDocElement& TexParser::getDocumentElement(void){
     cerr << "[201111171814] No Document found." << endl;
     throw;    
 }
-
+/*
 list<TexDocElement*>  TexParser::getListElementOfType(
         TexDocElement* parentElement,
         const enum TexDocElement::ElementType& type){
@@ -64,7 +64,7 @@ list<TexDocElement*>  TexParser::getListElementOfType(
 
     }
     return listElement;
-}
+}*/
         
 TexDocElement& TexParser::getMetadataElement(void){
     for (

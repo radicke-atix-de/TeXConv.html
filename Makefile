@@ -22,6 +22,7 @@ SOURCES = ./src/main.cpp \
 ./src/pars/CutOut.cpp \
 ./src/pars/DocumentParser.cpp \
 ./src/pars/InputParser.cpp \
+./src/pars/NewcommandParser.cpp \
 ./src/pars/SectionParser.cpp \
 ./src/pars/TexParser.cpp 
 
@@ -31,6 +32,7 @@ OBJECTS =  ./src/main.o \
 ./src/pars/CutOut.o \
 ./src/pars/DocumentParser.o \
 ./src/pars/InputParser.o \
+./src/pars/NewcommandParser.o \
 ./src/pars/SectionParser.o \
 ./src/pars/TexParser.o
 
@@ -61,9 +63,9 @@ AUTHORS:
 $(PROGNAME): $(OBJECTS)
 	$(CC) $(CFLAGS) -o $(PROGNAME) $(OBJECTS) $(LIBS)
 
-%.o: %.c
-	$(CC) $(CPPFLAGS) -c $<
 
+%.o: %.cpp
+	$(CC) $(CPPFLAGS) -c ./$< -o ./$@
 
 
 # cleaning the build-tmp-files
