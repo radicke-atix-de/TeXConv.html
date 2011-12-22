@@ -32,7 +32,7 @@ void NewcommandParser::cutOutNewcommandElements(
     string      beginKeyWord        = "\\" + keyWord + "{";
     string      endKeyWord          = "}";
     // open "{"
-    int opens = 0;
+    int open_curly_bracket = 0;
     
     while ( true) {
         found_begin = texElementValue.find ( 
@@ -96,29 +96,29 @@ DBINF << "...Faunded newcommand! \n";
                 "{",
                 searchBegin 
             );
-            // TODO using 
             for ( unsigned int i=found_begin ; i < texElementValue.size() ; i++){
                 if ( texElementValue.at(i) == '{' ){
-                    opens++;
+                    open_curly_bracket++;
                 }
                 if ( texElementValue.at(i) == '}' ){
-                    opens--;
+                    open_curly_bracket--;
                 }
-                if (opens == 1) {
+                if (open_curly_bracket == 1) {
                     found_end = i;
+DBINF << "searchBegin [1]: " << searchBegin << "\n";   
+DBINF << "found_begin: " << found_begin << "\n";   
                     break;
                 }
             }
-/*            found_end = texElementValue.find ( 
-                "}",
-                found_begin 
-            );*/    
-//             searchBegin = found_end + 1;  
-            searchBegin = found_end;        
+//             searchBegin = found_end; 
+DBINF << "searchBegin [2]: " << searchBegin << "\n";  
+DBINF << "found_begin: " << found_begin << "\n";  
+DBINF << "found_end: " << found_end << "\n";  
             string substitute_string = texElementValue.substr (
                 found_begin + 1,
                 found_end - ( found_begin + 1 )
             ); 
+            searchBegin =  found_end;
             TexDocElement elementSubstitute;
             elementSubstitute.setType( TexDocElement::NEWCOMMAND_SUBSTITUTE );
             elementSubstitute.setValue( substitute_string );
@@ -134,14 +134,18 @@ DBINF << "...Faunded newcommand! \n";
             if( searchBegin < (texElementValue.size() - 1)
                 && searchBegin > 0 )
             {
+DBINF << "cut off set\n";           
+DBINF << "searchBegin [3]: " << searchBegin << "\n";       
+DBINF << "texElementValue.size(): " << texElementValue.size() << "\n";      
                 rawPostSubString = texElementValue.substr ( 
                     searchBegin,
                     (texElementValue.size() - 1) 
                 );
+DBINF << "end: " << rawPostSubString  << "\n";   
                 TexDocElement postElement;
                 postElement.setType( TexDocElement::RAW );
                 postElement.setValue( rawPostSubString );
-                parentElement.subElementList.push_back(postElement);
+                parentElement.subElementList.push_back( postElement );
             }
             break;
         }
