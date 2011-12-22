@@ -31,6 +31,8 @@ void NewcommandParser::cutOutNewcommandElements(
     size_t      found_end           = string::npos;
     string      beginKeyWord        = "\\" + keyWord + "{";
     string      endKeyWord          = "}";
+    // open "{"
+    int opens = 0;
     
     while ( true) {
         found_begin = texElementValue.find ( 
@@ -94,10 +96,23 @@ DBINF << "...Faunded newcommand! \n";
                 "{",
                 searchBegin 
             );
-            found_end = texElementValue.find ( 
+            // TODO using 
+            for ( unsigned int i=found_begin ; i < texElementValue.size() ; i++){
+                if ( texElementValue.at(i) == '{' ){
+                    opens++;
+                }
+                if ( texElementValue.at(i) == '}' ){
+                    opens--;
+                }
+                if (opens == 1) {
+                    found_end = i;
+                    break;
+                }
+            }
+/*            found_end = texElementValue.find ( 
                 "}",
                 found_begin 
-            );    
+            );*/    
 //             searchBegin = found_end + 1;  
             searchBegin = found_end;        
             string substitute_string = texElementValue.substr (
