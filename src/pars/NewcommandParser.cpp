@@ -33,7 +33,11 @@ void NewcommandParser::cutOutNewcommandElements(
     string      endKeyWord          = "}";
     // open "{"
     int open_curly_bracket = 0;
-    
+    enum TexDocElement::ElementType  elementTyp = parentElement.getType();
+    if ( elementTyp != TexDocElement::RAW ){
+        // all other ignore....      
+        return;
+    }    
     while ( true) {
         found_begin = texElementValue.find ( 
             beginKeyWord,
@@ -47,8 +51,8 @@ void NewcommandParser::cutOutNewcommandElements(
 DBINF << "...Faunded newcommand! \n";
             // text before found the right element.
             rawPreSubString = texElementValue.substr (
-                searchBegin,
-                found_begin - searchBegin
+                searchBegin + 1,
+                found_begin - (searchBegin + 1)
             );
             TexDocElement preElement;
             preElement.setType( TexDocElement::RAW );
@@ -103,7 +107,7 @@ DBINF << "...Faunded newcommand! \n";
                 if ( texElementValue.at(i) == '}' ){
                     open_curly_bracket--;
                 }
-                if (open_curly_bracket == 1) {
+                if (open_curly_bracket == 0) {
                     found_end = i;
 DBINF << "searchBegin [1]: " << searchBegin << "\n";   
 DBINF << "found_begin: " << found_begin << "\n";   
@@ -138,10 +142,10 @@ DBINF << "cut off set\n";
 DBINF << "searchBegin [3]: " << searchBegin << "\n";       
 DBINF << "texElementValue.size(): " << texElementValue.size() << "\n";      
                 rawPostSubString = texElementValue.substr ( 
-                    searchBegin,
+                    (searchBegin + 1),
                     (texElementValue.size() - 1) 
                 );
-DBINF << "end: " << rawPostSubString  << "\n";   
+DBINF << "rawPostSubString: " << rawPostSubString  << "\n";   
                 TexDocElement postElement;
                 postElement.setType( TexDocElement::RAW );
                 postElement.setValue( rawPostSubString );
