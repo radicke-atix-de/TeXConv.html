@@ -95,6 +95,10 @@ const string TexDocElement::typeToString( const enum ElementType& t) const {
         return "DESCRIPTION";
     case DOCUMENT:
         return "DOCUMENT";
+    case EMPH:
+        return "EMPH"; 
+    case FOOTNOTE:
+        return "FOOTNOTE";
     case INPUT:
         return "INPUT";
     case ITEM:
