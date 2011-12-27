@@ -1,4 +1,6 @@
 
+#include <boost/lexical_cast.hpp>
+#include <boost/regex.hpp>
 #include <stdlib.h>
 #include <iostream>
 #include <list>
@@ -49,7 +51,6 @@ void NewcommandParser::cutOutNewcommandElements(
             found_begin 
         );
         if ( found_begin!=string::npos || found_end!=string::npos )  {
-DBINF << "...Faunded newcommand! \n";
             // text before found the right element.
             rawPreSubString = texElementValue.substr (
                 searchBegin + 1,
@@ -69,7 +70,6 @@ DBINF << "...Faunded newcommand! \n";
                 found_begin + beginKeyWord.length(),
                 found_end - ( found_begin + beginKeyWord.length() )
             );   
-//             searchBegin = found_end + 1;
             searchBegin = found_end;
             TexDocElement elementName;
             elementName.setType( TexDocElement::NEWCOMMAND_NAME );
@@ -85,7 +85,6 @@ DBINF << "...Faunded newcommand! \n";
                 "]",
                 found_begin 
             );    
-//             searchBegin = found_end + 1;   
             searchBegin = found_end;        
             string param_count = texElementValue.substr (
                 found_begin + 1,
@@ -110,8 +109,6 @@ DBINF << "...Faunded newcommand! \n";
                 }
                 if (open_curly_bracket == 0) {
                     found_end = i;
-DBINF << "searchBegin [1]: " << searchBegin << "\n";   
-DBINF << "found_begin: " << found_begin << "\n";   
                     break;
                 }
             }
@@ -138,15 +135,11 @@ DBINF << "found_end: " << found_end << "\n";
             // if text after the last right element found .
             if( searchBegin < (texElementValue.size() - 1)
                 && searchBegin > 0 )
-            {
-DBINF << "cut off set\n";           
-DBINF << "searchBegin [3]: " << searchBegin << "\n";       
-DBINF << "texElementValue.size(): " << texElementValue.size() << "\n";      
+            {     
                 rawPostSubString = texElementValue.substr ( 
                     (searchBegin + 1),
                     (texElementValue.size() - 1) 
-                );
-DBINF << "rawPostSubString: " << rawPostSubString  << "\n";   
+                ); 
                 TexDocElement postElement;
                 postElement.setType( TexDocElement::RAW );
                 postElement.setValue( rawPostSubString );
@@ -168,13 +161,10 @@ void NewcommandParser::pars(
     listOfNewcommand = metadataElement.getListElementOfType(
         TexDocElement::NEWCOMMAND
     );
-DBINF << "Faunded newcommands: " <<  listOfNewcommand.size() << "\n";
     for ( newcommand = listOfNewcommand.begin();
         newcommand != listOfNewcommand.end();
         newcommand++
     ) {
-//         TexParser::parsSections( *listElement, keyWord, type );
-DBINF << "newcommand value: " <<  (*newcommand)->getValue() << endl;
         NewcommandParser::replaceRecursion(
             documentElement,
             (*newcommand)
@@ -213,7 +203,6 @@ void NewcommandParser::replaceRecursion(
         subElement != parentElement.subElementList.end();
         subElement++
     ) {
-DBINF << "eins tiefer.... " << endl;
         NewcommandParser::replaceRecursion( 
             *subElement,
             newCommandElement 
@@ -237,8 +226,9 @@ void NewcommandParser::replaceNewcommandElements(
     list<TexDocElement>::iterator       subElement;
     list<string>::iterator              commandParam;
     unsigned int    paramCount          = 1;
+    unsigned int    paramLoopNo         = 0;
     string          commandName         = "";
-    string          substituteTamlate   = "";
+    string          substituteTamplate  = "";
     string          firstCharacter      = "";
     string          rawPreSubString     = "";
     string          texSubstring        = "";
@@ -248,14 +238,9 @@ void NewcommandParser::replaceNewcommandElements(
     size_t          searchBegin         = 0;
     size_t          found_begin         = string::npos;
     size_t          cutBegin            = 0;
-//    size_t          found_end           = string::npos;
-//    string          beginKeyWord        = "";
-//    string          endKeyWord          = "}";
     string          substituteString    = "";
     // open "{"
     int             open_curly_bracket  = 0;
-    
- 
 
     for ( subElement = newCommandElement->subElementList.begin();
         subElement != newCommandElement->subElementList.end();
@@ -263,27 +248,23 @@ void NewcommandParser::replaceNewcommandElements(
     ) {
         if (subElement->getType() == TexDocElement::NEWCOMMAND_NAME){
             commandName = subElement->getValue();
-DBINF << "commandName[1]: " << commandName << endl; 
         };
         if (subElement->getType() == TexDocElement::NEWCOMMAND_PARAM_COUNT){
             paramCount = atoi( (subElement->getValue()).c_str() );
         };
         if (subElement->getType() == TexDocElement::NEWCOMMAND_SUBSTITUTE){
-            substituteTamlate = subElement->getValue();
+            substituteTamplate = subElement->getValue();
         };
     } // end for-loop    
-    if ( commandName == "" )
-    {
-        throw "[20112827142839] error: emty command name!";
+    if ( commandName == "" ){
+        throw string("[20112827142839] error: emty command name!");
     }
     while ( true) {
-DBINF << "searchBegin[1]: " << searchBegin << endl; 
         found_begin = texElementValue.find ( 
             commandName,
             searchBegin 
         );
         if ( found_begin!=string::npos )  {
-DBINF << "...newcomand gefunden! " << endl;  
             // text before found the right element.
             rawPreSubString = texElementValue.substr (
                 searchBegin + 1,
@@ -302,35 +283,24 @@ DBINF << "...newcomand gefunden! " << endl;
             // cut out command parts
             searchBegin = found_begin + commandName.size()  ;  
             cutBegin = found_begin + commandName.size() ;
-DBINF << "searchBegin[2]: " << searchBegin << endl;        
-DBINF << "commandName: " << commandName << endl;  
-DBINF << "muss null - commandPart.size(): " << commandPart.size() << endl;   
             
-
             // cut out substitute string
-            for ( unsigned int i=searchBegin ; i < texElementValue.size() ; i++){        
-DBINF << "i: " << i << endl;         
-DBINF << "texElementValue.at(i): " << texElementValue.at(i) << endl;   
+            for ( unsigned int i=searchBegin ; i < texElementValue.size() ; i++){ 
                 if ( texElementValue.at(i) == '{' ){
                     open_curly_bracket++;
                 }
                 if ( texElementValue.at(i) == '}' ){
                     open_curly_bracket--;
-                }
-DBINF << "open_curly_bracket: " << open_curly_bracket << endl;     
+                }   
                 if (open_curly_bracket == 0) {
                     commandPart.push_back( 
                         texElementValue.substr (
                             cutBegin + 1,
                             ( i -  cutBegin) - 1
                         )
-                    );
-DBINF << "paramCount: " << paramCount << endl;      
-DBINF << "commandPart.size(): " << commandPart.size() << endl;              
+                    );             
                     if( paramCount == commandPart.size() ) {
-                        searchBegin = i;
-DBINF << "searchBegin [3]: " << searchBegin << endl;    
-DBINF << "...newcomand ende! " << endl;                         
+                        searchBegin = i;               
                         break;
                     }else{
                         cutBegin = texElementValue.find ( 
@@ -342,20 +312,33 @@ DBINF << "...newcomand ende! " << endl;
                 }
             }
             // reorganice substitute string.
+            paramLoopNo = 0;
+            substituteString = substituteTamplate;
             for (   commandParam = commandPart.begin();
                     commandParam != commandPart.end();
                     commandParam++
             ) {
-                substituteString += (*commandParam);
+                paramLoopNo++;
+ //               substituteString += (*commandParam);
 DBINF << "baue zusammen (commandParam): " << (*commandParam) << endl;  
-DBINF << "baue zusammen (sum): " << substituteString << endl;     
+DBINF << "pattern: " << "#" << boost::lexical_cast<string>( paramLoopNo ) << endl;      
+DBINF << "substituteTamplate: " << substituteTamplate << endl;    
+DBINF << "substituteString: " << substituteString << endl;  
+                boost::regex pattern (
+                    "#" + boost::lexical_cast<string>( paramLoopNo ),
+                    boost::regex::basic
+                );
+//                string replace ( substituteTamplate );
+                substituteString = boost::regex_replace (
+                    substituteString , 
+                    pattern, 
+                    (*commandParam)
+                );
             }
-DBINF << "searchBegin [4]: " << searchBegin << endl;    
             subElement.setValue( substituteString );
             parentElement.subElementList.push_back( subElement );
         }else
         {     
-DBINF << "....ELSE..."  << endl;  
             // if nothing found do nothing.
             if( searchBegin == 0 ) {
                 break;
