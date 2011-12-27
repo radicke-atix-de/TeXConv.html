@@ -1,4 +1,5 @@
 # `date +%F`
+# error-No: date +%Y%M%d%H%M%S
 
 VERSION=dev
 PROGNAME=texconv

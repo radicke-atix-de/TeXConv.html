@@ -1,4 +1,5 @@
 
+#include <stdlib.h>
 #include <iostream>
 #include <list>
 #include <string>
@@ -156,22 +157,28 @@ DBINF << "rawPostSubString: " << rawPostSubString  << "\n";
     } // end while-loop
 }
 
-void NewcommandParser::pars(TexDocElement& metadataElement){
-    list<TexDocElement*> listOfElement;
-    list<TexDocElement*>::iterator element;
+void NewcommandParser::pars(
+    TexDocElement& metadataElement,
+    TexDocElement& documentElement
+){
+    list<TexDocElement*> listOfNewcommand;
+    list<TexDocElement*>::iterator newcommand;
     NewcommandParser::parsRecursion ( metadataElement );  
     
-    listOfElement = metadataElement.getListElementOfType(
+    listOfNewcommand = metadataElement.getListElementOfType(
         TexDocElement::NEWCOMMAND
     );
-DBINF << "Faunded newcommands: " <<  listOfElement.size() << "\n";
-    for ( element = listOfElement.begin();
-        element != listOfElement.end();
-        element++
+DBINF << "Faunded newcommands: " <<  listOfNewcommand.size() << "\n";
+    for ( newcommand = listOfNewcommand.begin();
+        newcommand != listOfNewcommand.end();
+        newcommand++
     ) {
 //         TexParser::parsSections( *listElement, keyWord, type );
-DBINF << "newcommand value: " <<  (*element)->getValue() << endl;
-
+DBINF << "newcommand value: " <<  (*newcommand)->getValue() << endl;
+        NewcommandParser::replaceRecursion(
+            documentElement,
+            (*newcommand)
+        );
     } // end for-loop        
 }
 
@@ -188,4 +195,185 @@ void NewcommandParser::parsRecursion( TexDocElement&  parentElement ){
         NewcommandParser::parsRecursion( *subElement );
     } // end for-loop
 
+}
+
+void NewcommandParser::replaceRecursion( 
+    TexDocElement&  parentElement,
+    TexDocElement* newCommandElement 
+){ 
+    list<TexDocElement>::iterator subElement;
+  
+    if ( parentElement.subElementList.size() == 0 ) {
+        NewcommandParser::replaceNewcommandElements(
+            parentElement,
+            newCommandElement
+        );
+    }
+    for ( subElement = parentElement.subElementList.begin();
+        subElement != parentElement.subElementList.end();
+        subElement++
+    ) {
+DBINF << "eins tiefer.... " << endl;
+        NewcommandParser::replaceRecursion( 
+            *subElement,
+            newCommandElement 
+        );
+    } // end for-loop
+
+}
+
+void NewcommandParser::replaceNewcommandElements(
+    TexDocElement& parentElement,
+    TexDocElement* newCommandElement
+){
+    // Pre test RAW-only....
+    enum TexDocElement::ElementType  elementTyp = parentElement.getType();
+    if ( elementTyp != TexDocElement::RAW ){
+        // all other ignore....      
+        return;
+    }   
+    
+    list<TexDocElement*>::iterator      element;
+    list<TexDocElement>::iterator       subElement;
+    list<string>::iterator              commandParam;
+    unsigned int    paramCount          = 1;
+    string          commandName         = "";
+    string          substituteTamlate   = "";
+    string          firstCharacter      = "";
+    string          rawPreSubString     = "";
+    string          texSubstring        = "";
+    string          rawPostSubString    = "";
+
+    string          texElementValue     = parentElement.getValue();
+    size_t          searchBegin         = 0;
+    size_t          found_begin         = string::npos;
+    size_t          cutBegin            = 0;
+//    size_t          found_end           = string::npos;
+//    string          beginKeyWord        = "";
+//    string          endKeyWord          = "}";
+    string          substituteString    = "";
+    // open "{"
+    int             open_curly_bracket  = 0;
+    
+ 
+
+    for ( subElement = newCommandElement->subElementList.begin();
+        subElement != newCommandElement->subElementList.end();
+        subElement++
+    ) {
+        if (subElement->getType() == TexDocElement::NEWCOMMAND_NAME){
+            commandName = subElement->getValue();
+DBINF << "commandName[1]: " << commandName << endl; 
+        };
+        if (subElement->getType() == TexDocElement::NEWCOMMAND_PARAM_COUNT){
+            paramCount = atoi( (subElement->getValue()).c_str() );
+        };
+        if (subElement->getType() == TexDocElement::NEWCOMMAND_SUBSTITUTE){
+            substituteTamlate = subElement->getValue();
+        };
+    } // end for-loop    
+    if ( commandName == "" )
+    {
+        throw "[20112827142839] error: emty command name!";
+    }
+    while ( true) {
+DBINF << "searchBegin[1]: " << searchBegin << endl; 
+        found_begin = texElementValue.find ( 
+            commandName,
+            searchBegin 
+        );
+        if ( found_begin!=string::npos )  {
+DBINF << "...newcomand gefunden! " << endl;  
+            // text before found the right element.
+            rawPreSubString = texElementValue.substr (
+                searchBegin + 1,
+                found_begin - (searchBegin + 1)
+            );
+            TexDocElement preElement;
+            preElement.setType( TexDocElement::RAW );
+            preElement.setValue( rawPreSubString );
+            parentElement.subElementList.push_back(preElement);
+
+            // the founded element
+            list<string> commandPart;
+            TexDocElement subElement;
+            subElement.setType( TexDocElement::RAW );
+            
+            // cut out command parts
+            searchBegin = found_begin + commandName.size()  ;  
+            cutBegin = found_begin + commandName.size() ;
+DBINF << "searchBegin[2]: " << searchBegin << endl;        
+DBINF << "commandName: " << commandName << endl;  
+DBINF << "muss null - commandPart.size(): " << commandPart.size() << endl;   
+            
+
+            // cut out substitute string
+            for ( unsigned int i=searchBegin ; i < texElementValue.size() ; i++){        
+DBINF << "i: " << i << endl;         
+DBINF << "texElementValue.at(i): " << texElementValue.at(i) << endl;   
+                if ( texElementValue.at(i) == '{' ){
+                    open_curly_bracket++;
+                }
+                if ( texElementValue.at(i) == '}' ){
+                    open_curly_bracket--;
+                }
+DBINF << "open_curly_bracket: " << open_curly_bracket << endl;     
+                if (open_curly_bracket == 0) {
+                    commandPart.push_back( 
+                        texElementValue.substr (
+                            cutBegin + 1,
+                            ( i -  cutBegin) - 1
+                        )
+                    );
+DBINF << "paramCount: " << paramCount << endl;      
+DBINF << "commandPart.size(): " << commandPart.size() << endl;              
+                    if( paramCount == commandPart.size() ) {
+                        searchBegin = i;
+DBINF << "searchBegin [3]: " << searchBegin << endl;    
+DBINF << "...newcomand ende! " << endl;                         
+                        break;
+                    }else{
+                        cutBegin = texElementValue.find ( 
+                            "{",
+                            i 
+                        );
+                        i = cutBegin -1;
+                    }
+                }
+            }
+            // reorganice substitute string.
+            for (   commandParam = commandPart.begin();
+                    commandParam != commandPart.end();
+                    commandParam++
+            ) {
+                substituteString += (*commandParam);
+DBINF << "baue zusammen (commandParam): " << (*commandParam) << endl;  
+DBINF << "baue zusammen (sum): " << substituteString << endl;     
+            }
+DBINF << "searchBegin [4]: " << searchBegin << endl;    
+            subElement.setValue( substituteString );
+            parentElement.subElementList.push_back( subElement );
+        }else
+        {     
+DBINF << "....ELSE..."  << endl;  
+            // if nothing found do nothing.
+            if( searchBegin == 0 ) {
+                break;
+            }
+            // if text after the last right element found .
+            if( searchBegin < (texElementValue.size() - 1)
+                && searchBegin > 0 )
+            { 
+                rawPostSubString = texElementValue.substr ( 
+                    (searchBegin + 1),
+                    (texElementValue.size() - 1) 
+                ); 
+                TexDocElement postElement;
+                postElement.setType( TexDocElement::RAW );
+                postElement.setValue( rawPostSubString );
+                parentElement.subElementList.push_back( postElement );
+            }
+            break;
+        }
+    } // end while-loop
 }

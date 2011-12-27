@@ -62,7 +62,10 @@ void TexParser::pars(){
     InputParser::parsInput( TexParser::getRootElement() );
     // second level?
     TexParser::parsVerbatim( TexParser::getDocumentElement() );
-    NewcommandParser::pars( TexParser::getMetadataElement() );
+    NewcommandParser::pars( 
+        TexParser::getMetadataElement(), 
+        TexParser::getRootElement()
+    );
     SectionParser::parsAllSections( TexParser::getDocumentElement() );
     return;
 }
