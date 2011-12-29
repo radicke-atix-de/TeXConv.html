@@ -25,9 +25,9 @@ SOURCES = ./src/main.cpp \
 ./src/pars/DocumentclassParser.cpp \
 ./src/pars/DocumentParser.cpp \
 ./src/pars/InputParser.cpp \
-./src/pars/LabelParser.cpp \
 ./src/pars/NewcommandParser.cpp \
 ./src/pars/SectionParser.cpp \
+./src/pars/SimpleElementParser.cpp \
 ./src/pars/TexParser.cpp 
 
 OBJECTS =  ./src/main.o \
@@ -38,9 +38,9 @@ OBJECTS =  ./src/main.o \
 ./src/pars/DocumentclassParser.o \
 ./src/pars/DocumentParser.o \
 ./src/pars/InputParser.o \
-./src/pars/LabelParser.o \
 ./src/pars/NewcommandParser.o \
 ./src/pars/SectionParser.o \
+./src/pars/SimpleElementParser.o \
 ./src/pars/TexParser.o
 
 

@@ -5,7 +5,7 @@
 #include <string>
 #include <boost/regex.hpp>
 
-#include "LabelParser.h"
+#include "SimpleElementParser.h"
 #include "../TexDocElement.h"
 
 /** get debugging info */
@@ -15,10 +15,12 @@ using namespace std;
 using namespace Pars;
 
 
-void LabelParser::cutOutElements(
-    TexDocElement& parentElement
+void SimpleElementParser::cutOutElements(
+    TexDocElement& parentElement,
+    std::string keyWord,
+    const enum TexDocElement::ElementType& type
 ){
-DBINF << "LabelParser::cutOutElements...." <<  endl;
+DBINF << "SimpleElementParser::cutOutElements...." <<  endl;
     string      firstCharacter      = "";
     string      rawPreSubString     = "";
     string      texSubstring        = "";
@@ -30,7 +32,7 @@ DBINF << "LabelParser::cutOutElements...." <<  endl;
     size_t      found_end           = string::npos;
     size_t      cutBegin            = 0;
  //   size_t      cutEnd              = 0;
-    string      beginKeyWord        = "\\label";
+    string      beginKeyWord        = "\\" + keyWord;
     string      endKeyWord          = "}";
     
     enum TexDocElement::ElementType  elementTyp = parentElement.getType();
@@ -63,7 +65,7 @@ DBINF << "...found LabelElements...." <<  endl;
 
             // the founded element
             TexDocElement subElement;
-            subElement.setType( TexDocElement::LABEL );
+            subElement.setType( type );
             searchBegin = found_end + 1;
             cutBegin = found_begin + beginKeyWord.length() ;
  //           cutEnd = 1;
@@ -127,28 +129,42 @@ DBINF << "...found LabelElements...." <<  endl;
     } // end while-loop
 }
 
-void LabelParser::pars ( TexDocElement& parentElement){
-DBINF << "LabelParser...." <<  endl;
-    LabelParser::parsRecursion(
-        parentElement
+void SimpleElementParser::pars ( 
+    TexDocElement& parentElement,
+    std::string keyWord,
+    const enum TexDocElement::ElementType& type 
+){
+DBINF << "SimpleElementParser...." <<  endl;
+    SimpleElementParser::parsRecursion(
+        parentElement,
+        keyWord,
+        type
     );
 }
 
-void LabelParser::parsRecursion(
-    TexDocElement&  parentElement
+void SimpleElementParser::parsRecursion(
+    TexDocElement&  parentElement,
+    std::string keyWord,
+    const enum TexDocElement::ElementType& type 
 ){ 
     list<TexDocElement>::iterator subElement;
   
     if ( parentElement.subElementList.size() == 0 ) {
-        LabelParser::cutOutElements( 
-            parentElement
+        SimpleElementParser::cutOutElements( 
+            parentElement,
+            keyWord,
+            type
         );
     }
     for ( subElement = parentElement.subElementList.begin();
         subElement != parentElement.subElementList.end();
         subElement++
     ) {
-        LabelParser::parsRecursion( *subElement );
+        SimpleElementParser::parsRecursion( 
+            *subElement,
+            keyWord,
+            type 
+        );
     } // end for-loop
 
 }
