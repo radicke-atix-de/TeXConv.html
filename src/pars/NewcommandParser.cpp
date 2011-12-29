@@ -53,7 +53,7 @@ void NewcommandParser::cutOutNewcommandElements(
         if ( found_begin!=string::npos || found_end!=string::npos )  {
             // text before found the right element.
             rawPreSubString = texElementValue.substr (
-                searchBegin + 1,
+                searchBegin,
                 found_begin - (searchBegin + 1)
             );
             TexDocElement preElement;
@@ -112,10 +112,6 @@ void NewcommandParser::cutOutNewcommandElements(
                     break;
                 }
             }
-//             searchBegin = found_end; 
-DBINF << "searchBegin [2]: " << searchBegin << "\n";  
-DBINF << "found_begin: " << found_begin << "\n";  
-DBINF << "found_end: " << found_end << "\n";  
             string substitute_string = texElementValue.substr (
                 found_begin + 1,
                 found_end - ( found_begin + 1 )
@@ -319,11 +315,6 @@ void NewcommandParser::replaceNewcommandElements(
                     commandParam++
             ) {
                 paramLoopNo++;
- //               substituteString += (*commandParam);
-DBINF << "baue zusammen (commandParam): " << (*commandParam) << endl;  
-DBINF << "pattern: " << "#" << boost::lexical_cast<string>( paramLoopNo ) << endl;      
-DBINF << "substituteTamplate: " << substituteTamplate << endl;    
-DBINF << "substituteString: " << substituteString << endl;  
                 boost::regex pattern (
                     "#" + boost::lexical_cast<string>( paramLoopNo ),
                     boost::regex::basic

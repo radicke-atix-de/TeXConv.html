@@ -5,7 +5,9 @@
 
 
 #include "../TexDocElement.h"
+#include "AuthorParser.h"
 #include "CutOut.h"
+#include "DocumentclassParser.h"
 #include "DocumentParser.h"
 #include "InputParser.h"
 #include "NewcommandParser.h"
@@ -66,6 +68,8 @@ void TexParser::pars(){
         TexParser::getMetadataElement(), 
         TexParser::getRootElement()
     );
+    DocumentclassParser::pars( TexParser::getMetadataElement() );
+    AuthorParser::pars( TexParser::getMetadataElement() );
     SectionParser::parsAllSections( TexParser::getDocumentElement() );
     return;
 }

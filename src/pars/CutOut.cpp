@@ -1,6 +1,7 @@
 
 #include <list>
 #include <string>
+#include <iostream>
 //#include <boost/regex.hpp>
 
 #include "CutOut.h"
@@ -87,7 +88,7 @@ void CutOut::shortElements(
 ){
     string beginKeyWord = "\\" + keyWord + "{";
     string endKeyWord = "}";
-// DBINF << "Suche nach: " <<  keyWord << "\n";
+DBINF << "Suche nach: " <<  keyWord << "\n";
     string rawPreSubString = "";
     string texSubstring = "";
     string rawPostSubString = "";
@@ -104,6 +105,7 @@ void CutOut::shortElements(
             found_begin );
         if ( found_begin!=string::npos || found_end!=string::npos )  {
             // text before found the right element.
+DBINF << "...gefunden! "  << "\n";
             rawPreSubString = texElementValue.substr (
                 searchBegin,
                 found_begin

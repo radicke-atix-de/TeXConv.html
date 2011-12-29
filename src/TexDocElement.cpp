@@ -85,8 +85,8 @@ void TexDocElement::setValue( std::string value ){
 
 const string TexDocElement::typeToString( const enum ElementType& t) const {
     switch(t) {
-    case AUTOR:
-        return "AUTOR";
+    case AUTHOR:
+        return "AUTHOR";
     case BIGSKIP:
         return "BIGSKIP";
     case CHAPTER:
@@ -95,6 +95,8 @@ const string TexDocElement::typeToString( const enum ElementType& t) const {
         return "DESCRIPTION";
     case DOCUMENT:
         return "DOCUMENT";
+    case DOCUMENTCLASS:
+        return "DOCUMENCLASS";
     case EMPH:
         return "EMPH"; 
     case FOOTNOTE:

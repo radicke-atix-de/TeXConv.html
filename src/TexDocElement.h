@@ -16,11 +16,12 @@ public:
     * supportet typs
     */
     enum ElementType {
-        AUTOR ,         /**< tex command author                             */
+        AUTHOR ,        /**< tex command author                             */
         BIGSKIP,        /**< tex command bigskip                            */
         CHAPTER,        /**< tex command chapter                            */
         DESCRIPTION,    /**< tex command description                        */
         DOCUMENT,       /**< tex command document                           */
+        DOCUMENTCLASS,   /**< tex command documentclass                      */
         EMPH,           /**< tex command emph                               */
         FOOTNOTE,       /**< tex command footnote                           */
         INPUT,          /**< tex command input                              */
