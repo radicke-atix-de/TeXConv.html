@@ -21,7 +21,7 @@ public:
         CHAPTER,        /**< tex command chapter                            */
         DESCRIPTION,    /**< tex command description                        */
         DOCUMENT,       /**< tex command document                           */
-        DOCUMENTCLASS,   /**< tex command documentclass                      */
+        DOCUMENTCLASS,  /**< tex command documentclass                      */
         EMPH,           /**< tex command emph                               */
         FOOTNOTE,       /**< tex command footnote                           */
         INPUT,          /**< tex command input                              */

@@ -10,6 +10,7 @@
 #include "DocumentclassParser.h"
 #include "DocumentParser.h"
 #include "InputParser.h"
+#include "LabelParser.h"
 #include "NewcommandParser.h"
 #include "SectionParser.h"
 #include "TexParser.h"
@@ -71,6 +72,7 @@ void TexParser::pars(){
     DocumentclassParser::pars( TexParser::getMetadataElement() );
     AuthorParser::pars( TexParser::getMetadataElement() );
     SectionParser::parsAllSections( TexParser::getDocumentElement() );
+    LabelParser::pars( TexParser::getDocumentElement() );
     return;
 }
 
