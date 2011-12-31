@@ -20,7 +20,6 @@ LIBS = -lboost_regex
 SOURCES = ./src/main.cpp \
 ./src/PrintElementTree.cpp \
 ./src/TexDocElement.cpp \
-./src/TreeGarbageCollector.cpp \
 ./src/pars/CutOut.cpp \
 ./src/pars/DocumentclassParser.cpp \
 ./src/pars/DocumentParser.cpp \
@@ -33,7 +32,6 @@ SOURCES = ./src/main.cpp \
 OBJECTS =  ./src/main.o \
 ./src/PrintElementTree.o \
 ./src/TexDocElement.o \
-./src/TreeGarbageCollector.o \
 ./src/pars/CutOut.o \
 ./src/pars/DocumentclassParser.o \
 ./src/pars/DocumentParser.o \

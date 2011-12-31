@@ -53,6 +53,7 @@ TexDocElement& TexParser::getRootElement(void){
 }
 
 void TexParser::pars(){
+DBINF << "TexParser::pars... "  << endl;  
     TexParser::completeDoc = InputParser::readInputFile( 
         TexParser::inputFileName
     );

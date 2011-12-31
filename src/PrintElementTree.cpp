@@ -23,7 +23,7 @@ void PrintElementTree::printTreeElement( TexDocElement& parentElement ){
     cout << string(PrintElementTree::treedepth, '\t')
     << "[ID: " << parentElement.getID() 
     << "][Typ: "
-    <<  parentElement.getTypAsString()
+    <<  parentElement.getTypeAsString()
     << "][characters: "
     << (parentElement.getValue()).size() 
     << "][sub elements: " << parentElement.subElementList.size() << "]"
@@ -31,7 +31,7 @@ void PrintElementTree::printTreeElement( TexDocElement& parentElement ){
     if (PrintElementTree::verboseMode == true) {
         header = "\n##################### [ID:" 
             + boost::lexical_cast<string>( parentElement.getID() )
-            + "][Typ: " +parentElement.getTypAsString() + "]"
+            + "][Typ: " +parentElement.getTypeAsString() + "]"
             + " #####################\n" ;
         PrintElementTree::recordingValue.append( header );
         if ( parentElement.subElementList.size() == 0 ) {
@@ -47,7 +47,7 @@ void PrintElementTree::printTreeElement( TexDocElement& parentElement ){
     ) {
 //         cout << string(PrintElementTree::treedepth, '=')
 //         << "[Typ: "
-//         <<  (*itSubElement).getTypAsString()
+//         <<  (*itSubElement).getTypeAsString()
 //         << "][characters: "
 //         << ((*itSubElement).getValue()).size() 
 //         << "][sub elements: " << parentElement.subElementList.size() << "]"

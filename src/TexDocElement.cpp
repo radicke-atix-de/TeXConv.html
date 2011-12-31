@@ -54,7 +54,7 @@ list<TexDocElement*>  TexDocElement::getListElementOfType(
     return listElement;
 }
 
-string TexDocElement::getTypAsString(){
+string TexDocElement::getTypeAsString(){
     return TexDocElement::typeToString( TexDocElement::texElementTyp );
 }
 

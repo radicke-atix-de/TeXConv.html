@@ -50,7 +50,14 @@ void CutOut::beginToEnd(
             preElement.setType( TexDocElement::RAW );
             preElement.setValue( rawPreSubString );
             parentElement.subElementList.push_back(preElement);
-            
+/*          
+DBINF << "preElement.getID(): " << preElement.getID() << endl;
+DBINF << "preElement.getValue().size(): " <<  preElement.getValue().size() << "\n";   
+            if ( preElement.getValue().size() == 0 ) {            
+DBINF << "...RAUS!!" << endl; 
+                parentElement.subElementList.push_back(preElement);
+            }
+*/           
             // the founded element
             searchBegin = found_end + endKeyWord.length() + 1;
             found_begin += beginKeyWord.length();
@@ -78,6 +85,13 @@ void CutOut::beginToEnd(
             break;
         }
     } // end while-loop
+    if ( parentElement.subElementList.size() > 0 ){
+        parentElement.setValue("");
+DBINF << "delet value of: " << parentElement.getID() << endl;
+        if ( parentElement.getType() == TexDocElement::RAW ) {
+            parentElement.setType( TexDocElement::VOID );
+        }
+    }
 }
 
 
@@ -114,7 +128,15 @@ DBINF << "...gefunden! "  << "\n";
             preElement.setType( TexDocElement::RAW );
             preElement.setValue( rawPreSubString );
             parentElement.subElementList.push_back(preElement);
-            
+/*            
+DBINF << "preElement.getID(): " << preElement.getID() << endl;
+DBINF << "preElement.getValue().size(): " <<  preElement.getValue().size() << "\n";   
+            if ( preElement.getValue().size() == 0 ) {            
+DBINF << "...RAUS!!" << endl; 
+                parentElement.subElementList.push_back(preElement);
+            }            
+*/
+
             // the founded element
             searchBegin = found_end;
             found_begin += beginKeyWord.length();
@@ -150,5 +172,11 @@ DBINF << "...gefunden! "  << "\n";
             break;
         }
     } // end while-loop    
-    
+    if ( parentElement.subElementList.size() > 0 ){
+        parentElement.setValue("");
+DBINF << "delet value of: " << parentElement.getID() << endl;
+        if ( parentElement.getType() == TexDocElement::RAW ) {
+            parentElement.setType( TexDocElement::VOID );
+        }
+    }    
 }

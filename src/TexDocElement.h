@@ -72,7 +72,7 @@ public:
     /**
     * @return get beck the typ of element as string.
     */
-    string getTypAsString();
+    string getTypeAsString();
     
     /**
     * get the typ of element.

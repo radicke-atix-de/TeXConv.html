@@ -4,7 +4,6 @@
 #include <iostream>
 
 #include "PrintElementTree.h"
-#include "TreeGarbageCollector.h"
 #include "pars/TexParser.h"
 
 /** get debugging info */
@@ -87,9 +86,7 @@ int main(int argc,char *argv[])
         Pars::TexParser texParser;
         texParser.setInputFileName(imputFileName);
         texParser.pars();
-        
-        TreeGarbageCollector treeGC;
-        treeGC.start( texParser.getRootElement() );
+
         
         PrintElementTree treePrinter;
 DBINF << "######### Starte mit PrintElementTree::printTree ############" << endl;   
