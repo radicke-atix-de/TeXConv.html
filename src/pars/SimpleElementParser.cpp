@@ -20,7 +20,6 @@ void SimpleElementParser::cutOutElements(
     std::string keyWord,
     const enum TexDocElement::ElementType& type
 ){
-DBINF << "SimpleElementParser::cutOutElements...." <<  endl;
     string      firstCharacter      = "";
     string      rawPreSubString     = "";
     string      texSubstring        = "";
@@ -52,7 +51,7 @@ DBINF << "SimpleElementParser::cutOutElements...." <<  endl;
             found_begin 
         );
         if ( found_begin!=string::npos || found_end!=string::npos )  {
-DBINF << "...found LabelElements...." <<  endl;
+DBINF << "...found LabelElements:" << beginKeyWord << endl;
             // text before found the right element.
             rawPreSubString = texElementValue.substr (
                 searchBegin,

@@ -5,7 +5,6 @@
 
 
 #include "../TexDocElement.h"
-#include "AuthorParser.h"
 #include "CutOut.h"
 #include "DocumentclassParser.h"
 #include "DocumentParser.h"
@@ -70,13 +69,28 @@ void TexParser::pars(){
         TexParser::getRootElement()
     );
     DocumentclassParser::pars( TexParser::getMetadataElement() );
-    AuthorParser::pars( TexParser::getMetadataElement() );
+    SimpleElementParser::pars( 
+        TexParser::getMetadataElement(),
+        "author",
+        TexDocElement::AUTHOR
+    );
+    SimpleElementParser::pars( 
+        TexParser::getMetadataElement(),
+        "title",
+        TexDocElement::TITLE
+    );
     SectionParser::parsAllSections( TexParser::getDocumentElement() );
     SimpleElementParser::pars( 
         TexParser::getDocumentElement(), 
         "label",
         TexDocElement::LABEL
     );
+    SimpleElementParser::pars( 
+        TexParser::getDocumentElement(), 
+        "footnote",
+        TexDocElement::FOOTNOTE
+    );
+    
     return;
 }
 
