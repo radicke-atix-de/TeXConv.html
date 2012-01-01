@@ -48,3 +48,5 @@ TeX-command             | ElementType           |  status
 \verb||                 | VERB                  |
 \begin{verbatim}        | VERBATIM              |
                         | VOID                  | X
+
+http://de.wikibooks.org/wiki/LaTeX-W%C3%B6rterbuch:_InDeX
