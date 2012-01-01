@@ -125,7 +125,14 @@ DBINF << "...found LabelElements:" << beginKeyWord << endl;
             }
             break;
         }
-    } // end while-loop
+    } // end while-loop   
+    if ( parentElement.subElementList.size() > 0 ){
+        parentElement.setValue("");
+DBINF << "delet value of: " << parentElement.getID() << endl;
+        if ( parentElement.getType() == TexDocElement::RAW ) {
+            parentElement.setType( TexDocElement::VOID );
+        }
+    }    
 }
 
 void SimpleElementParser::pars ( 

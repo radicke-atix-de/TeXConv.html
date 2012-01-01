@@ -47,5 +47,12 @@ void DocumentParser::parsDocument(
     TexDocElement docElement;
     docElement.setType( TexDocElement::DOCUMENT );
     docElement.setValue( text_document );
-    rootElement.subElementList.push_back(docElement);
+    rootElement.subElementList.push_back(docElement);  
+    if ( rootElement.subElementList.size() > 0 ){
+        rootElement.setValue("");
+DBINF << "delet value of: " << rootElement.getID() << endl;
+        if ( rootElement.getType() == TexDocElement::RAW ) {
+            rootElement.setType( TexDocElement::VOID );
+        }
+    }    
 }

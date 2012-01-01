@@ -1,5 +1,5 @@
-#ifndef SIMPLEELEMENTPARSER_H
-#define SIMPLEELEMENTPARSER_H
+#ifndef BEGINENDELEMENTPARSER_H
+#define BEGINENDELEMENTPARSER_H
 
 #include <list>
 #include <string>
@@ -9,9 +9,9 @@
 namespace Pars {
 
 /**
-* universal parser for simple tex cammands. 
+* universal parser for begin-end tex cammands. 
 */
-class SimpleElementParser{
+class BeginEndElementParser{
 public:
 
     
@@ -28,6 +28,20 @@ public:
     );
 
 private:
+    
+    /**
+    * search and convert elements of texElementValue in a list
+    * of TexDocElement objects. With this form:
+    * \begin{keyword}text part \end{keyword}
+    * @param  parentElement parent element.
+    * @param  keyWord parents element.
+    * @param  type a enum ElementType from TexDocElement class.
+    */   
+    static void beginToEnd (
+        TexDocElement& parentElement,
+        std::string keyWord,
+        const enum TexDocElement::ElementType& type
+    );    
     
     static void cutOutElements( 
         TexDocElement& parentElement,

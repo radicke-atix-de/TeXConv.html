@@ -19,7 +19,6 @@ public:
     * @param  parentElement parent element.
     * @param  keyWord parents element.
     * @param  type a enum ElementType from TexDocElement class.
-    * @return Return a string without comments.
     */   
     static void beginToEnd (
         TexDocElement& parentElement,
