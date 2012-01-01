@@ -43,11 +43,7 @@ private:
         const enum TexDocElement::ElementType& type
     );    
     
-    static void cutOutElements( 
-        TexDocElement& parentElement,
-        std::string keyWord,
-        const enum TexDocElement::ElementType& type  
-    ); 
+
 
     static void parsRecursion( 
         TexDocElement&  parentElement,

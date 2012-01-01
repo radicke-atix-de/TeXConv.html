@@ -5,6 +5,7 @@
 
 
 #include "../TexDocElement.h"
+#include "BeginEndElementParser.h"
 #include "CutOut.h"
 #include "DocumentclassParser.h"
 #include "DocumentParser.h"
@@ -61,10 +62,21 @@ DBINF << "TexParser::pars... "  << endl;
         TexParser::rootElement,
         TexParser::completeDoc
     );
-    TexParser::parsVerbatim( TexParser::getDocumentElement() );
+    //TexParser::parsVerbatim( TexParser::getDocumentElement() );
+    BeginEndElementParser::pars( 
+        TexParser::getDocumentElement(), 
+        "verbatim",
+        TexDocElement::VERBATIM
+    );
+    
     InputParser::parsInput( TexParser::getRootElement() );
-    // second level?
-    TexParser::parsVerbatim( TexParser::getDocumentElement() );
+    // verbatim second cycle...
+    //TexParser::parsVerbatim( TexParser::getDocumentElement() );
+    BeginEndElementParser::pars( 
+        TexParser::getDocumentElement(), 
+        "verbatim",
+        TexDocElement::VERBATIM
+    );
     NewcommandParser::pars( 
         TexParser::getMetadataElement(), 
         TexParser::getRootElement()
@@ -91,7 +103,11 @@ DBINF << "TexParser::pars... "  << endl;
         "footnote",
         TexDocElement::FOOTNOTE
     );
-    
+    BeginEndElementParser::pars( 
+        TexParser::getDocumentElement(), 
+        "lstlisting",
+        TexDocElement::LSTLISTING
+    );
     return;
 }
 
