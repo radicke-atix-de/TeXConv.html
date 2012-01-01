@@ -82,31 +82,63 @@ DBINF << "TexParser::pars... "  << endl;
         TexParser::getRootElement()
     );
     DocumentclassParser::pars( TexParser::getMetadataElement() );
+    SectionParser::parsAllSections( TexParser::getDocumentElement() );
+    // ---------- BeginEndElementParser ------------------
+    BeginEndElementParser::pars( 
+        TexParser::getDocumentElement(), 
+        "itemize",
+        TexDocElement::ITEMIZE
+    );
+    BeginEndElementParser::pars( 
+        TexParser::getDocumentElement(), 
+        "lstlisting",
+        TexDocElement::LSTLISTING
+    );
+    // ---------- SimpleElementParser ------------------
+    SimpleElementParser::pars( 
+        TexParser::getMetadataElement(),
+        "title",
+        TexDocElement::TITLE
+    );
     SimpleElementParser::pars( 
         TexParser::getMetadataElement(),
         "author",
         TexDocElement::AUTHOR
     );
     SimpleElementParser::pars( 
-        TexParser::getMetadataElement(),
-        "title",
-        TexDocElement::TITLE
+        TexParser::getDocumentElement(), 
+        "footnote",
+        TexDocElement::FOOTNOTE
     );
-    SectionParser::parsAllSections( TexParser::getDocumentElement() );
     SimpleElementParser::pars( 
         TexParser::getDocumentElement(), 
         "label",
         TexDocElement::LABEL
     );
     SimpleElementParser::pars( 
-        TexParser::getDocumentElement(), 
-        "footnote",
-        TexDocElement::FOOTNOTE
+        TexParser::getDocumentElement(),
+        "emph",
+        TexDocElement::TEXTIT
     );
-    BeginEndElementParser::pars( 
-        TexParser::getDocumentElement(), 
-        "lstlisting",
-        TexDocElement::LSTLISTING
+    SimpleElementParser::pars( 
+        TexParser::getDocumentElement(),
+        "textit",
+        TexDocElement::TEXTIT
+    );
+//     SimpleElementParser::pars( 
+//         TexParser::getDocumentElement(),
+//         "textbf",
+//         TexDocElement::TEXTBF
+//     );
+    SimpleElementParser::pars( 
+        TexParser::getDocumentElement(),
+        "textsc",
+        TexDocElement::TEXTSC
+    );
+    SimpleElementParser::pars( 
+        TexParser::getDocumentElement(),
+        "texttt",
+        TexDocElement::TEXTTT
     );
     return;
 }

@@ -22,7 +22,6 @@ public:
         DESCRIPTION,    /**< tex command description                        */
         DOCUMENT,       /**< tex command document                           */
         DOCUMENTCLASS,  /**< tex command documentclass                      */
-        EMPH,           /**< tex command emph                               */
         FOOTNOTE,       /**< tex command footnote                           */
         INPUT,          /**< tex command input                              */
         ITEM,           /**< tex command item                               */
@@ -38,10 +37,6 @@ public:
         NO_TABCON,      /**< No add section in tableofcontents              */
         PAGEREF,        /**< tex command pageref                            */
         PARAGRAPH,      /**< tex command paragraph                          */
-        TABLEOFCONTENTS,/**< tex command tableofcontents                    */
-        TABULAR,        /**< tex command tabular                            */
-        TEXT,           /**< text                                           */
-        TITLE,          /**< tex command title                              */
         RAW,            /**< raw tex text                                   */
         REF,            /**< tex command ref                                */
         ROOTELEMENT,    /**< root element.                                  */
@@ -50,6 +45,14 @@ public:
         SUPPARAGRAPH,   /**< tex command subparagraph                       */
         SUBSUBSECTION,  /**< tex command subsubsection                      */
         SUBSECTION,     /**< tex command subsection                         */
+        TABLEOFCONTENTS,/**< tex command tableofcontents                    */
+        TABULAR,        /**< tex command tabular                            */
+        TEXT,           /**< text                                           */
+        TEXTIT,         /**< tex command emph and textit                    */
+        TEXTBF,         /**< tex command textbf                             */
+        TEXTSC,         /**< tex command textsc                             */
+        TEXTTT,         /**< tex command texttt                             */
+        TITLE,          /**< tex command title                              */
         URL,            /**< tex command url                                */
         VERB,           /**< tex command verb                               */
         VERBATIM,       /**< tex command verbatim                           */

@@ -1,0 +1,50 @@
+
+TREE PARSER
+===========
+
+
+TeX-command             | ElementType           |  status
+----------------------------------------------------------
+\author{}               | AUTHOR                | ok      
+\bigskip                | BIGSKIP               |
+\chapter*[]{}           | CHAPTER               | ok
+\begin{description}     | DESCRIPTION           | ok
+\begin{document}        | DOCUMENT              | ok
+\documentclass[]{}      | DOCUMENTCLASS         | ok
+\footnote{}             | FOOTNOTE              | ok
+\input{}                | INPUT                 | ok
+\item                   | ITEM                  | 
+\begin{itemize}         | ITEMIZE               | ok
+\label{}                | LABEL                 |
+\begin{lstlisting}      | LSTLISTING            |
+\maketitle              | MAKETITLE             |
+                        | METADATA              | ok
+\newcommand{}[]{}       | NEWCOMMAND            |
+                        | NEWCOMMAND_NAME       |
+                        | NEWCOMMAND_PARAM_COUNT|
+                        | NEWCOMMAND_SUBSTITUTE |
+                        | NO_TABCON             |
+\pageref{}              | PAGEREF               |
+\paragraph*[]{}         | PARAGRAPH             |
+\tableofcontents        | TABLEOFCONTENTS       |
+\begin{tabular}{|l|l|}  | TABULAR               |
+                        | TEXT                  |
+\title{}                | TITLE                 |
+                        | RAW                   |
+\ref{}                  | REF                   |
+                        | ROOTELEMENT           |
+\section{}              | SECTION               |
+                        | SHORTTITLE            |
+\subparagraph*[]{}      | SUPPARAGRAPH          |
+\subsubsection*[]{}     | SUBSUBSECTION         |
+\subsection*[]{}        | SUBSECTION            |
+\emph{}                 | TEXTIT                | 
+\textit{}               | TEXTIT                | (auch \emph{})
+\textbf{}               | TEXTBF                |
+\textsc{}               | TEXTSC                |
+\texttt{}               | TEXTTT                |
+\textnormal{}           | TEXTNORMAL            | 
+\url{}                  | URL                   |
+\verb||                 | VERB                  |
+\begin{verbatim}        | VERBATIM              |
+                        | VOID                  | X

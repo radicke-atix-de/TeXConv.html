@@ -97,8 +97,6 @@ const string TexDocElement::typeToString( const enum ElementType& t) const {
         return "DOCUMENT";
     case DOCUMENTCLASS:
         return "DOCUMENCLASS";
-    case EMPH:
-        return "EMPH"; 
     case FOOTNOTE:
         return "FOOTNOTE";
     case INPUT:
@@ -135,6 +133,14 @@ const string TexDocElement::typeToString( const enum ElementType& t) const {
         return "TABULAR";
     case TEXT:
         return "TEXT";
+    case TEXTIT:
+        return "TEXTIT"; 
+    case TEXTBF:
+        return "TEXTBF"; 
+    case TEXTSC:
+        return "TEXTSC"; 
+    case TEXTTT:
+        return "TEXTTT"; 
     case TITLE:
         return "TITLE";
     case RAW:
