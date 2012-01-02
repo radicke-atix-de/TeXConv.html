@@ -69,6 +69,11 @@ public:
     * All objects have a own id. This is store the last using number.
     */    
     static int idCounter;    
+   
+    /**
+    * This is a link to a predecessor elment.
+    */    
+    TexDocElement* preElement;
 
     // Methods ###############################################################
 

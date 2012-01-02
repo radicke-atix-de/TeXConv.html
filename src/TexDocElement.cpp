@@ -2,7 +2,7 @@
 #include "TexDocElement.h"
 
 
-TexDocElement::TexDocElement(void) //: id(TexDocElement::idCounte)
+TexDocElement::TexDocElement(void) : preElement(0)//: id(TexDocElement::idCounte)
 {
     TexDocElement::texElementTyp = TexDocElement::VOID;
     TexDocElement::idCounter++;
