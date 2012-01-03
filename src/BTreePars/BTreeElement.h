@@ -3,7 +3,7 @@
 
 #include <string>
 #include <list>
-#include "BTree.h"
+#include "BTreeElement.h"
 
 using namespace std;
 
@@ -14,7 +14,7 @@ public:
     BTreeElement(void);
     ~BTreeElement(void);
 
-        /**
+    /**
     * supportet typs
     */
     enum ElementType {
@@ -154,6 +154,11 @@ private:
         BTreeElement* parentElement,
         const enum BTreeElement::ElementType& type);  
 
+    /**
+    * Convert a enum ElementType in a String.
+    * @param type A enum ElementType
+    */
+    const string typeToString( const enum ElementType& type) const ;    
 };
 
 } //end namespace

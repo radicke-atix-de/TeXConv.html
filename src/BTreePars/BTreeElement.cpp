@@ -2,34 +2,36 @@
 #include "BTreeElement.h"
 
 
-TexDocElement::TexDocElement(void) : preElement(0)//: id(TexDocElement::idCounte)
+namespace BTreePars {
+    
+BTreeElement::BTreeElement(void) : nextElement(0)
 {
-    TexDocElement::texElementTyp = TexDocElement::VOID;
-    TexDocElement::idCounter++;
-    TexDocElement::id = TexDocElement::idCounter;
+    BTreeElement::texElementTyp = BTreeElement::VOID;
+    BTreeElement::idCounter++;
+    BTreeElement::id = BTreeElement::idCounter;
 }
 
-TexDocElement::~TexDocElement(void)
+BTreeElement::~BTreeElement(void)
 {
 
 }
 
 // G #########################################################################
 
-list<TexDocElement*>  TexDocElement::getListElementOfType(
-    const enum TexDocElement::ElementType& type
+list<BTreeElement*>  BTreeElement::getListElementOfType(
+    const enum BTreeElement::ElementType& type
 ){
-    return TexDocElement::getListElementOfType( this, type);
+    return BTreeElement::getListElementOfType( this, type);
 }
 
-list<TexDocElement*>  TexDocElement::getListElementOfType(
-        TexDocElement* parentElement,
-        const enum TexDocElement::ElementType& type){
-  
-    list<TexDocElement*> listElement;
-    list<TexDocElement>::iterator itSubElement;
+list<BTreeElement*>  BTreeElement::getListElementOfType(
+        BTreeElement* parentElement,
+        const enum BTreeElement::ElementType& type
+){
+    list<BTreeElement*> listElement;
+    list<BTreeElement*>::iterator itSubElement;
     string header = "";
-    enum TexDocElement::ElementType  elementTyp = parentElement->getType();
+    enum BTreeElement::ElementType  elementTyp = parentElement->getType();
    
     if(elementTyp == type){
         listElement.push_back ( parentElement );
@@ -40,8 +42,8 @@ list<TexDocElement*>  TexDocElement::getListElementOfType(
         itSubElement != parentElement->subElementList.end();
         itSubElement++
     ) {
-          list<TexDocElement*> subList = TexDocElement::getListElementOfType(
-              &(*itSubElement),
+          list<BTreeElement*> subList = BTreeElement::getListElementOfType(
+              (*itSubElement),
               type
           );
           listElement.insert (
@@ -54,36 +56,36 @@ list<TexDocElement*>  TexDocElement::getListElementOfType(
     return listElement;
 }
 
-string TexDocElement::getTypeAsString(){
-    return TexDocElement::typeToString( TexDocElement::texElementTyp );
+string BTreeElement::getTypeAsString(){
+    return BTreeElement::typeToString( BTreeElement::texElementTyp );
 }
 
-enum TexDocElement::ElementType TexDocElement::getType(){
-    return TexDocElement::texElementTyp;
+enum BTreeElement::ElementType BTreeElement::getType(){
+    return BTreeElement::texElementTyp;
 }
 
 
-std::string TexDocElement::getValue(){
-    return TexDocElement::texElementValue;
+std::string BTreeElement::getValue(){
+    return BTreeElement::texElementValue;
 }
 
 // I #########################################################################
 
-int TexDocElement::idCounter = 0;
+int BTreeElement::idCounter = 0;
 
 // S #########################################################################
 
-void TexDocElement::setType( enum TexDocElement::ElementType type){
-    TexDocElement::texElementTyp = type;
+void BTreeElement::setType( enum BTreeElement::ElementType type){
+    BTreeElement::texElementTyp = type;
 }
 
-void TexDocElement::setValue( std::string value ){
-    TexDocElement::texElementValue = value;
+void BTreeElement::setValue( std::string value ){
+    BTreeElement::texElementValue = value;
 }
 
 // T #########################################################################
 
-const string TexDocElement::typeToString( const enum ElementType& t) const {
+const string BTreeElement::typeToString( const enum ElementType& t) const {
     switch(t) {
     case AUTHOR:
         return "AUTHOR";
@@ -171,3 +173,5 @@ const string TexDocElement::typeToString( const enum ElementType& t) const {
         return "unknow";
     }
 }
+
+} // namenspace end

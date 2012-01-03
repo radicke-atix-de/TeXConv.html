@@ -123,8 +123,9 @@ DBINF << "TexParser::pars... "  << endl;
     SimpleElementParser::pars( 
         TexParser::getDocumentElement(),
         "textit",
-        TexDocEl*/ement::TEXTIT
+        TexDocElement::TEXTIT
     );
+    */
 //     SimpleElementParser::pars( 
 //         TexParser::getDocumentElement(),
 //         "textbf",

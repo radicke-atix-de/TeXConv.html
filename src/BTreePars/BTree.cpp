@@ -70,7 +70,7 @@ string BTree::findAndRemoveComments(const string &read_line) {
 
 void BTree::pars(){
 DBINF << "BTree::pars... "  << endl;  
-    TexParser::completeDocText = BTree::readInputFile( 
+    BTree::completeDocText = BTree::readInputFile( 
         BTree::inputFileName
     );
 
@@ -105,4 +105,4 @@ void BTree::setInputFileName(string fileName){
 
 // T #########################################################################
 
-}; //end namespace
+} //end namespace

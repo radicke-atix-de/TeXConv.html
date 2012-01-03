@@ -1,6 +1,7 @@
 #ifndef BETREE_H
 #define BETREE_H
 
+#include <fstream>
 #include <string>
 #include <list>
 #include "BTreeElement.h"
@@ -49,7 +50,12 @@ namespace BTreePars {
         * Content of input file.
         */
         string completeDocText;
-
+        
+        /**
+        * The name of input file.
+        */
+        std::string inputFileName;
+        
         /**
         * This is the root element.
         */
@@ -69,6 +75,12 @@ namespace BTreePars {
         * @return Return a string without comments.
         */   
         static string findAndRemoveComments(const std::string &read_line); 
+        
+        /**
+        * Read the imput file and get back.
+        * @return Value of file.
+        */
+        static string readInputFile(std::string& fileName);        
     };
 
 } //end namespace
