@@ -81,7 +81,7 @@ DBINF << "TexParser::pars... "  << endl;
         TexParser::getMetadataElement(), 
         TexParser::getRootElement()
     );
-    DocumentclassParser::pars( TexParser::getMetadataElement() );
+/*    DocumentclassParser::pars( TexParser::getMetadataElement() );
     SectionParser::parsAllSections( TexParser::getDocumentElement() );
     // ---------- BeginEndElementParser ------------------
     BeginEndElementParser::pars( 
@@ -123,23 +123,23 @@ DBINF << "TexParser::pars... "  << endl;
     SimpleElementParser::pars( 
         TexParser::getDocumentElement(),
         "textit",
-        TexDocElement::TEXTIT
+        TexDocEl*/ement::TEXTIT
     );
 //     SimpleElementParser::pars( 
 //         TexParser::getDocumentElement(),
 //         "textbf",
 //         TexDocElement::TEXTBF
 //     );
-    SimpleElementParser::pars( 
-        TexParser::getDocumentElement(),
-        "textsc",
-        TexDocElement::TEXTSC
-    );
-    SimpleElementParser::pars( 
-        TexParser::getDocumentElement(),
-        "texttt",
-        TexDocElement::TEXTTT
-    );
+//     SimpleElementParser::pars( 
+//         TexParser::getDocumentElement(),
+//         "textsc",
+//         TexDocElement::TEXTSC
+//     );
+//     SimpleElementParser::pars( 
+//         TexParser::getDocumentElement(),
+//         "texttt",
+//         TexDocElement::TEXTTT
+//     );
     return;
 }
 

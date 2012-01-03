@@ -42,8 +42,9 @@ private:
     * The name of input file.
     */
     std::string inputFileName;
+    
     /**
-    * Content of input file..
+    * Content of input file.
     */
     std::string completeDoc;
 

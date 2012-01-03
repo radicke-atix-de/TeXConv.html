@@ -5,6 +5,7 @@
 
 #include "PrintElementTree.h"
 #include "pars/TexParser.h"
+#include "BTreePars/BTree.h"
 
 /** get debugging info */
 #define DBINF  cout << "[debug]"
@@ -13,7 +14,11 @@ using namespace std;
 
 void get_help(void)
 {
-    cout << "\ntexconv [pars|doctree|--help] --output=[file name] " << endl;
+    cout << "\ntexconv [pars|doctree|--help] --output=[file name] " << endl;;
+    cout << "\ndoctree" << endl;
+    cout << "\t\t pars a TeX document and print a tree view." << endl;
+    cout << "\npars" << endl;
+    cout << "\t\t pars a TeX document." << endl;
     cout << "\n--help" << endl;
     cout << "\t\t Help text." << endl;
     cout << "\n--input=[file name]" << endl;
@@ -100,9 +105,13 @@ DBINF << "######### Starte mit PrintElementTree::printTree ############" << endl
             return 1;
         }
 DBINF << "convert " << imputFileName << " to " << outputFileName << endl;
-        Pars::TexParser texParser;
-        texParser.setInputFileName(imputFileName);
-        texParser.pars();
+//         Pars::TexParser texParser;
+//         texParser.setInputFileName(imputFileName);
+//         texParser.pars();
+        
+        BTreePars::BTree btree;
+        btree.setInputFileName(imputFileName);
+        btree.pars();
         return 0;
     }
 }
