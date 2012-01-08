@@ -23,6 +23,11 @@ namespace BTreePars {
         // Methods ############################################################  
 
         /**
+         * get beck complet TeX document text.
+         */
+        string getCompleteDocText(void);
+
+        /**
         * pars the input file.
         */
         void pars(void);

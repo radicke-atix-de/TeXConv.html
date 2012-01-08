@@ -60,7 +60,9 @@ string BTree::findAndRemoveComments(const string &read_line) {
 
 // G #########################################################################
 
-
+string BTree::getCompleteDocText(void){
+	return BTree::completeDocText;
+}
 
 // I #########################################################################
 

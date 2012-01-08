@@ -88,15 +88,18 @@ int main(int argc,char *argv[])
         return 1;
     }
     if( do_command == "doctree")  {
-        Pars::TexParser texParser;
-        texParser.setInputFileName(imputFileName);
-        texParser.pars();
-
+//        Pars::TexParser texParser;
+//        texParser.setInputFileName(imputFileName);
+//        texParser.pars();
+        BTreePars::BTree btree;
+        btree.setInputFileName(imputFileName);
+        btree.pars();
+DBINF << "btree.getCompleteDocText(): " << btree.getCompleteDocText() << endl;
         
-        PrintElementTree treePrinter;
-DBINF << "######### Starte mit PrintElementTree::printTree ############" << endl;   
-        treePrinter.setVerbose ( verbose );
-        treePrinter.printTree( texParser.getRootElement() );
+//        PrintElementTree treePrinter;
+DBINF << "verbose" << verbose << endl;
+//        treePrinter.setVerbose ( verbose );
+//        treePrinter.printTree( texParser.getRootElement() );
         return 0;
     }
     if( do_command == "pars")  {
