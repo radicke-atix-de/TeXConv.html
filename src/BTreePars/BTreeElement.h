@@ -82,6 +82,11 @@ public:
     // Methods ###############################################################
 
     /**
+     * add a sub element.
+     */
+    void addSubElement( BTreeElement* subElement );
+
+    /**
     * @return get beck the typ of element as string.
     */
     string getTypeAsString();

@@ -67,12 +67,23 @@ namespace BTreePars {
         BTreeElement* rootElement;
 
         /**
+         * last created element.
+         */
+        BTreeElement* lastElement;
+
+        /**
         * list for all BTreeElement pointer.
         */
         list<BTreeElement*> elementList;   
 
         // Methods ############################################################
         
+        /**
+         * function create a new BTreeElement.
+         * @param textPart a text part of TeX document.
+         */
+        void createNewElement( const string& textPart);
+
         /**
         * search and remove Tex-comments in String.
         * It's a warper class.

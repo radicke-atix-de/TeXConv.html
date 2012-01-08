@@ -4,6 +4,7 @@
 
 namespace BTreePars {
     
+
 BTreeElement::BTreeElement(void) : nextElement(0)
 {
     BTreeElement::texElementTyp = BTreeElement::VOID;
@@ -14,6 +15,12 @@ BTreeElement::BTreeElement(void) : nextElement(0)
 BTreeElement::~BTreeElement(void)
 {
 
+}
+
+// A ########################################################################
+
+void BTreeElement::addSubElement( BTreeElement* subElement ){
+    BTreeElement::subElementList.push_back( subElement );
 }
 
 // G #########################################################################

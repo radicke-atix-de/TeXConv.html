@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <string>
+#include <boost/regex.hpp>
 #include "BTree.h"
 #include "BTreeElement.h"
 
@@ -10,7 +11,7 @@
 using namespace std;
 namespace BTreePars {
 
-BTree::BTree(void) : completeDocText("")
+BTree::BTree(void) : completeDocText(""), lastElement(0)
 {
     BTree::rootElement = new BTreeElement();
     BTree::rootElement->setType( BTreeElement::ROOTELEMENT );
@@ -71,12 +72,85 @@ string BTree::getCompleteDocText(void){
 // P #########################################################################
 
 void BTree::pars(){
-DBINF << "BTree::pars... "  << endl;  
+    DBINF << "BTree::pars... "  << endl;
+    // counter for open [
+    unsigned int openSquareBrackets = 0;
+    // counter for open {
+    unsigned int openCurlyBrackets = 0;
+    // counter for open {
+    unsigned int lastBracketsIndex = 0;
+
+    if ( BTree::lastElement == 0) {
+        BTree::lastElement = BTree::rootElement;
+
+    }
+
     BTree::completeDocText = BTree::readInputFile( 
         BTree::inputFileName
     );
+    for ( unsigned int i = 0; i < BTree::completeDocText.size(); i++) {
+//    	DBINF <<  BTree::completeDocText.at(i) << endl;
+        if ( BTree::completeDocText.at(i) == '{'){
+            openCurlyBrackets++;
+            string textPart = BTree::completeDocText.substr (
+                lastBracketsIndex,
+                (i - lastBracketsIndex)
+            );
+            DBINF <<  "lastBracketsIndex: " << lastBracketsIndex << endl;
+            DBINF <<  "i: " << i << endl;
+            DBINF <<  "zeichen: " << (i - lastBracketsIndex) << endl;
+            BTree::createNewElement( textPart );
 
+            lastBracketsIndex = i;
+        }
+        if ( BTree::completeDocText.at(i) == '['){
+            openSquareBrackets++;
+            string textPart = BTree::completeDocText.substr (
+                lastBracketsIndex,
+                i - lastBracketsIndex
+            );
+            DBINF <<  "lastBracketsIndex: " << lastBracketsIndex << endl;
+            DBINF <<  "i: " << i << endl;
+            DBINF <<  "zeichen: " << (i - lastBracketsIndex) << endl;
+            BTree::createNewElement( textPart );
+
+            lastBracketsIndex = i;
+        }
+        if ( BTree::completeDocText.at(i) == ']'){
+            openSquareBrackets--;
+
+            lastBracketsIndex = i;
+        }
+        if ( BTree::completeDocText.at(i) == '}'){
+            openCurlyBrackets--;
+
+            lastBracketsIndex = i;
+        }
+
+    }
+
+    DBINF << "...BTree::pars Ende. "  << endl;
     return;
+}
+
+void BTree::createNewElement( const string& textPart){
+
+    BTreeElement* be = new BTreeElement();
+    BTree::elementList.push_back( be );
+    BTree::lastElement->addSubElement( be );
+    boost::regex re("\\section");
+    if ( boost::regex_search(textPart, re) ) {
+       DBINF << "found: BTreeElement::SECTION "  << endl;
+       be->setType( BTreeElement::BTreeElement::SECTION );
+    }
+
+    size_t found_index = textPart.find("\\section");
+    if(found_index != string::npos)  {
+        DBINF << "found (2): BTreeElement::SECTION "  << endl;
+        DBINF << "Text part: " << textPart  << endl;
+    }
+//    be->setValue( value );
+
 }
 
 string BTree::readInputFile(string& fileName){
