@@ -21,6 +21,7 @@ public:
         AUTHOR ,        /**< tex command author                             */
         BIGSKIP,        /**< tex command bigskip                            */
         CHAPTER,        /**< tex command chapter                            */
+        CURLYBRACKET,   /**< CurlyBracket  { data part                      */
         DESCRIPTION,    /**< tex command description                        */
         DOCUMENT,       /**< tex command document                           */
         DOCUMENTCLASS,  /**< tex command documentclass                      */
@@ -44,6 +45,7 @@ public:
         ROOTELEMENT,    /**< root element.                                  */
         SECTION,        /**< tex command section                            */
         SHORTTITLE,     /**< short title of a section                       */
+        SQAREBRACKET,   /**< SquareBracket [ date part                      */
         SUPPARAGRAPH,   /**< tex command subparagraph                       */
         SUBSUBSECTION,  /**< tex command subsubsection                      */
         SUBSECTION,     /**< tex command subsection                         */
@@ -74,10 +76,6 @@ public:
     */    
     static int idCounter;    
    
-    /**
-    * This is a poninter to next elment. the last element have a 0 poninter
-    */    
-    BTreeElement* nextElement;
 
     // Methods ###############################################################
 
@@ -86,6 +84,7 @@ public:
      */
     void addSubElement( BTreeElement* subElement );
 
+    // get methods -----------------------------------------------------------
     /**
     * @return get beck the typ of element as string.
     */
@@ -100,20 +99,22 @@ public:
     * get the value of element.
     */
     string getValue();
-    
-    /**
-    * set the typ of element.
-    * @param type an string of typ name.
-    */
-    void setType( enum BTreeElement::ElementType type );
-    
 
     /**
-    * set the value of element.
-    * @param value an string of typ name.
-    */
-    void setValue( string value );
+     * get the next sub elment;
+     */   
+    BTreeElement* getNextSubElement();
 
+    /**
+     * get the precursor sub elment;
+     */   
+    BTreeElement* getPreSubElement();
+
+    /**
+     * get the parent sub elment;
+     */   
+    BTreeElement* getParentElement();
+    
     /**
      * Get the object id.
      * @return a object id.
@@ -127,7 +128,37 @@ public:
     * @return Get back a list of BTreeElement with type of param type.
     */
     list<BTreeElement*>  getListElementOfType(
-        const enum BTreeElement::ElementType& type);    
+        const enum BTreeElement::ElementType& type);     
+    
+    // set methods -----------------------------------------------------------
+    
+    /**
+     * set a next sub elment;
+     */   
+    void setNextSubElement( BTreeElement* nse );
+    
+    /**
+     * set a precursor sub elment;
+     */   
+    void setPreSubElement( BTreeElement* pse );
+    
+    /**
+     * set a parent element;
+     */
+    void setParentElement( BTreeElement* pe );
+    
+    /**
+    * set the typ of element.
+    * @param type an string of typ name.
+    */
+    void setType( enum BTreeElement::ElementType type );
+    
+
+    /**
+    * set the value of element.
+    * @param value an string of typ name.
+    */
+    void setValue( string value );   
     
 private:
 
@@ -146,6 +177,21 @@ private:
     * A Object id.
     */    
     int id;
+    
+    /**
+    * This is a poninter to next elment. the last element have a 0 poninter.
+    */    
+    BTreeElement* nextSubElement;
+    
+    /**
+    * This is a poninter to precursor elment. the first element have a 0 poninter.
+    */    
+    BTreeElement* preSubElement;
+    
+    /**
+    * This is a poninter to parent elment. the root element have a 0 poninter.
+    */    
+    BTreeElement* parentElement;
     
 
     // Methods ###############################################################

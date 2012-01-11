@@ -6,6 +6,7 @@
 #include "PrintElementTree.h"
 #include "pars/TexParser.h"
 #include "BTreePars/BTree.h"
+#include "BTreePars/BTreePrint.h"
 
 /** get debugging info */
 #define DBINF  cout << "[debug]"
@@ -96,6 +97,9 @@ int main(int argc,char *argv[])
         btree.pars();
 DBINF << "btree.getCompleteDocText(): " << btree.getCompleteDocText() << endl;
         
+		BTreePars::BTreePrint treePrinter;
+		treePrinter.printTree( btree.getRootElement() );
+		
 //        PrintElementTree treePrinter;
 DBINF << "verbose" << verbose << endl;
 //        treePrinter.setVerbose ( verbose );

@@ -11,11 +11,14 @@
 using namespace std;
 namespace BTreePars {
 
-BTree::BTree(void) : completeDocText(""), lastElement(0)
+BTree::BTree(void) : 
+		completeDocText("")
 {
+	BTree::lastSubElement = 0;
     BTree::rootElement = new BTreeElement();
     BTree::rootElement->setType( BTreeElement::ROOTELEMENT );
     BTree::elementList.push_back( BTree::rootElement );
+	BTree::lastParentElement = BTree::rootElement;
 }
 
 BTree::~BTree(void)
@@ -65,6 +68,10 @@ string BTree::getCompleteDocText(void){
 	return BTree::completeDocText;
 }
 
+BTreeElement* BTree::getRootElement(void){
+	return BTree::rootElement;
+}
+
 // I #########################################################################
 
 
@@ -72,7 +79,7 @@ string BTree::getCompleteDocText(void){
 // P #########################################################################
 
 void BTree::pars(){
-    DBINF << "BTree::pars... "  << endl;
+    DBINF << "BTree::pars [1]"  << endl;
     // counter for open [
     unsigned int openSquareBrackets = 0;
     // counter for open {
@@ -80,78 +87,131 @@ void BTree::pars(){
     // counter for open {
     unsigned int lastBracketsIndex = 0;
 
-    if ( BTree::lastElement == 0) {
-        BTree::lastElement = BTree::rootElement;
+    if ( BTree::lastParentElement == 0) {
+        BTree::lastParentElement = BTree::rootElement;
 
     }
+    DBINF << "BTree::pars [2]"  << endl;
 
     BTree::completeDocText = BTree::readInputFile( 
         BTree::inputFileName
     );
     for ( unsigned int i = 0; i < BTree::completeDocText.size(); i++) {
-//    	DBINF <<  BTree::completeDocText.at(i) << endl;
+        DBINF << "BTree::pars [2.1]"  << endl;
         if ( BTree::completeDocText.at(i) == '{'){
+            DBINF << "BTree::pars [3.1]"  << endl;
             openCurlyBrackets++;
-            string textPart = BTree::completeDocText.substr (
-                lastBracketsIndex,
-                (i - lastBracketsIndex)
-            );
-            DBINF <<  "lastBracketsIndex: " << lastBracketsIndex << endl;
-            DBINF <<  "i: " << i << endl;
-            DBINF <<  "zeichen: " << (i - lastBracketsIndex) << endl;
-            BTree::createNewElement( textPart );
+            // new parent BTreeElement
+            DBINF << "BTree::pars [3.1.1]"  << endl;
+            BTreeElement* newParentBE = new BTreeElement();
+            DBINF << "BTree::pars [3.1.2]"  << endl;
+            BTree::elementList.push_back( newParentBE );
+            DBINF << "BTree::pars [3.1.3]"  << endl;
+            newParentBE->setType( BTreeElement::CURLYBRACKET );
+            DBINF << "BTree::pars [3.1.5]"  << endl;
+            newParentBE->setParentElement( BTree::lastParentElement );
+            DBINF << "BTree::pars [3.1.6]"  << endl;
+            BTree::lastParentElement->addSubElement( newParentBE );
+            DBINF << "BTree::pars [3.1.7]"  << endl;
+            BTree::lastParentElement->setNextSubElement( newParentBE );
+            DBINF << "BTree::pars [3.1.8]"  << endl;
+            newParentBE->setPreSubElement( BTree::lastParentElement );
+            DBINF << "BTree::pars [3.1.9]"  << endl;
+            BTree::lastParentElement = newParentBE;
+            DBINF << "BTree::pars [3.1.10]"  << endl;
+            BTree::lastSubElement = 0;
+            DBINF << "BTree::pars [3.2]"  << endl;
+            
+            // new sub element.
+            BTreeElement* newSubBE = new BTreeElement();
+            BTree::elementList.push_back( newSubBE );
+            newSubBE->setType( BTreeElement::RAW );
+            newSubBE->setValue( "" );
+            newSubBE->setParentElement( BTree::lastParentElement );
+            newSubBE->setPreSubElement( BTree::lastSubElement );
+            if ( BTree::lastSubElement != 0 ) {
+            	BTree::lastSubElement->setNextSubElement( newSubBE );
+            }
+            BTree::lastSubElement = newSubBE;
+            DBINF << "BTree::pars [3.3]"  << endl;
 
             lastBracketsIndex = i;
-        }
-        if ( BTree::completeDocText.at(i) == '['){
+        } else if ( BTree::completeDocText.at(i) == '['){
+            DBINF << "BTree::pars [4]"  << endl;
             openSquareBrackets++;
-            string textPart = BTree::completeDocText.substr (
-                lastBracketsIndex,
-                i - lastBracketsIndex
-            );
-            DBINF <<  "lastBracketsIndex: " << lastBracketsIndex << endl;
-            DBINF <<  "i: " << i << endl;
-            DBINF <<  "zeichen: " << (i - lastBracketsIndex) << endl;
-            BTree::createNewElement( textPart );
+            
+            // new parent BTreeElement
+            DBINF << "BTree::pars [4.1.1]"  << endl;
+            BTreeElement* newParentBE = new BTreeElement();
+            DBINF << "BTree::pars [4.1.2]"  << endl;
+            BTree::elementList.push_back( newParentBE );
+            DBINF << "BTree::pars [4.1.3]"  << endl;
+            newParentBE->setType( BTreeElement::SQAREBRACKET );
+            DBINF << "BTree::pars [4.1.5]"  << endl;
+            newParentBE->setParentElement( BTree::lastParentElement );
+            DBINF << "BTree::pars [4.1.6]"  << endl;
+            BTree::lastParentElement->addSubElement( newParentBE );
+            DBINF << "BTree::pars [4.1.7]"  << endl;
+            BTree::lastParentElement->setNextSubElement( newParentBE );
+            DBINF << "BTree::pars [4.1.8]"  << endl;
+            newParentBE->setPreSubElement( BTree::lastParentElement );
+            DBINF << "BTree::pars [4.1.9]"  << endl;
+            BTree::lastParentElement = newParentBE;
+            DBINF << "BTree::pars [4.1.10]"  << endl;
+            BTree::lastSubElement = 0;
+            DBINF << "BTree::pars [4.2]"  << endl;
+            
+            // new sub element.
+            BTreeElement* newSubBE = new BTreeElement();
+            BTree::elementList.push_back( newSubBE );
+            newSubBE->setType( BTreeElement::RAW );
+            newSubBE->setValue( "" );
+            newSubBE->setParentElement( BTree::lastParentElement );
+            newSubBE->setPreSubElement( BTree::lastSubElement );
+            if ( BTree::lastSubElement != 0 ) {
+            	BTree::lastSubElement->setNextSubElement( newSubBE );
+            }
+            BTree::lastSubElement = newSubBE;
+            DBINF << "BTree::pars [4.3]"  << endl;
 
             lastBracketsIndex = i;
-        }
-        if ( BTree::completeDocText.at(i) == ']'){
+        } else if ( BTree::completeDocText.at(i) == ']'){
+            DBINF << "BTree::pars [5]"  << endl;
             openSquareBrackets--;
 
             lastBracketsIndex = i;
-        }
-        if ( BTree::completeDocText.at(i) == '}'){
+        } else if ( BTree::completeDocText.at(i) == '}'){
+            DBINF << "BTree::pars [6]"  << endl;
             openCurlyBrackets--;
 
             lastBracketsIndex = i;
+        } else {
+//        	DBINF <<  "BTree::completeDocText.at(i): " << BTree::completeDocText.at(i) << endl;
+        	// if first element not exist....
+        	if ( BTree::lastSubElement == 0 ) {
+                BTreeElement* newSubBE = new BTreeElement();
+                BTree::elementList.push_back( newSubBE );
+                newSubBE->setType( BTreeElement::RAW );
+                newSubBE->setValue( "" );
+                newSubBE->setParentElement( BTree::lastParentElement );
+                newSubBE->setPreSubElement( BTree::lastSubElement );
+                BTree::lastSubElement = newSubBE;
+        	}
+        	//            DBINF << "BTree::pars [7]"  << endl;
+        	string newValue = BTree::lastSubElement->getValue();
+        	//             DBINF << "BTree::pars [7.1]"  << endl;
+		    newValue += BTree::completeDocText.at(i);
+		    //            DBINF << "BTree::pars [7.2]"  << endl;
+        	BTree::lastSubElement->setValue( newValue );
+        	//             DBINF << "BTree::pars [7.3]"  << endl;
         }
 
     }
 
-    DBINF << "...BTree::pars Ende. "  << endl;
+    DBINF << "...BTree::pars Ende. Anzahl Elemente: " << BTree::elementList.size()  << endl;
     return;
 }
 
-void BTree::createNewElement( const string& textPart){
-
-    BTreeElement* be = new BTreeElement();
-    BTree::elementList.push_back( be );
-    BTree::lastElement->addSubElement( be );
-    boost::regex re("\\section");
-    if ( boost::regex_search(textPart, re) ) {
-       DBINF << "found: BTreeElement::SECTION "  << endl;
-       be->setType( BTreeElement::BTreeElement::SECTION );
-    }
-
-    size_t found_index = textPart.find("\\section");
-    if(found_index != string::npos)  {
-        DBINF << "found (2): BTreeElement::SECTION "  << endl;
-        DBINF << "Text part: " << textPart  << endl;
-    }
-//    be->setValue( value );
-
-}
 
 string BTree::readInputFile(string& fileName){
     string completString = "";

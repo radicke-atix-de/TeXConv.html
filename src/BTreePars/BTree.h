@@ -26,6 +26,11 @@ namespace BTreePars {
          * get beck complet TeX document text.
          */
         string getCompleteDocText(void);
+        
+        /**
+         * get back the root element.
+         */
+        BTreeElement* getRootElement(void);
 
         /**
         * pars the input file.
@@ -67,9 +72,14 @@ namespace BTreePars {
         BTreeElement* rootElement;
 
         /**
-         * last created element.
+         * last created sub element.
          */
-        BTreeElement* lastElement;
+        BTreeElement* lastSubElement;
+
+        /**
+         * last created parent element.
+         */
+        BTreeElement* lastParentElement;
 
         /**
         * list for all BTreeElement pointer.
@@ -77,12 +87,7 @@ namespace BTreePars {
         list<BTreeElement*> elementList;   
 
         // Methods ############################################################
-        
-        /**
-         * function create a new BTreeElement.
-         * @param textPart a text part of TeX document.
-         */
-        void createNewElement( const string& textPart);
+
 
         /**
         * search and remove Tex-comments in String.

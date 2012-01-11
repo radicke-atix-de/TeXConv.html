@@ -5,8 +5,11 @@
 namespace BTreePars {
     
 
-BTreeElement::BTreeElement(void) : nextElement(0)
+BTreeElement::BTreeElement(void) : texElementValue("")
 {
+	BTreeElement::nextSubElement = 0;
+	BTreeElement::preSubElement = 0;
+	BTreeElement::parentElement = 0;
     BTreeElement::texElementTyp = BTreeElement::VOID;
     BTreeElement::idCounter++;
     BTreeElement::id = BTreeElement::idCounter;
@@ -63,6 +66,18 @@ list<BTreeElement*>  BTreeElement::getListElementOfType(
     return listElement;
 }
 
+BTreeElement* BTreeElement::getNextSubElement( ){
+	return BTreeElement::nextSubElement;
+}
+
+BTreeElement* BTreeElement::getPreSubElement( ){
+	return BTreeElement::preSubElement;
+}
+
+BTreeElement* BTreeElement::getParentElement( ){
+	return BTreeElement::parentElement;
+}
+
 string BTreeElement::getTypeAsString(){
     return BTreeElement::typeToString( BTreeElement::texElementTyp );
 }
@@ -82,6 +97,18 @@ int BTreeElement::idCounter = 0;
 
 // S #########################################################################
 
+void BTreeElement::setNextSubElement( BTreeElement* nse ){
+	BTreeElement::nextSubElement = nse;
+}
+
+void BTreeElement::setPreSubElement( BTreeElement* pse ){
+	BTreeElement::preSubElement = pse;
+}
+
+void BTreeElement::setParentElement( BTreeElement* pe ){
+	BTreeElement::parentElement = pe;
+}
+
 void BTreeElement::setType( enum BTreeElement::ElementType type){
     BTreeElement::texElementTyp = type;
 }
@@ -100,6 +127,8 @@ const string BTreeElement::typeToString( const enum ElementType& t) const {
         return "BIGSKIP";
     case CHAPTER:
         return "CHAPTER";
+    case CURLYBRACKET:
+        return "CURLYBRACKET";
     case DESCRIPTION:
         return "DESCRIPTION";
     case DOCUMENT:
@@ -162,6 +191,8 @@ const string BTreeElement::typeToString( const enum ElementType& t) const {
         return "SECTION";
     case SHORTTITLE:
         return "SHORTTITLE";
+    case SQAREBRACKET:
+        return "SQAREBRACKET";
     case SUPPARAGRAPH:
         return "SUPPARAGRAPH";
     case SUBSUBSECTION:
