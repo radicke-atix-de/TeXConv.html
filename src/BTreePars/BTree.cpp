@@ -85,7 +85,7 @@ void BTree::pars(){
     // counter for open {
     unsigned int openCurlyBrackets = 0;
     // counter for open {
-    unsigned int lastBracketsIndex = 0;
+//    unsigned int lastBracketsIndex = 0;
 
     if ( BTree::lastParentElement == 0) {
         BTree::lastParentElement = BTree::rootElement;
@@ -135,7 +135,6 @@ void BTree::pars(){
             BTree::lastSubElement = newSubBE;
             DBINF << "BTree::pars [3.3]"  << endl;
 
-            lastBracketsIndex = i;
         } else if ( BTree::completeDocText.at(i) == '['){
             DBINF << "BTree::pars [4]"  << endl;
             openSquareBrackets++;
@@ -174,17 +173,14 @@ void BTree::pars(){
             BTree::lastSubElement = newSubBE;
             DBINF << "BTree::pars [4.3]"  << endl;
 
-            lastBracketsIndex = i;
         } else if ( BTree::completeDocText.at(i) == ']'){
             DBINF << "BTree::pars [5]"  << endl;
             openSquareBrackets--;
 
-            lastBracketsIndex = i;
         } else if ( BTree::completeDocText.at(i) == '}'){
             DBINF << "BTree::pars [6]"  << endl;
             openCurlyBrackets--;
 
-            lastBracketsIndex = i;
         } else {
 //        	DBINF <<  "BTree::completeDocText.at(i): " << BTree::completeDocText.at(i) << endl;
         	// if first element not exist....
