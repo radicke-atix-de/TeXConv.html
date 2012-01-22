@@ -59,32 +59,32 @@ namespace BTreePars {
         /**
         * Content of input file.
         */
-        string completeDocText;
+        string m_completeDocText;
         
         /**
         * The name of input file.
         */
-        std::string inputFileName;
+        std::string m_inputFileName;
         
         /**
         * This is the root element.
         */
-        BTreeElement* rootElement;
+        BTreeElement* m_rootElement;
 
         /**
          * last created sub element.
          */
-        BTreeElement* lastSubElement;
+        BTreeElement* m_lastSubElement;
 
         /**
          * last created parent element.
          */
-        BTreeElement* lastParentElement;
+        BTreeElement* m_lastParentElement;
 
         /**
         * list for all BTreeElement pointer.
         */
-        list<BTreeElement*> elementList;   
+        list<BTreeElement*> m_elementList;   
 
         // Methods ############################################################
 
