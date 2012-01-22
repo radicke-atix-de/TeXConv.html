@@ -97,30 +97,35 @@ void BTree::pars(){
         m_inputFileName
     );
     for ( unsigned int i = 0; i < m_completeDocText.size(); i++) {
-        DBINF << "BTree::pars [2.1]"  << endl;
         if ( m_completeDocText.at(i) == '{'){
             DBINF << "BTree::pars [3.1]"  << endl;
             openCurlyBrackets++;
+            
+            // find a command name
+            DBINF << "m_lastSubElement->getValue()"  << endl;
+            DBINF << m_lastSubElement->getValue() << endl ;
+            string lastTextPart = m_lastSubElement->getValue();
+            size_t indexCommandBegin = lastTextPart.find_last_of("\\");
+            if( indexCommandBegin != string::npos ) {
+                if( lastTextPart[(indexCommandBegin -1)] != '\\') {
+                    string commandName = lastTextPart.substr( 
+                    		indexCommandBegin,
+                    		(lastTextPart.size() - indexCommandBegin)
+						);
+                    DBINF << "commandName: " << commandName << endl ;
+                } 
+            }
+            
             // new parent BTreeElement
-            DBINF << "BTree::pars [3.1.1]"  << endl;
             BTreeElement* newParentBE = new BTreeElement();
-            DBINF << "BTree::pars [3.1.2]"  << endl;
             m_elementList.push_back( newParentBE );
-            DBINF << "BTree::pars [3.1.3]"  << endl;
             newParentBE->setType( BTreeElement::CURLYBRACKET );
-            DBINF << "BTree::pars [3.1.5]"  << endl;
             newParentBE->setParentElement( m_lastParentElement );
-            DBINF << "BTree::pars [3.1.6]"  << endl;
             m_lastParentElement->addSubElement( newParentBE );
-            DBINF << "BTree::pars [3.1.7]"  << endl;
             m_lastParentElement->setNextSubElement( newParentBE );
-            DBINF << "BTree::pars [3.1.8]"  << endl;
             newParentBE->setPreSubElement( m_lastParentElement );
-            DBINF << "BTree::pars [3.1.9]"  << endl;
             m_lastParentElement = newParentBE;
-            DBINF << "BTree::pars [3.1.10]"  << endl;
             m_lastSubElement = 0;
-            DBINF << "BTree::pars [3.2]"  << endl;
             
             // new sub element.
             BTreeElement* newSubBE = new BTreeElement();
@@ -133,32 +138,36 @@ void BTree::pars(){
             	m_lastSubElement->setNextSubElement( newSubBE );
             }
             m_lastSubElement = newSubBE;
-            DBINF << "BTree::pars [3.3]"  << endl;
 
         } else if ( m_completeDocText.at(i) == '['){
             DBINF << "BTree::pars [4]"  << endl;
             openSquareBrackets++;
+          
+            // find a command name
+            DBINF << "m_lastSubElement->getValue()"  << endl;
+            DBINF << m_lastSubElement->getValue() << endl ;
+            string lastTextPart = m_lastSubElement->getValue();
+            size_t indexCommandBegin = lastTextPart.find_last_of("\\");
+            if( indexCommandBegin != string::npos ) {
+                if( lastTextPart[(indexCommandBegin -1)] != '\\') {
+                    string commandName = lastTextPart.substr( 
+                    		indexCommandBegin,
+                    		(lastTextPart.size() - indexCommandBegin)
+						);
+                    DBINF << "commandName: " << commandName << endl ;
+                } 
+            }            
             
             // new parent BTreeElement
-            DBINF << "BTree::pars [4.1.1]"  << endl;
             BTreeElement* newParentBE = new BTreeElement();
-            DBINF << "BTree::pars [4.1.2]"  << endl;
             m_elementList.push_back( newParentBE );
-            DBINF << "BTree::pars [4.1.3]"  << endl;
             newParentBE->setType( BTreeElement::SQAREBRACKET );
-            DBINF << "BTree::pars [4.1.5]"  << endl;
             newParentBE->setParentElement( m_lastParentElement );
-            DBINF << "BTree::pars [4.1.6]"  << endl;
             m_lastParentElement->addSubElement( newParentBE );
-            DBINF << "BTree::pars [4.1.7]"  << endl;
             m_lastParentElement->setNextSubElement( newParentBE );
-            DBINF << "BTree::pars [4.1.8]"  << endl;
             newParentBE->setPreSubElement( m_lastParentElement );
-            DBINF << "BTree::pars [4.1.9]"  << endl;
             m_lastParentElement = newParentBE;
-            DBINF << "BTree::pars [4.1.10]"  << endl;
             m_lastSubElement = 0;
-            DBINF << "BTree::pars [4.2]"  << endl;
             
             // new sub element.
             BTreeElement* newSubBE = new BTreeElement();
