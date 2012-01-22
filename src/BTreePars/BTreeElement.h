@@ -19,12 +19,14 @@ public:
     */
     enum ElementType {
         AUTHOR ,        /**< tex command author                             */
+        BEGIN,          /**< tex command begin                              */
         BIGSKIP,        /**< tex command bigskip                            */
         CHAPTER,        /**< tex command chapter                            */
         CURLYBRACKET,   /**< CurlyBracket  { data part                      */
         DESCRIPTION,    /**< tex command description                        */
         DOCUMENT,       /**< tex command document                           */
         DOCUMENTCLASS,  /**< tex command documentclass                      */
+        END,            /**< tex command end                                */
         FOOTNOTE,       /**< tex command footnote                           */
         INPUT,          /**< tex command input                              */
         ITEM,           /**< tex command item                               */
@@ -208,8 +210,17 @@ private:
     /**
     * Convert a enum ElementType in a String.
     * @param type A enum ElementType
+    * @return sting
     */
-    const string typeToString( const enum ElementType& type) const ;    
+    const string typeToString( const enum ElementType& type) const ;   
+    
+    /**
+    * Convert a string in enum ElementType.
+    * @param a string with a TeX comand.
+    * @return type A enum ElementType
+    */
+    static enum ElementType stringToType( const string& stringTyp) ; 
+    
 };
 
 } //end namespace

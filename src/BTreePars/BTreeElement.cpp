@@ -1,10 +1,9 @@
 
+#include <boost/regex.hpp>
 #include "BTreeElement.h"
-
 
 namespace BTreePars {
     
-
 BTreeElement::BTreeElement(void) : texElementValue("")
 {
 	BTreeElement::nextSubElement = 0;
@@ -123,6 +122,8 @@ const string BTreeElement::typeToString( const enum ElementType& t) const {
     switch(t) {
     case AUTHOR:
         return "AUTHOR";
+    case BEGIN:
+        return "BEGIN";
     case BIGSKIP:
         return "BIGSKIP";
     case CHAPTER:
@@ -135,6 +136,8 @@ const string BTreeElement::typeToString( const enum ElementType& t) const {
         return "DOCUMENT";
     case DOCUMENTCLASS:
         return "DOCUMENCLASS";
+    case END:
+        return "END";        
     case FOOTNOTE:
         return "FOOTNOTE";
     case INPUT:
@@ -211,5 +214,114 @@ const string BTreeElement::typeToString( const enum ElementType& t) const {
         return "unknow";
     }
 }
+
+// S ##########################################################################
+
+enum BTreeElement::ElementType BTreeElement::stringToType( 
+		const string& stringTyp
+) {
+	
+    boost::regex patternBlank (" ");
+    string withoutBlank = boost::regex_replace (
+    	stringTyp, 
+    	patternBlank, 
+        string("")
+    );	
+    
+    boost::regex patternAsterisk ("*");
+    string withoutAsterisk = boost::regex_replace (
+    	stringTyp, 
+    	patternAsterisk, 
+        ""
+    );	
+	
+    if ( "\\autor" == withoutAsterisk ) {
+        return BTreeElement::AUTHOR;
+    }
+    else if ( "\\begin" == withoutAsterisk ) {
+        return BTreeElement::BEGIN;
+    }
+    else if ( "\\bigskip" == withoutAsterisk ) {
+        return BTreeElement::BIGSKIP;
+    }
+    else if ( "\\chepter" == withoutAsterisk ) {
+        return BTreeElement::CHAPTER;
+    }
+    else if ( "\\documentclass" == withoutAsterisk ) {
+        return BTreeElement::DOCUMENTCLASS;
+    }
+    else if ( "\\end" == withoutAsterisk ) {
+        return BTreeElement::END;
+    }
+    else if ( "\\footnote" == withoutAsterisk ) {
+        return BTreeElement::FOOTNOTE;
+    }
+    else if ( "\\input" == withoutAsterisk ) {
+        return BTreeElement::INPUT;
+    }
+    else if ( "\\item" == withoutAsterisk ) {
+        return BTreeElement::ITEM;
+    }
+    else if ( "\\label" == withoutAsterisk ) {
+        return BTreeElement::LABEL;
+    }
+    else if ( "\\maketitle" == withoutAsterisk ) {
+        return BTreeElement::MAKETITLE;
+    }
+    else if ( "\\newcommand" == withoutAsterisk ) {
+        return BTreeElement::NEWCOMMAND;
+    }
+    else if ( "\\pageref" == withoutAsterisk ) {
+        return BTreeElement::PAGEREF;
+    }
+    else if ( "\\paragraph" == withoutAsterisk ) {
+        return BTreeElement::PARAGRAPH;
+    }
+    else if ( "\\tableofcontents" == withoutAsterisk ) {
+        return BTreeElement::TABLEOFCONTENTS;
+    }
+    else if ( "\\textit" == withoutAsterisk ) {
+        return BTreeElement::TEXTIT; 
+    }
+    else if ( "\\textbf" == withoutAsterisk ) {
+        return BTreeElement::TEXTBF; 
+    }
+    else if ( "\\textsc" == withoutAsterisk ) {
+        return BTreeElement::TEXTSC; 
+    }
+    else if ( "\\texttt" == withoutAsterisk ) {
+        return BTreeElement::TEXTTT; 
+    }
+    else if ( "\\title" == withoutAsterisk ) {
+        return BTreeElement::TITLE;
+    }
+    else if ( "\\ref" == withoutAsterisk ) {
+        return BTreeElement::REF;
+    }
+    else if ( "\\section" == withoutAsterisk ) {
+        return BTreeElement::SECTION;
+    }
+    else if ( "\\subparagraph" == withoutAsterisk ) {
+        return BTreeElement::SUPPARAGRAPH;
+    }
+    else if ( "\\subsubsection" == withoutAsterisk ) {
+        return BTreeElement::SUBSUBSECTION;
+    }
+    else if ( "\\subsection" == withoutAsterisk ) {
+        return BTreeElement::SUBSECTION;
+    }
+    else if ( "\\url" == withoutAsterisk ) {
+        return BTreeElement::URL;
+    }
+    else if ( "\\verb|" == withoutAsterisk ) {
+        return BTreeElement::VERB;
+    }
+    else { 
+    	cerr << "[201201221343] unknow type." << endl;
+    	throw ;
+    }
+	
+}
+
 
 } // namenspace end

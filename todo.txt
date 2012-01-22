@@ -11,6 +11,7 @@ TeX-command             | ElementType           |  status
 \begin{description}     | DESCRIPTION           | ok
 \begin{document}        | DOCUMENT              | ok
 \documentclass[]{}      | DOCUMENTCLASS         | ok
+\end                    | END                   | ok
 \footnote{}             | FOOTNOTE              | ok
 \input{}                | INPUT                 | ok
 \item                   | ITEM                  | 
