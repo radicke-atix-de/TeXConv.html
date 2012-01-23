@@ -65,19 +65,10 @@ public:
         VOID            /**< typ is not set                                 */
     };
     
-
-    
-    /**
-    * if the object have other children object,
-    * then it is in this list.
-    */
-    list<BTreeElement*> subElementList;
-    
     /**
     * All objects have a own id. This is store the last using number.
     */    
-    static int idCounter;    
-   
+    static int idCounter;     
 
     // Methods ###############################################################
 
@@ -121,7 +112,7 @@ public:
      * Get the object id.
      * @return a object id.
      * */
-    int getID(void){ return id; };
+    int getID(void){ return m_id; };
     
     /**
     * Get a list of Element select bei type. 
@@ -131,6 +122,27 @@ public:
     */
     list<BTreeElement*>  getListElementOfType(
         const enum BTreeElement::ElementType& type);     
+    
+    /**
+    * get the sub elemet list.
+    */
+    list<BTreeElement*> getSubElementList ( void) {
+    	return m_subElementList;
+    } 
+    
+    /**
+    * Convert a string in enum ElementType.
+    * @param a string with a TeX comand.
+    * @return type A enum ElementType
+    */
+    static enum ElementType stringToType( const string& stringTyp) ;     
+    
+    /**
+    * Convert a enum ElementType in a String.
+    * @param type A enum ElementType
+    * @return sting
+    */
+    static string typeToString( const enum ElementType& type) ;  
     
     // set methods -----------------------------------------------------------
     
@@ -165,35 +177,42 @@ public:
 private:
 
     // Properties ############################################################
+
+    /**
+    * if the object have other children object,
+    * then it is in this list.
+    */
+    list<BTreeElement*> m_subElementList;
+    
     /**
     * The name of imput file.
     */
-    enum ElementType texElementTyp;
+    enum ElementType m_texElementTyp;
     
     /**
     * If this object only a string, thas is the value.
     */
-    string texElementValue;
+    string m_texElementValue;
     
     /**
     * A Object id.
     */    
-    int id;
+    int m_id;
     
     /**
     * This is a poninter to next elment. the last element have a 0 poninter.
     */    
-    BTreeElement* nextSubElement;
+    BTreeElement* m_nextSubElement;
     
     /**
     * This is a poninter to precursor elment. the first element have a 0 poninter.
     */    
-    BTreeElement* preSubElement;
+    BTreeElement* m_preSubElement;
     
     /**
     * This is a poninter to parent elment. the root element have a 0 poninter.
     */    
-    BTreeElement* parentElement;
+    BTreeElement* m_parentElement;
     
 
     // Methods ###############################################################
@@ -207,19 +226,7 @@ private:
         BTreeElement* parentElement,
         const enum BTreeElement::ElementType& type);  
 
-    /**
-    * Convert a enum ElementType in a String.
-    * @param type A enum ElementType
-    * @return sting
-    */
-    const string typeToString( const enum ElementType& type) const ;   
-    
-    /**
-    * Convert a string in enum ElementType.
-    * @param a string with a TeX comand.
-    * @return type A enum ElementType
-    */
-    static enum ElementType stringToType( const string& stringTyp) ; 
+
     
 };
 

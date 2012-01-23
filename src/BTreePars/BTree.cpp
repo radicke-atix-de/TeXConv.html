@@ -86,6 +86,7 @@ void BTree::pars(){
     unsigned int openCurlyBrackets = 0;
     // counter for open {
 //    unsigned int lastBracketsIndex = 0;
+    enum BTreeElement::ElementType elementType = BTreeElement::VOID;
 
     if ( m_lastParentElement == 0) {
         m_lastParentElement = m_rootElement;
@@ -113,13 +114,16 @@ void BTree::pars(){
                     		(lastTextPart.size() - indexCommandBegin)
 						);
                     DBINF << "commandName: " << commandName << endl ;
+                    elementType = BTreeElement::stringToType( commandName );
+                    DBINF << "ElementType:" << BTreeElement::typeToString( elementType ) << endl ;
                 } 
             }
             
             // new parent BTreeElement
             BTreeElement* newParentBE = new BTreeElement();
             m_elementList.push_back( newParentBE );
-            newParentBE->setType( BTreeElement::CURLYBRACKET );
+//            newParentBE->setType( BTreeElement::CURLYBRACKET );
+            newParentBE->setType( elementType );
             newParentBE->setParentElement( m_lastParentElement );
             m_lastParentElement->addSubElement( newParentBE );
             m_lastParentElement->setNextSubElement( newParentBE );
@@ -155,13 +159,16 @@ void BTree::pars(){
                     		(lastTextPart.size() - indexCommandBegin)
 						);
                     DBINF << "commandName: " << commandName << endl ;
+                    elementType = BTreeElement::stringToType( commandName );
+                    DBINF << "ElementType:" << BTreeElement::typeToString( elementType ) << endl ;
                 } 
             }            
             
             // new parent BTreeElement
             BTreeElement* newParentBE = new BTreeElement();
             m_elementList.push_back( newParentBE );
-            newParentBE->setType( BTreeElement::SQAREBRACKET );
+//            newParentBE->setType( BTreeElement::SQAREBRACKET );
+            newParentBE->setType( elementType );
             newParentBE->setParentElement( m_lastParentElement );
             m_lastParentElement->addSubElement( newParentBE );
             m_lastParentElement->setNextSubElement( newParentBE );

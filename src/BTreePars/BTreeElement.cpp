@@ -4,14 +4,16 @@
 
 namespace BTreePars {
     
-BTreeElement::BTreeElement(void) : texElementValue("")
+BTreeElement::BTreeElement(void) : 
+		m_texElementValue(""),
+		m_nextSubElement(0)
 {
-	BTreeElement::nextSubElement = 0;
-	BTreeElement::preSubElement = 0;
-	BTreeElement::parentElement = 0;
-    BTreeElement::texElementTyp = BTreeElement::VOID;
+//	n_nextSubElement = 0;
+	m_preSubElement = 0;
+	m_parentElement = 0;
+	m_texElementTyp = BTreeElement::VOID;
     BTreeElement::idCounter++;
-    BTreeElement::id = BTreeElement::idCounter;
+    m_id = BTreeElement::idCounter;
 }
 
 BTreeElement::~BTreeElement(void)
@@ -22,7 +24,7 @@ BTreeElement::~BTreeElement(void)
 // A ########################################################################
 
 void BTreeElement::addSubElement( BTreeElement* subElement ){
-    BTreeElement::subElementList.push_back( subElement );
+    m_subElementList.push_back( subElement );
 }
 
 // G #########################################################################
@@ -45,10 +47,10 @@ list<BTreeElement*>  BTreeElement::getListElementOfType(
     if(elementTyp == type){
         listElement.push_back ( parentElement );
     }
-
+    list<BTreeElement*> subElementList = parentElement->getSubElementList();
     for(
-        itSubElement = parentElement->subElementList.begin();
-        itSubElement != parentElement->subElementList.end();
+        itSubElement = subElementList.begin();
+        itSubElement != subElementList.end();
         itSubElement++
     ) {
           list<BTreeElement*> subList = BTreeElement::getListElementOfType(
@@ -66,28 +68,28 @@ list<BTreeElement*>  BTreeElement::getListElementOfType(
 }
 
 BTreeElement* BTreeElement::getNextSubElement( ){
-	return BTreeElement::nextSubElement;
+	return m_nextSubElement;
 }
 
 BTreeElement* BTreeElement::getPreSubElement( ){
-	return BTreeElement::preSubElement;
+	return m_preSubElement;
 }
 
 BTreeElement* BTreeElement::getParentElement( ){
-	return BTreeElement::parentElement;
+	return m_parentElement;
 }
 
 string BTreeElement::getTypeAsString(){
-    return BTreeElement::typeToString( BTreeElement::texElementTyp );
+    return BTreeElement::typeToString( m_texElementTyp );
 }
 
 enum BTreeElement::ElementType BTreeElement::getType(){
-    return BTreeElement::texElementTyp;
+    return m_texElementTyp;
 }
 
 
 std::string BTreeElement::getValue(){
-    return BTreeElement::texElementValue;
+    return m_texElementValue;
 }
 
 // I #########################################################################
@@ -97,28 +99,28 @@ int BTreeElement::idCounter = 0;
 // S #########################################################################
 
 void BTreeElement::setNextSubElement( BTreeElement* nse ){
-	BTreeElement::nextSubElement = nse;
+	m_nextSubElement = nse;
 }
 
 void BTreeElement::setPreSubElement( BTreeElement* pse ){
-	BTreeElement::preSubElement = pse;
+	m_preSubElement = pse;
 }
 
 void BTreeElement::setParentElement( BTreeElement* pe ){
-	BTreeElement::parentElement = pe;
+	m_parentElement = pe;
 }
 
 void BTreeElement::setType( enum BTreeElement::ElementType type){
-    BTreeElement::texElementTyp = type;
+    m_texElementTyp = type;
 }
 
 void BTreeElement::setValue( std::string value ){
-    BTreeElement::texElementValue = value;
+    m_texElementValue = value;
 }
 
 // T #########################################################################
 
-const string BTreeElement::typeToString( const enum ElementType& t) const {
+string BTreeElement::typeToString( const enum ElementType& t) {
     switch(t) {
     case AUTHOR:
         return "AUTHOR";
@@ -228,7 +230,7 @@ enum BTreeElement::ElementType BTreeElement::stringToType(
         string("")
     );	
     
-    boost::regex patternAsterisk ("*");
+    boost::regex patternAsterisk ("\\*");
     string withoutAsterisk = boost::regex_replace (
     	stringTyp, 
     	patternAsterisk, 
@@ -317,8 +319,9 @@ enum BTreeElement::ElementType BTreeElement::stringToType(
         return BTreeElement::VERB;
     }
     else { 
-    	cerr << "[201201221343] unknow type." << endl;
-    	throw ;
+    	cerr << "[201201221343] unknow type:" << withoutAsterisk << endl;
+    	//throw ;
+    	return BTreeElement::VOID;
     }
 	
 }
