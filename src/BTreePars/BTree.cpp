@@ -124,36 +124,34 @@ void BTree::pars(){
                     newCommandBE->setType( elementType );
                     newCommandBE->setParentElement( m_lastParentElement );
                     m_lastParentElement->addSubElement( newCommandBE );
-                    m_lastParentElement->setNextSubElement( newCommandBE );
+                    m_lastSubElement->setNextSubElement( newCommandBE );
                     newCommandBE->setPreSubElement( m_lastParentElement );
-                    m_lastParentElement = newCommandBE;
-                    m_lastSubElement = 0;
+                    m_lastSubElement = newCommandBE;
                 } 
             }
             // TODO diese Element muss unter newCommandBE eingehangen werden
             // new parent BTreeElement
-            BTreeElement* newParentBE = new BTreeElement();
-            m_elementList.push_back( newParentBE );
-//            newParentBE->setType( BTreeElement::CURLYBRACKET );
-            newParentBE->setType( BTreeElement::CURLYBRACKET );
-            newParentBE->setParentElement( m_lastParentElement );
-            m_lastParentElement->addSubElement( newParentBE );
-            m_lastParentElement->setNextSubElement( newParentBE );
-            newParentBE->setPreSubElement( m_lastParentElement );
-            m_lastParentElement = newParentBE;
-            m_lastSubElement = 0;
-            
-            // new sub element.
             BTreeElement* newSubBE = new BTreeElement();
             m_elementList.push_back( newSubBE );
-            newSubBE->setType( BTreeElement::RAW );
-            newSubBE->setValue( "" );
-            newSubBE->setParentElement( m_lastParentElement );
-            newSubBE->setPreSubElement( m_lastSubElement );
-            if ( m_lastSubElement != 0 ) {
-            	m_lastSubElement->setNextSubElement( newSubBE );
-            }
+            newSubBE->setType( BTreeElement::CURLYBRACKET );
+            newSubBE->setParentElement( m_lastSubElement );
+            m_lastSubElement->addSubElement( newSubBE );
+//             m_lastParentElement->setNextSubElement( newSubBE );
+            newSubBE->setPreSubElement( 0 );
+            m_lastParentElement = m_lastSubElement;
             m_lastSubElement = newSubBE;
+            
+            // new sub element.
+//             BTreeElement* newSubBE = new BTreeElement();
+//             m_elementList.push_back( newSubBE );
+//             newSubBE->setType( BTreeElement::RAW );
+//             newSubBE->setValue( "" );
+//             newSubBE->setParentElement( m_lastParentElement );
+//             newSubBE->setPreSubElement( m_lastSubElement );
+//             if ( m_lastSubElement != 0 ) {
+//             	m_lastSubElement->setNextSubElement( newSubBE );
+//             }
+//             m_lastSubElement = newSubBE;
 
         } else if ( m_completeDocText.at(i) == '['){
             DBINF << "BTree::pars [4]"  << endl;
@@ -203,15 +201,14 @@ void BTree::pars(){
 
         } else if ( m_completeDocText.at(i) == ']'){
             DBINF << "BTree::pars [5]"  << endl;
-            openSquareBrackets--;
-            m_lastSubElement = m_lastParentElement ;
-            m_lastParentElement = m_lastParentElement->getParentElement();
+            m_lastSubElement = m_lastSubElement->getParentElement() ;
+            m_lastParentElement = m_lastSubElement->getParentElement()->getParentElement();
 
         } else if ( m_completeDocText.at(i) == '}'){
             DBINF << "BTree::pars [6]"  << endl;
             openCurlyBrackets--;
-            m_lastSubElement = m_lastParentElement ;
-            m_lastParentElement = m_lastParentElement->getParentElement();
+            m_lastSubElement = m_lastSubElement->getParentElement() ;
+            m_lastParentElement = m_lastSubElement->getParentElement()->getParentElement();
         } else {
 //        	DBINF <<  "BTree::completeDocText.at(i): " << BTree::completeDocText.at(i) << endl;
             // if first element not exist....
