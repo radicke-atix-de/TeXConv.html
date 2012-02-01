@@ -23,6 +23,7 @@ SOURCES = ./src/main.cpp \
 ./src/BTreePars/BTree.cpp \
 ./src/BTreePars/BTreeElement.cpp \
 ./src/BTreePars/BTreePrint.cpp \
+./src/BTreePars/PrintBTree.cpp \
 ./src/pars/BeginEndElementParser.cpp \
 ./src/pars/CutOut.cpp \
 ./src/pars/DocumentclassParser.cpp \
@@ -38,6 +39,7 @@ OBJECTS =  ./src/main.o \
 ./src/TexDocElement.o \
 ./src/BTreePars/BTree.o \
 ./src/BTreePars/BTreeElement.o \
+./src/BTreePars/PrintBTree.o \
 ./src/pars/BeginEndElementParser.o \
 ./src/BTreePars/BTreePrint.o \
 ./src/pars/CutOut.o \

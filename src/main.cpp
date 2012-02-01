@@ -3,10 +3,11 @@
 #include <string>
 #include <iostream>
 
-#include "PrintElementTree.h"
+//#include "PrintElementTree.h"
 #include "pars/TexParser.h"
 #include "BTreePars/BTree.h"
 #include "BTreePars/BTreePrint.h"
+#include "BTreePars/PrintBTree.h"
 
 /** get debugging info */
 #define DBINF  cout << "[debug]"
@@ -89,21 +90,17 @@ int main(int argc,char *argv[])
         return 1;
     }
     if( do_command == "doctree")  {
-//        Pars::TexParser texParser;
-//        texParser.setInputFileName(imputFileName);
-//        texParser.pars();
+
         BTreePars::BTree btree;
         btree.setInputFileName(imputFileName);
         btree.pars();
 DBINF << "btree.getCompleteDocText(): " << btree.getCompleteDocText() << endl;
-        
-		BTreePars::BTreePrint treePrinter;
-		treePrinter.printTree( btree.getRootElement() );
+
 		
-//        PrintElementTree treePrinter;
+		BTreePars::PrintBTree treePrinter;
 DBINF << "verbose" << verbose << endl;
-//        treePrinter.setVerbose ( verbose );
-//        treePrinter.printTree( texParser.getRootElement() );
+        treePrinter.setVerbose ( verbose );
+		treePrinter.printTree( btree.getRootElement() );
         return 0;
     }
     if( do_command == "pars")  {

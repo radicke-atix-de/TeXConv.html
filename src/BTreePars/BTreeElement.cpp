@@ -1,7 +1,12 @@
 
+#include <iostream>
 #include <boost/regex.hpp>
 #include "BTreeElement.h"
 
+/** get debugging info */
+#define DBINF  cout << "[debug]"
+
+using namespace std;
 namespace BTreePars {
     
 BTreeElement::BTreeElement(void) : 
@@ -24,7 +29,10 @@ BTreeElement::~BTreeElement(void)
 // A ########################################################################
 
 void BTreeElement::addSubElement( BTreeElement* subElement ){
+
+    DBINF << "BTreeElement [1.1]"  << endl;
     m_subElementList.push_back( subElement );
+    DBINF << "BTreeElement [1.2]"  << endl;
 }
 
 // G #########################################################################
