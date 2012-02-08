@@ -79,7 +79,6 @@ BTreeElement* BTree::getRootElement(void){
 // P #########################################################################
 
 void BTree::pars(){
-    DBINF << "BTree::pars [1]"  << endl;
     // counter for open [
     unsigned int openSquareBrackets = 0;
     // counter for open {
@@ -93,19 +92,15 @@ void BTree::pars(){
         m_lastParentElement = m_rootElement;
 
     }
-    DBINF << "BTree::pars [2]"  << endl;
 
     m_completeDocText = BTree::readInputFile( 
         m_inputFileName
     );
     for ( unsigned int i = 0; i < m_completeDocText.size(); i++) {
         if ( m_completeDocText.at(i) == '{'){
-            DBINF << "BTree::pars [3.1]"  << endl;
             openCurlyBrackets++;
             
             // find a command name
-            DBINF << "m_lastSubElement->getValue()"  << endl;
-            DBINF << m_lastSubElement->getValue() << endl ;
             string lastTextPart = m_lastSubElement->getValue();
             size_t indexCommandBegin = lastTextPart.find_last_of("\\");
             if( indexCommandBegin != string::npos ) {
@@ -160,7 +155,6 @@ void BTree::pars(){
             m_lastSubElement = newTextBE;
 
         } else if ( m_completeDocText.at(i) == '['){
-            DBINF << "BTree::pars [4]"  << endl;
             openSquareBrackets++;
           
             // find a command name
