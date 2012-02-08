@@ -28,6 +28,7 @@ public:
         DOCUMENTCLASS,  /**< tex command documentclass                      */
         END,            /**< tex command end                                */
         FOOTNOTE,       /**< tex command footnote                           */
+        INDEX,          /**< tex command index                              */
         INPUT,          /**< tex command input                              */
         ITEM,           /**< tex command item                               */
         ITEMIZE,        /**< tex command itemize                            */

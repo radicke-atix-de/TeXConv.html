@@ -31,10 +31,11 @@ void BTreePrint::printTreeElement( BTreeElement* parentElement ){
     << "][sub elements: " << subElementList.size() << "]"
     << endl;    
     if (BTreePrint::verboseMode == true) {
-        header = "\n##################### [ID:" 
-            + boost::lexical_cast<string>( parentElement->getID() )
-            + "][Typ: " +parentElement->getTypeAsString() + "]"
-            + " #####################\n" ;
+        header = getElementDetails( parentElement );
+//                "\n##################### [ID:" 
+//            + boost::lexical_cast<string>( parentElement->getID() )
+//            + "][Typ: " +parentElement->getTypeAsString() + "]"
+//            + " #####################\n" ;
         BTreePrint::recordingValue.append( header );
         if ( subElementList.size() == 0 ) {
             BTreePrint::recordingValue.append( parentElement->getValue() );
@@ -54,7 +55,7 @@ void BTreePrint::printTreeElement( BTreeElement* parentElement ){
 //         << ((*itSubElement).getValue()).size() 
 //         << "][sub elements: " << parentElement.subElementList.size() << "]"
 //         << endl;
-        // got depth. 
+        // go depth. 
         BTreePrint::printTreeElement( (*itSubElement) );
     }
     BTreePrint::treedepth--;
@@ -62,6 +63,19 @@ void BTreePrint::printTreeElement( BTreeElement* parentElement ){
 
 void BTreePrint::setVerbose ( bool mode ){
     BTreePrint::verboseMode = mode;
+}
+
+
+string BTreePrint::getElementDetails( BTreeElement* parentElement ){
+    string returnString = "";
+    string eID = boost::lexical_cast<string>( parentElement->getID() );
+    string eType = parentElement->getTypeAsString();
+    
+    returnString = "\n##################### [ID:" 
+            + eID
+            + "][Typ: " + eType + "]"
+            + " #####################\n" ;
+    return returnString;    
 }
 
 } // end namespace BTreePars

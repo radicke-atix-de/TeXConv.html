@@ -130,95 +130,97 @@ void BTreeElement::setValue( std::string value ){
 
 string BTreeElement::typeToString( const enum ElementType& t) {
     switch(t) {
-    case AUTHOR:
+    case BTreeElement::AUTHOR:
         return "AUTHOR";
-    case BEGIN:
+    case BTreeElement::BEGIN:
         return "BEGIN";
-    case BIGSKIP:
+    case BTreeElement::BIGSKIP:
         return "BIGSKIP";
-    case CHAPTER:
+    case BTreeElement::CHAPTER:
         return "CHAPTER";
-    case CURLYBRACKET:
+    case BTreeElement::CURLYBRACKET:
         return "CURLYBRACKET";
-    case DESCRIPTION:
+    case BTreeElement::DESCRIPTION:
         return "DESCRIPTION";
-    case DOCUMENT:
+    case BTreeElement::DOCUMENT:
         return "DOCUMENT";
-    case DOCUMENTCLASS:
+    case BTreeElement::DOCUMENTCLASS:
         return "DOCUMENCLASS";
-    case END:
+    case BTreeElement::END:
         return "END";        
-    case FOOTNOTE:
+    case BTreeElement::FOOTNOTE:
         return "FOOTNOTE";
-    case INPUT:
+    case BTreeElement::INDEX:
+        return "INDEX";
+    case BTreeElement::INPUT:
         return "INPUT";
-    case ITEM:
+    case BTreeElement::ITEM:
         return "ITEM";
-    case ITEMIZE:
+    case BTreeElement::ITEMIZE:
         return "ITEMIZE";
-    case LABEL:
+    case BTreeElement::LABEL:
         return "LABEL";
-    case LSTLISTING:
+    case BTreeElement::LSTLISTING:
         return "LSTLISTING";
-    case MAKETITLE:
+    case BTreeElement::MAKETITLE:
         return "MAKETITLE";
-    case METADATA:
+    case BTreeElement::METADATA:
         return "METADATA";
-    case NEWCOMMAND:
+    case BTreeElement::NEWCOMMAND:
         return "NEWCOMMAND";
-    case NEWCOMMAND_NAME:
+    case BTreeElement::NEWCOMMAND_NAME:
         return "NEWCOMMAND_NAME";
-    case NEWCOMMAND_PARAM_COUNT:
+    case BTreeElement::NEWCOMMAND_PARAM_COUNT:
         return "NEWCOMMAND_PARAM_COUNT";
-    case NEWCOMMAND_SUBSTITUTE:
+    case BTreeElement::NEWCOMMAND_SUBSTITUTE:
         return "NEWCOMMAND_SUBSTITUTE";      
-    case NO_TABCON:
+    case BTreeElement::NO_TABCON:
         return "NO_TABCON";
-    case PAGEREF:
+    case BTreeElement::PAGEREF:
         return "PAGEREF";
-    case PARAGRAPH:
+    case BTreeElement::PARAGRAPH:
         return "PARAGRAPH";
-    case TABLEOFCONTENTS:
+    case BTreeElement::TABLEOFCONTENTS:
         return "TABLEOFCONTENTS";
-    case TABULAR:
+    case BTreeElement::TABULAR:
         return "TABULAR";
-    case TEXT:
+    case BTreeElement::TEXT:
         return "TEXT";
-    case TEXTIT:
+    case BTreeElement::TEXTIT:
         return "TEXTIT"; 
-    case TEXTBF:
+    case BTreeElement::TEXTBF:
         return "TEXTBF"; 
-    case TEXTSC:
+    case BTreeElement::TEXTSC:
         return "TEXTSC"; 
-    case TEXTTT:
+    case BTreeElement::TEXTTT:
         return "TEXTTT"; 
-    case TITLE:
+    case BTreeElement::TITLE:
         return "TITLE";
-    case RAW:
+    case BTreeElement::RAW:
         return "RAW";
-    case REF:
+    case BTreeElement::REF:
         return "REF";
-    case ROOTELEMENT:
+    case BTreeElement::ROOTELEMENT:
         return "ROOTELEMENT";
-    case SECTION:
+    case BTreeElement::SECTION:
         return "SECTION";
-    case SHORTTITLE:
+    case BTreeElement::SHORTTITLE:
         return "SHORTTITLE";
-    case SQAREBRACKET:
+    case BTreeElement::SQAREBRACKET:
         return "SQAREBRACKET";
-    case SUPPARAGRAPH:
+    case BTreeElement::SUPPARAGRAPH:
         return "SUPPARAGRAPH";
-    case SUBSUBSECTION:
+    case BTreeElement::SUBSUBSECTION:
         return "SUBSUBSECTION";
-    case SUBSECTION:
+    case BTreeElement::SUBSECTION:
         return "SUBSECTION";
-    case URL:
+    case BTreeElement::URL:
         return "URL";
-    case VERB:
+    case BTreeElement::VERB:
         return "VERB";
-    case VERBATIM:
+    case BTreeElement::VERBATIM:
         return "VERBATIM";
-    case VOID:
+    case BTreeElement::VOID:
         return "VOID";
     default: 
         return "unknow";
@@ -265,6 +267,9 @@ enum BTreeElement::ElementType BTreeElement::stringToType(
     }
     else if ( "\\footnote" == withoutAsterisk ) {
         return BTreeElement::FOOTNOTE;
+    }
+    else if ("\\index" == withoutAsterisk) {
+        return BTreeElement::INDEX;
     }
     else if ( "\\input" == withoutAsterisk ) {
         return BTreeElement::INPUT;

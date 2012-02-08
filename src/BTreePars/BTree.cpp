@@ -115,7 +115,6 @@ void BTree::pars(){
                         indexCommandBegin,
                         (lastTextPart.size() - indexCommandBegin)
                     );
-                    DBINF << "BTree::pars [3.2]"  << endl;
                     DBINF << "commandName: " << commandName << endl ;
                     elementType = BTreeElement::stringToType( commandName );
                     DBINF << "ElementType:" << BTreeElement::typeToString( elementType ) << endl ;
@@ -123,30 +122,21 @@ void BTree::pars(){
                     BTreeElement* newCommandBE = new BTreeElement();
                     m_elementList.push_back( newCommandBE );
                     newCommandBE->setType( elementType );
-                    DBINF << "BTree::pars [3.3]"  << endl;
                     if( m_lastParentElement != 0 ){
-                        DBINF << "BTree::pars [3.3.1]"  << endl;
                     	newCommandBE->setParentElement( m_lastParentElement );
-                        DBINF << "BTree::pars [3.3.2]"  << endl;
                     }
                     if( m_lastParentElement != 0 ){
-                    	DBINF << "BTree::pars [3.3.3]"  << endl;
                     	m_lastParentElement->addSubElement( newCommandBE );
                     }
-                    DBINF << "BTree::pars [3.3.4]"  << endl;
                     if ( m_lastSubElement != 0 ) {
-                        DBINF << "BTree::pars [3.3.5]"  << endl;
                     	m_lastSubElement->setNextSubElement( newCommandBE );
-                        DBINF << "BTree::pars [3.3.6]"  << endl;
                     }
-                    DBINF << "BTree::pars [3.4]"  << endl;
                     if ( m_lastSubElement == 0 ){
                     	newCommandBE->setPreSubElement( 0 );
                     } else {
                     	newCommandBE->setPreSubElement( m_lastParentElement );
                     }
                     m_lastSubElement = newCommandBE;
-                    DBINF << "BTree::pars [3.5]"  << endl;
                 } 
             }
             // new parent BTreeElement
@@ -155,22 +145,19 @@ void BTree::pars(){
             newSubBE->setType( BTreeElement::CURLYBRACKET );
             newSubBE->setParentElement( m_lastSubElement );
             m_lastSubElement->addSubElement( newSubBE );
-//             m_lastParentElement->setNextSubElement( newSubBE );
             newSubBE->setPreSubElement( 0 );
             m_lastParentElement = m_lastSubElement;
             m_lastSubElement = newSubBE;
             
-            // new sub element.
-//             BTreeElement* newSubBE = new BTreeElement();
-//             m_elementList.push_back( newSubBE );
-//             newSubBE->setType( BTreeElement::RAW );
-//             newSubBE->setValue( "" );
-//             newSubBE->setParentElement( m_lastParentElement );
-//             newSubBE->setPreSubElement( m_lastSubElement );
-//             if ( m_lastSubElement != 0 ) {
-//             	m_lastSubElement->setNextSubElement( newSubBE );
-//             }
-//             m_lastSubElement = newSubBE;
+            // new parent BTreeElement
+            BTreeElement* newTextBE = new BTreeElement();
+            m_elementList.push_back( newTextBE );
+            newTextBE->setType( BTreeElement::TEXT );
+            newTextBE->setParentElement( m_lastSubElement );
+            m_lastSubElement->addSubElement( newTextBE );
+            newTextBE->setPreSubElement( 0 );
+            m_lastParentElement = m_lastSubElement;
+            m_lastSubElement = newTextBE;
 
         } else if ( m_completeDocText.at(i) == '['){
             DBINF << "BTree::pars [4]"  << endl;
@@ -190,19 +177,12 @@ void BTree::pars(){
                     DBINF << "commandName: " << commandName << endl ;
                     elementType = BTreeElement::stringToType( commandName );
                     DBINF << "ElementType:" << BTreeElement::typeToString( elementType ) << endl ;
-
-                    DBINF << "BTree::pars [4.1]"  << endl;
                     BTreeElement* newCommandBE = new BTreeElement();
                     m_elementList.push_back( newCommandBE );
-                    DBINF << "BTree::pars [4.1.1]"  << endl;
                     newCommandBE->setType( elementType );
-                    DBINF << "BTree::pars [4.1.2]"  << endl;
                     if( m_lastParentElement != 0 ){
-                        DBINF << "BTree::pars [4.1.3]"  << endl;
                     	newCommandBE->setParentElement( m_lastParentElement );
-                        DBINF << "BTree::pars [4.1.4]"  << endl;
                     }
-                    DBINF << "BTree::pars [4.1.5]"  << endl;
                     if( m_lastParentElement == 0 ){
                     	DBINF << "m_lastParentElement == 0" << endl;
                     }
@@ -210,15 +190,11 @@ void BTree::pars(){
                     	DBINF << "newCommandBE == 0" << endl;
                     }
                     m_lastParentElement->addSubElement( newCommandBE );
-                    DBINF << "BTree::pars [4.1.6"  << endl;
                     if ( m_lastSubElement != 0 ) {
                     	m_lastSubElement->setNextSubElement( newCommandBE );
-                        DBINF << "BTree::pars [4.1.7]"  << endl;
                     }
                     newCommandBE->setPreSubElement( m_lastSubElement );
-                    DBINF << "BTree::pars [4.1.8]"  << endl;
-                    m_lastSubElement = newCommandBE;              
-                    DBINF << "BTree::pars [4.2]"  << endl;
+                    m_lastSubElement = newCommandBE;          
                 } 
             }           
             BTreeElement* newSubBE = new BTreeElement();
@@ -231,38 +207,122 @@ void BTree::pars(){
             m_lastParentElement = m_lastSubElement;
             m_lastSubElement = newSubBE; 
 
-            DBINF << "BTree::pars [4.3]"  << endl;
 
         } else if ( m_completeDocText.at(i) == ']'){
-            DBINF << "BTree::pars [5]"  << endl;
             openSquareBrackets--;
-            m_lastSubElement = m_lastSubElement->getParentElement() ;
-            m_lastParentElement = m_lastSubElement->getParentElement()->getParentElement();
-
-        } else if ( m_completeDocText.at(i) == '}'){
-            DBINF << "BTree::pars [6]:"  << endl;
-            DBINF << m_lastSubElement->getValue() << endl;
-            DBINF << "openCurlyBrackets: " << openCurlyBrackets  << endl;
-            openCurlyBrackets--;
-            DBINF << "BTree::pars [6.0]:"  << endl;
             if ( m_lastSubElement != 0 ) {
-                DBINF << "BTree::pars [6.0.1]:"  << endl;
             	if ( m_lastSubElement->getParentElement() != 0 ) {
-                    DBINF << "BTree::pars [6.0.2]:"  << endl;
-                	m_lastSubElement = m_lastSubElement->getParentElement() ;
-                    DBINF << "BTree::pars [6.0.3]:"  << endl;
+                        m_lastSubElement = m_lastSubElement->getParentElement() ;
             	}
             } else {
-                DBINF << "BTree::pars [6.1]"  << endl;
+                // pass
+            }
+            if ( m_lastSubElement->getParentElement() != 0 ) {
+            	if ( m_lastSubElement->getParentElement()->getParentElement() != 0 ) {
+                        m_lastParentElement = 
+                                m_lastSubElement->getParentElement()->getParentElement();
+            	} else {
+            	}
+            }
+            // one step more up ...
+            if ( m_lastSubElement != 0 ) {
+                    if ( m_lastSubElement->getParentElement() != 0 ) {
+                            m_lastSubElement = m_lastSubElement->getParentElement() ;
+                    }
+            } else {
+                    //pass
+            }
+            if ( m_lastSubElement->getParentElement() != 0 ) {
+                    if ( m_lastSubElement->getParentElement()->getParentElement() != 0 ) {
+                            m_lastParentElement = m_lastSubElement->getParentElement()->getParentElement();
+                    } else {
+                    //pass
+                    }
+            }
+            // one step more up ...
+            if ( m_lastSubElement != 0 ) {
+                    if ( m_lastSubElement->getParentElement() != 0 ) {
+                            m_lastSubElement = m_lastSubElement->getParentElement() ;
+                    }
+            } else {
+                    //pass
+            }
+            if ( m_lastSubElement->getParentElement() != 0 ) {
+                    if ( m_lastSubElement->getParentElement()->getParentElement() != 0 ) {
+                            m_lastParentElement = m_lastSubElement->getParentElement()->getParentElement();
+                    } else {
+                    //pass
+                    }
+            }
+            
+
+            // new parent BTreeElement
+            BTreeElement* newTextBE = new BTreeElement();
+            m_elementList.push_back( newTextBE );
+            newTextBE->setType( BTreeElement::TEXT );
+            newTextBE->setParentElement( m_lastSubElement );
+            m_lastSubElement->addSubElement( newTextBE );
+            newTextBE->setPreSubElement( 0 );
+            m_lastParentElement = m_lastSubElement;
+            m_lastSubElement = newTextBE;
+            
+        } else if ( m_completeDocText.at(i) == '}'){
+            DBINF << m_lastSubElement->getValue() << endl;
+            openCurlyBrackets--;
+            if ( m_lastSubElement != 0 ) {
+            	if ( m_lastSubElement->getParentElement() != 0 ) {
+                	m_lastSubElement = m_lastSubElement->getParentElement() ;
+            	}
+            } else {
+                //pass
             }
             if ( m_lastSubElement->getParentElement() != 0 ) {
             	if ( m_lastSubElement->getParentElement()->getParentElement() != 0 ) {
             		m_lastParentElement = m_lastSubElement->getParentElement()->getParentElement();
             	} else {
-            		DBINF << "BTree::pars [6.2]"  << endl;
+                    //pass
             	}
             }
-            DBINF << "BTree::pars [6.3]"  << endl;
+            // one step more up ...
+            if ( m_lastSubElement != 0 ) {
+                    if ( m_lastSubElement->getParentElement() != 0 ) {
+                            m_lastSubElement = m_lastSubElement->getParentElement() ;
+                    }
+            } else {
+                    //pass
+            }
+            if ( m_lastSubElement->getParentElement() != 0 ) {
+                    if ( m_lastSubElement->getParentElement()->getParentElement() != 0 ) {
+                            m_lastParentElement = m_lastSubElement->getParentElement()->getParentElement();
+                    } else {
+                    //pass
+                    }
+            }
+            // one step more up ...
+            if ( m_lastSubElement != 0 ) {
+                    if ( m_lastSubElement->getParentElement() != 0 ) {
+                            m_lastSubElement = m_lastSubElement->getParentElement() ;
+                    }
+            } else {
+                    //pass
+            }
+            if ( m_lastSubElement->getParentElement() != 0 ) {
+                    if ( m_lastSubElement->getParentElement()->getParentElement() != 0 ) {
+                            m_lastParentElement = m_lastSubElement->getParentElement()->getParentElement();
+                    } else {
+                    //pass
+                    }
+            }
+ 
+            // new parent BTreeElement
+            BTreeElement* newTextBE = new BTreeElement();
+            m_elementList.push_back( newTextBE );
+            newTextBE->setType( BTreeElement::TEXT );
+            newTextBE->setParentElement( m_lastSubElement );
+            m_lastSubElement->addSubElement( newTextBE );
+            newTextBE->setPreSubElement( 0 );
+            m_lastParentElement = m_lastSubElement;
+            m_lastSubElement = newTextBE;
             
         } else {
 //        	DBINF <<  "BTree::completeDocText.at(i): " << BTree::completeDocText.at(i) << endl;
@@ -279,6 +339,7 @@ void BTree::pars(){
             newValue = m_lastSubElement->getValue();
             newValue += m_completeDocText.at(i);
             m_lastSubElement->setValue( newValue );
+            
         }
         // DBINF << "BTree::pars [7]"  << endl;
 

@@ -43,6 +43,13 @@ class BTreePrint{
       * @param parentElement a parent element.
       */      
       void printTreeElement( BTreeElement* parentElement );
+      
+      /**
+      * Get back detail infos about a element.
+      * @param parentElement a parent element.
+      * @return a string with detail infos.
+      */      
+      string getElementDetails( BTreeElement* parentElement );
 };
 
 } // end namespace BTreePars

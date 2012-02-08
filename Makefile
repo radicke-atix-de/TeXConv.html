@@ -62,11 +62,12 @@ dist: $(DOCS) AUTHORS $(PROGNAME)
 	if [ ! -d $(BUILDDIR) ] ; then mkdir $(BUILDDIR) ; fi
 	if [ ! -d $(OUTPUT_BUILD)  ] ; then mkdir $(OUTPUT_BUILD) ; fi
 	#$(CP) ./GPL*.txt $(OUTPUT_BUILD)
-	$(CP) ./README* $(OUTPUT_BUILD)
+	$(CP) ./README $(OUTPUT_BUILD)
 	$(CP) ./Makefile $(OUTPUT_BUILD)
 	$(CP) ./AUTHORS $(OUTPUT_BUILD)
 	$(CP) -r $(DOCS)  $(OUTPUT_BUILD)
-	#cp ./COPYING $(OUTPUT_BUILD)
+	$(CP) ./COPYING $(OUTPUT_BUILD)
+	echo "...build is ready."
 
 
 # create a file with autors from git log.
